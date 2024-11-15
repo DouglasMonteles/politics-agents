@@ -17,28 +17,7 @@ import java.util.Set;
 public class ProposalServiceImpl implements ProposalService {
 
     public static void main(String[] args) {
-        ProposalService proposalService = new ProposalServiceImpl();
-        VoteService voteService = new VoteServiceImpl();
 
-        // -- DOWNLOAD DAS PROPOSIÇÕES E DAS SUAS RESPECTIVAS VOTAÇÕES --
-//        for (int year = 2023; year < 2024; year++) {
-//            List<Proposal> proposals = proposalService.getProposalByYear(year);
-//
-//            for (Proposal proposal : proposals) {
-//                String proposalId = proposal.getId();
-//                List<Voting> votingList = proposalService.getVotingOfProposalById(proposalId);
-//            }
-//        }
-        // -- END --
-
-        // -- OBTENDO AS ORIENTAÇÕES DOS VOTOS --
-//        Set<String> ids = voteService.getAllVotesIds();
-//        ids.forEach(voteService::getOrientationAboutTheVoting);
-        // -- END --
-
-        // -- SALVANDO O VOTO DE CADA PARTIDO --
-        voteService.generateDataAboutPartyOrientation();
-        // -- END --
 
 
 //        List<Proposal> proposals = proposalService.getProposalByYear(2008);

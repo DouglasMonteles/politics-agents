@@ -47,9 +47,9 @@ public class PrepareWordVectorVotes {
 
     public static void main(String[] args) throws Exception {
 
-        dataLocalPath = "/home/douglas/dl4j-examples-data/dl4j-examples/VotesData/";
+        dataLocalPath = System.getProperty("user.dir") + File.separator + "trained-data/votes/partyOrientation/proposalKeywords/PSD";
         // Gets Path to Text file
-        String filePath = new File(dataLocalPath, "RawProposalToGenerateWordVector.txt").getAbsolutePath();
+        String filePath = new File(dataLocalPath, "ProposalWordVector.txt").getAbsolutePath();
 
         log.info("Load & Vectorize Sentences....");
         // Strip white space before and after for each line
@@ -80,6 +80,6 @@ public class PrepareWordVectorVotes {
 
         // Write word vectors to file
         //noinspection unchecked
-        WordVectorSerializer.writeWordVectors(vec.lookupTable(), new File(dataLocalPath, "VotesWordVector.txt").getAbsolutePath());
+        WordVectorSerializer.writeWordVectors(vec.lookupTable(), new File(dataLocalPath, "WordVector.txt").getAbsolutePath());
     }
 }

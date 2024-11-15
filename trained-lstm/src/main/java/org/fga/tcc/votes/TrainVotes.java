@@ -61,16 +61,16 @@ public class TrainVotes {
     public static WordVectors wordVectors;
 
     public static void main(String[] args) throws Exception {
-        String dataLocalPath = "/home/douglas/dl4j-examples-data/dl4j-examples/VotesData/";
-        DATA_PATH = new File(dataLocalPath,"LabelledVotes").getAbsolutePath();
+        String dataLocalPath = System.getProperty("user.dir") + File.separator + "trained-data/votes/partyOrientation/proposalKeywords/PSD";
+        DATA_PATH = new File(dataLocalPath).getAbsolutePath();
 
         int batchSize = 200;     //Number of examples in each minibatch
-        int nEpochs = 100;        //Number of epochs (full passes of training data) to train on
-        int truncateReviewsToLength = 500;  //Truncate reviews with length (# words) greater than this
+        int nEpochs = 6;        //Number of epochs (full passes of training data) to train on
+        int truncateReviewsToLength = 5000;  //Truncate reviews with length (# words) greater than this
 
         //DataSetIterators for training and testing respectively
         //Using AsyncDataSetIterator to do data loading in a separate thread; this may improve performance vs. waiting for data to load
-        wordVectors = WordVectorSerializer.readWord2VecModel(new File(dataLocalPath,"VotesWordVector.txt"));
+        wordVectors = WordVectorSerializer.readWord2VecModel(new File(dataLocalPath,"WordVector.txt"));
 
         TokenizerFactory tokenizerFactory = new DefaultTokenizerFactory();
         tokenizerFactory.setTokenPreProcessor(new CommonPreprocessor());

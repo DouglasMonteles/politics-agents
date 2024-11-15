@@ -302,6 +302,65 @@ public class VoteServiceImpl implements VoteService {
         });
     }
 
+    public void generateDataAboutPartyProposalKeywords() {
+        VoteService voteService = new VoteServiceImpl();
+        PartyService partyService = new PartyServiceImpl();
+        ProposalService proposalService = new ProposalServiceImpl();
+
+        String directoryPath = "external-data-processor/src/main/resources/votacoes/orientacoes";
+        String pureDataPath = System.getProperty("user.dir") + "/trained-data/votes/partyOrientation/proposalKeywords";
+
+        List<String> partyAcronyms = partyService.getParties().stream()
+                .map(Party::getAcronym)
+                .toList();
+
+        FileUtils.readFile(directoryPath, (path, mapper) -> {
+            File orientationVote = path.toFile();
+            String votingId = orientationVote.getName().split("\\.")[0];
+            Voting voting = voteService.getVotingById(votingId);
+            OpenDataBaseResponseList<VotingOrientation> openDataBaseResponse = mapper.readValue(orientationVote, new TypeReference<>() {});
+            openDataBaseResponse.getData().forEach(voteOrientation -> {
+                String partyAcronym = voteOrientation.getPartyAcronym()
+                        .replaceAll("\\*", "")
+                        .replaceAll("Bl ", "")
+                        .replaceAll("Fdr ", "")
+                        .replaceAll("Solidaried", "Solidariedade")
+                        .trim();
+                char vote = voteOrientation.getOrientationVote().equalsIgnoreCase("sim") ? '1' : '0';
+
+                for (String party : partyAcronyms) {
+                    if (partyAcronym.toLowerCase().contains(party.toLowerCase())) {
+                        String partyPath = pureDataPath + File.separator + party + File.separator + vote + ".txt";
+
+                        FileUtils.writeFile(partyPath, (writer) -> {
+                            String proposalId = voting.getProposal().getProposalIdByUri();
+
+                            if (proposalId != null) {
+                                Proposal proposal = proposalService.getProposalById(proposalId);
+
+                                if (proposal != null && proposal.getKeyWords() != null) {
+                                    String keywords = proposal.getKeyWords()
+                                            .replaceAll("_", "")
+                                            .trim();
+
+                                    if (!keywords.isEmpty()) {
+                                        writer.write(keywords);
+                                        writer.newLine();
+                                    }
+                                } else {
+                                    System.out.println("Sem descrição. Voting id: " + voting.getId());
+                                }
+                            }
+
+                            writer.close();
+                        });
+                    }
+                }
+            });
+        });
+    }
+
+
     private String normalizeProposalResume(String description) {
         return description
                 .replaceAll("[\\r\\n]", "")

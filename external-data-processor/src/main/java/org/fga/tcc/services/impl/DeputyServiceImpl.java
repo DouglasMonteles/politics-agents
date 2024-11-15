@@ -16,23 +16,6 @@ import java.util.List;
 
 public class DeputyServiceImpl implements DeputyService {
 
-    public static void main(String[] args) {
-        DeputyService deputeService = new DeputyServiceImpl();
-//        System.out.println(deputeService.getDeputes());
-
-//        int x = 0;
-//
-//        for (Deputy d : deputeService.getDeputes()) {
-//            deputeService.getDeputySpeech(d.getId());
-//            x++;
-//
-//
-//        }
-//        System.out.println("x="+x);
-
-        deputeService.saveDeputiesSpeechesByType();
-    }
-
     @Override
     public List<Deputy> getDeputes() {
         RouterManager routerManager = new RouterManager();

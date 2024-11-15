@@ -25,4 +25,6 @@ public interface VoteService {
 
     void generateDataAboutPartyOrientation();
 
+    void generateDataAboutPartyProposalKeywords();
+
 }

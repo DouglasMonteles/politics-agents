@@ -1,7 +1,6 @@
 package org.fga.tcc.services.impl;
 
 import com.fasterxml.jackson.core.type.TypeReference;
-import org.fga.tcc.entities.Deputy;
 import org.fga.tcc.entities.OpenDataBaseResponseList;
 import org.fga.tcc.entities.Party;
 import org.fga.tcc.enums.OpenDataEndpoints;

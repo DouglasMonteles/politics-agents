@@ -59,7 +59,7 @@ public class TestVotes extends JFrame {
 
     private TestVotes() throws Exception {
         initComponents();
-        dataLocalPath = "/home/douglas/dl4j-examples-data/dl4j-examples/VotesData/";
+        dataLocalPath = "/home/douglas/Documentos/www/politics-agents/trained-data/votes/partyOrientation/proposalKeywords/PSD";
     }
 
     /**
@@ -136,7 +136,7 @@ public class TestVotes extends JFrame {
         INDArray predicted = net.output(fet, false);
         long[] arrsiz = predicted.shape();
 
-        File categories = new File(dataLocalPath, "LabelledVotes/categories.txt");
+        File categories = new File("/home/douglas/Documentos/www/politics-agents/trained-data/votes/partyOrientation/proposalKeywords/PSD/categories.txt");
 
         double max = 0;
         int pos = 0;
@@ -178,7 +178,7 @@ public class TestVotes extends JFrame {
         tokenizerFactory = new DefaultTokenizerFactory();
         tokenizerFactory.setTokenPreProcessor(new CommonPreprocessor());
         net = MultiLayerNetwork.load(new File(dataLocalPath,"VotesModel.net"), true);
-        wordVectors = WordVectorSerializer.readWord2VecModel(new File(dataLocalPath,"VotesWordVector.txt"));
+        wordVectors = WordVectorSerializer.readWord2VecModel(new File(dataLocalPath,"WordVector.txt"));
     }
 
     // One news story gets transformed into a dataset with one element.
@@ -222,6 +222,7 @@ public class TestVotes extends JFrame {
             }
             int idx = category[i];
             int lastIdx = Math.min(tokens.size(), maxLength);
+            // TODO: at this point, if the token wasn't recognized, it's throw IndexOutBoundsException
             labels.putScalar(new int[]{i, idx, lastIdx - 1}, 1.0);
             labelsMask.putScalar(new int[]{i, lastIdx - 1}, 1.0);
         }

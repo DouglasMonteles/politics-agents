@@ -28,6 +28,9 @@ public class Proposal {
     private String uri;
 
     public String getProposalIdByUri() {
+        if (this.uri == null) {
+            return null;
+        }
         int index = this.uri.lastIndexOf('/');
         return this.uri.substring(index + 1);
     }

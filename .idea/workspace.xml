@@ -5,18 +5,16 @@
   </component>
   <component name="ChangeListManager">
     <list default="true" id="b4467710-b66a-4c7b-bf15-5ed7e72708ea" name="Changes" comment="">
+      <change afterPath="$PROJECT_DIR$/agents/src/main/java/org/fga/tcc/MainContainer.java" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/agents/src/main/java/org/fga/tcc/agents/DeputyAgent.java" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/agents/src/main/java/org/fga/tcc/agents/DeputyEnvironmentAgent.java" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/agents/src/main/java/org/fga/tcc/ontologies/DeputyOntology.java" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/agents/src/main/java/org/fga/tcc/ontologies/concept/ProposalConcept.java" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/agents/src/main/java/org/fga/tcc/ontologies/predicate/AnalysisProposalPredicate.java" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/agents/src/main/java/org/fga/tcc/ontologies/predicate/ApprovedProposalPredicate.java" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/agents/src/main/java/org/fga/tcc/ontologies/predicate/RejectedProposalPredicate.java" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/external-data-processor/src/main/java/org/fga/tcc/App.java" beforeDir="false" afterPath="$PROJECT_DIR$/external-data-processor/src/main/java/org/fga/tcc/App.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/external-data-processor/src/main/java/org/fga/tcc/entities/Proposal.java" beforeDir="false" afterPath="$PROJECT_DIR$/external-data-processor/src/main/java/org/fga/tcc/entities/Proposal.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/external-data-processor/src/main/java/org/fga/tcc/services/VoteService.java" beforeDir="false" afterPath="$PROJECT_DIR$/external-data-processor/src/main/java/org/fga/tcc/services/VoteService.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/external-data-processor/src/main/java/org/fga/tcc/services/impl/DeputyServiceImpl.java" beforeDir="false" afterPath="$PROJECT_DIR$/external-data-processor/src/main/java/org/fga/tcc/services/impl/DeputyServiceImpl.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/external-data-processor/src/main/java/org/fga/tcc/services/impl/PartyServiceImpl.java" beforeDir="false" afterPath="$PROJECT_DIR$/external-data-processor/src/main/java/org/fga/tcc/services/impl/PartyServiceImpl.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/external-data-processor/src/main/java/org/fga/tcc/services/impl/ProposalServiceImpl.java" beforeDir="false" afterPath="$PROJECT_DIR$/external-data-processor/src/main/java/org/fga/tcc/services/impl/ProposalServiceImpl.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/external-data-processor/src/main/java/org/fga/tcc/services/impl/VoteServiceImpl.java" beforeDir="false" afterPath="$PROJECT_DIR$/external-data-processor/src/main/java/org/fga/tcc/services/impl/VoteServiceImpl.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/external-data-processor/src/main/java/org/fga/tcc/utils/FileUtils.java" beforeDir="false" afterPath="$PROJECT_DIR$/external-data-processor/src/main/java/org/fga/tcc/utils/FileUtils.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/trained-lstm/src/main/java/org/fga/tcc/votes/PrepareWordVectorVotes.java" beforeDir="false" afterPath="$PROJECT_DIR$/trained-lstm/src/main/java/org/fga/tcc/votes/PrepareWordVectorVotes.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/trained-lstm/src/main/java/org/fga/tcc/votes/TestVotes.java" beforeDir="false" afterPath="$PROJECT_DIR$/trained-lstm/src/main/java/org/fga/tcc/votes/TestVotes.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/trained-lstm/src/main/java/org/fga/tcc/votes/TrainVotes.java" beforeDir="false" afterPath="$PROJECT_DIR$/trained-lstm/src/main/java/org/fga/tcc/votes/TrainVotes.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/agents/dependency-reduced-pom.xml" beforeDir="false" afterPath="$PROJECT_DIR$/agents/dependency-reduced-pom.xml" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
@@ -54,6 +52,7 @@
     "Application.FetchJson.executor": "Run",
     "Application.GenerateTxtModel.executor": "Run",
     "Application.ImdbReviewClassificationRNN.executor": "Debug",
+    "Application.MainContainer.executor": "Run",
     "Application.PrepareWordVector.executor": "Run",
     "Application.PrepareWordVectorVotes.executor": "Run",
     "Application.ProposalServiceImpl.executor": "Debug",
@@ -70,7 +69,7 @@
     "git-widget-placeholder": "main",
     "jdk.selected.JAVA_MODULE": "21",
     "kotlin-language-version-configured": "true",
-    "last_opened_file_path": "/home/douglas/Documentos/www/politics-agents/trained-data/votes/partyOrientation/proposalKeywords/PSD"
+    "last_opened_file_path": "/home/douglas/.m2/repository/net/sf/ingenias/jade/4.3/jade-4.3.jar"
   }
 }]]></component>
   <component name="RecentsManager">
@@ -88,14 +87,14 @@
       <recent name="$PROJECT_DIR$/trained-data/votes/partyOrientation/proposalKeywords/PT" />
     </key>
     <key name="CopyClassDialog.RECENTS_KEY">
+      <recent name="org.fga.tcc.ontologies.predicate" />
       <recent name="org.fga.tcc.services" />
       <recent name="org.fga.tcc.utils.interfaces" />
       <recent name="org.fga.tcc.entities" />
       <recent name="org.fga.tcc.services.impl" />
-      <recent name="org.fga.tcc.word2vec" />
     </key>
   </component>
-  <component name="RunManager" selected="Application.App">
+  <component name="RunManager" selected="Application.MainContainer">
     <configuration name="App" type="Application" factoryName="Application" temporary="true" nameIsGenerated="true">
       <option name="MAIN_CLASS_NAME" value="org.fga.tcc.App" />
       <module name="external-data-processor" />
@@ -109,12 +108,12 @@
         <option name="Make" enabled="true" />
       </method>
     </configuration>
-    <configuration name="GenerateTxtModel" type="Application" factoryName="Application" temporary="true" nameIsGenerated="true">
-      <option name="MAIN_CLASS_NAME" value="org.fga.tcc.generate.text.GenerateTxtModel" />
-      <module name="trained-lstm" />
+    <configuration name="MainContainer" type="Application" factoryName="Application" temporary="true" nameIsGenerated="true">
+      <option name="MAIN_CLASS_NAME" value="org.fga.tcc.MainContainer" />
+      <module name="agents" />
       <extension name="coverage">
         <pattern>
-          <option name="PATTERN" value="org.fga.tcc.generate.text.*" />
+          <option name="PATTERN" value="org.fga.tcc.*" />
           <option name="ENABLED" value="true" />
         </pattern>
       </extension>
@@ -163,11 +162,11 @@
     </configuration>
     <recent_temporary>
       <list>
+        <item itemvalue="Application.MainContainer" />
         <item itemvalue="Application.App" />
         <item itemvalue="Application.TestVotes" />
         <item itemvalue="Application.TrainVotes" />
         <item itemvalue="Application.PrepareWordVectorVotes" />
-        <item itemvalue="Application.GenerateTxtModel" />
       </list>
     </recent_temporary>
   </component>

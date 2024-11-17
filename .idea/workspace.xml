@@ -5,10 +5,8 @@
   </component>
   <component name="ChangeListManager">
     <list default="true" id="b4467710-b66a-4c7b-bf15-5ed7e72708ea" name="Changes" comment="">
-      <change afterPath="$PROJECT_DIR$/trained-lstm/src/main/java/org/fga/tcc/services/EvaluateModelService.java" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/trained-lstm/src/test/java/org/fga/tcc/votes/EvaluateModelServiceTest.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/.gitignore" beforeDir="false" afterPath="$PROJECT_DIR$/.gitignore" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/trained-lstm/src/test/java/org/fga/tcc/AppTest.java" beforeDir="false" afterPath="$PROJECT_DIR$/trained-lstm/src/test/java/org/fga/tcc/AppTest.java" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
@@ -82,6 +80,9 @@
     <key name="MoveFile.RECENT_KEYS">
       <recent name="$PROJECT_DIR$/trained-data/votes/partyOrientation/proposalKeywords/PT" />
     </key>
+    <key name="MoveClassesOrPackagesDialog.RECENTS_KEY">
+      <recent name="org.fga.tcc.services" />
+    </key>
     <key name="CopyClassDialog.RECENTS_KEY">
       <recent name="org.fga.tcc.ontologies.predicate" />
       <recent name="org.fga.tcc.services" />
@@ -122,7 +123,7 @@
       <module name="trained-lstm" />
       <extension name="coverage">
         <pattern>
-          <option name="PATTERN" value="org.fga.tcc.votes.*" />
+          <option name="PATTERN" value="org.fga.tcc.services.*" />
           <option name="ENABLED" value="true" />
         </pattern>
       </extension>
@@ -134,12 +135,12 @@
       <module name="trained-lstm" />
       <extension name="coverage">
         <pattern>
-          <option name="PATTERN" value="org.fga.tcc.votes.*" />
+          <option name="PATTERN" value="org.fga.tcc.services.*" />
           <option name="ENABLED" value="true" />
         </pattern>
       </extension>
-      <option name="PACKAGE_NAME" value="org.fga.tcc.votes" />
-      <option name="MAIN_CLASS_NAME" value="org.fga.tcc.votes.EvaluateModelServiceTest" />
+      <option name="PACKAGE_NAME" value="org.fga.tcc.services" />
+      <option name="MAIN_CLASS_NAME" value="org.fga.tcc.services.EvaluateModelServiceTest" />
       <option name="TEST_OBJECT" value="class" />
       <method v="2">
         <option name="Make" enabled="true" />
@@ -149,12 +150,12 @@
       <module name="trained-lstm" />
       <extension name="coverage">
         <pattern>
-          <option name="PATTERN" value="org.fga.tcc.votes.*" />
+          <option name="PATTERN" value="org.fga.tcc.services.*" />
           <option name="ENABLED" value="true" />
         </pattern>
       </extension>
-      <option name="PACKAGE_NAME" value="org.fga.tcc.votes" />
-      <option name="MAIN_CLASS_NAME" value="org.fga.tcc.votes.EvaluateModelServiceTest" />
+      <option name="PACKAGE_NAME" value="org.fga.tcc.services" />
+      <option name="MAIN_CLASS_NAME" value="org.fga.tcc.services.EvaluateModelServiceTest" />
       <option name="METHOD_NAME" value="predictVote" />
       <option name="TEST_OBJECT" value="method" />
       <method v="2">

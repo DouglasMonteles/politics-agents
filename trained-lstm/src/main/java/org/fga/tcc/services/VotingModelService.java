@@ -2,10 +2,12 @@ package org.fga.tcc.services;
 
 import org.deeplearning4j.models.embeddings.loader.WordVectorSerializer;
 import org.deeplearning4j.models.embeddings.wordvectors.WordVectors;
+import org.deeplearning4j.models.word2vec.Word2Vec;
 import org.deeplearning4j.nn.multilayer.MultiLayerNetwork;
 import org.deeplearning4j.text.tokenization.tokenizer.preprocessor.CommonPreprocessor;
 import org.deeplearning4j.text.tokenization.tokenizerfactory.DefaultTokenizerFactory;
 import org.deeplearning4j.text.tokenization.tokenizerfactory.TokenizerFactory;
+import org.fga.tcc.exceptions.MultiLayerNetworkException;
 import org.nd4j.linalg.api.ndarray.INDArray;
 import org.nd4j.linalg.dataset.DataSet;
 import org.nd4j.linalg.factory.Nd4j;
@@ -19,29 +21,30 @@ import java.io.IOException;
 import java.util.ArrayList;
 import java.util.List;
 
-public class EvaluateModelService {
+public class VotingModelService {
 
     private static final String MODEL_NAME = "VotesModel.net";
     private static final String WORD_VECTOR_NAME = "WordVector.txt";
 
     private WordVectors wordVectors;
     private final TokenizerFactory tokenizerFactory;
-    private MultiLayerNetwork net;
     private String modelPath;
 
-    private EvaluateModelService() {
+    public VotingModelService() {
         tokenizerFactory = new DefaultTokenizerFactory();
         tokenizerFactory.setTokenPreProcessor(new CommonPreprocessor());
     }
 
-    public EvaluateModelService(String modelPath) {
-        this();
+    public String evaluateVoteModel(String modelPath, String proposal) {
         this.modelPath = modelPath;
-        this.net = this.loadModel();
-        this.wordVectors = WordVectorSerializer.readWord2VecModel(new File(this.modelPath, WORD_VECTOR_NAME));
-    }
+        this.wordVectors = this.loadWordVector();
 
-    public String evaluateVoteModel(String proposal) {
+        MultiLayerNetwork net = this.loadModel();
+
+        if (net == null) {
+            throw new MultiLayerNetworkException("Erro ao carregar o modelo.");
+        }
+
         DataSet testNews = prepareTestData(proposal);
         INDArray fet = testNews.getFeatures();
         INDArray predicted = net.output(fet, false);
@@ -82,6 +85,10 @@ public class EvaluateModelService {
         }
 
         return null;
+    }
+
+    private Word2Vec loadWordVector() {
+        return WordVectorSerializer.readWord2VecModel(new File(this.modelPath, WORD_VECTOR_NAME));
     }
 
     private DataSet prepareTestData(String i_news) {

@@ -5,16 +5,10 @@
   </component>
   <component name="ChangeListManager">
     <list default="true" id="b4467710-b66a-4c7b-bf15-5ed7e72708ea" name="Changes" comment="">
-      <change afterPath="$PROJECT_DIR$/agents/src/main/java/org/fga/tcc/MainContainer.java" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/agents/src/main/java/org/fga/tcc/agents/DeputyAgent.java" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/agents/src/main/java/org/fga/tcc/agents/DeputyEnvironmentAgent.java" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/agents/src/main/java/org/fga/tcc/ontologies/DeputyOntology.java" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/agents/src/main/java/org/fga/tcc/ontologies/concept/ProposalConcept.java" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/agents/src/main/java/org/fga/tcc/ontologies/predicate/AnalysisProposalPredicate.java" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/agents/src/main/java/org/fga/tcc/ontologies/predicate/ApprovedProposalPredicate.java" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/agents/src/main/java/org/fga/tcc/ontologies/predicate/RejectedProposalPredicate.java" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/trained-lstm/src/main/java/org/fga/tcc/services/EvaluateModelService.java" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/trained-lstm/src/test/java/org/fga/tcc/votes/EvaluateModelServiceTest.java" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/agents/dependency-reduced-pom.xml" beforeDir="false" afterPath="$PROJECT_DIR$/agents/dependency-reduced-pom.xml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/trained-lstm/src/test/java/org/fga/tcc/AppTest.java" beforeDir="false" afterPath="$PROJECT_DIR$/trained-lstm/src/test/java/org/fga/tcc/AppTest.java" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
@@ -57,10 +51,12 @@
     "Application.PrepareWordVectorVotes.executor": "Run",
     "Application.ProposalServiceImpl.executor": "Debug",
     "Application.TestNews.executor": "Run",
-    "Application.TestVotes.executor": "Run",
+    "Application.TestVotes.executor": "Debug",
     "Application.TrainNews.executor": "Run",
     "Application.TrainVotes.executor": "Run",
     "Application.VoteServiceImpl.executor": "Run",
+    "JUnit.PredictVoteTest.executor": "Run",
+    "JUnit.PredictVoteTest.predictVote.executor": "Debug",
     "Maven. [org.apache.maven.plugins:maven-archetype-plugin:RELEASE:generate].executor": "Run",
     "Maven.politics-agents [clean,install].executor": "Run",
     "RunOnceActivity.OpenProjectViewOnStart": "true",
@@ -94,7 +90,7 @@
       <recent name="org.fga.tcc.services.impl" />
     </key>
   </component>
-  <component name="RunManager" selected="Application.MainContainer">
+  <component name="RunManager">
     <configuration name="App" type="Application" factoryName="Application" temporary="true" nameIsGenerated="true">
       <option name="MAIN_CLASS_NAME" value="org.fga.tcc.App" />
       <module name="external-data-processor" />
@@ -121,19 +117,6 @@
         <option name="Make" enabled="true" />
       </method>
     </configuration>
-    <configuration name="PrepareWordVectorVotes" type="Application" factoryName="Application" temporary="true" nameIsGenerated="true">
-      <option name="MAIN_CLASS_NAME" value="org.fga.tcc.votes.PrepareWordVectorVotes" />
-      <module name="trained-lstm" />
-      <extension name="coverage">
-        <pattern>
-          <option name="PATTERN" value="org.fga.tcc.votes.*" />
-          <option name="ENABLED" value="true" />
-        </pattern>
-      </extension>
-      <method v="2">
-        <option name="Make" enabled="true" />
-      </method>
-    </configuration>
     <configuration name="TestVotes" type="Application" factoryName="Application" temporary="true" nameIsGenerated="true">
       <option name="MAIN_CLASS_NAME" value="org.fga.tcc.votes.TestVotes" />
       <module name="trained-lstm" />
@@ -147,8 +130,7 @@
         <option name="Make" enabled="true" />
       </method>
     </configuration>
-    <configuration name="TrainVotes" type="Application" factoryName="Application" temporary="true" nameIsGenerated="true">
-      <option name="MAIN_CLASS_NAME" value="org.fga.tcc.votes.TrainVotes" />
+    <configuration name="EvaluateModelServiceTest" type="JUnit" factoryName="JUnit" temporary="true" nameIsGenerated="true">
       <module name="trained-lstm" />
       <extension name="coverage">
         <pattern>
@@ -156,17 +138,36 @@
           <option name="ENABLED" value="true" />
         </pattern>
       </extension>
+      <option name="PACKAGE_NAME" value="org.fga.tcc.votes" />
+      <option name="MAIN_CLASS_NAME" value="org.fga.tcc.votes.EvaluateModelServiceTest" />
+      <option name="TEST_OBJECT" value="class" />
+      <method v="2">
+        <option name="Make" enabled="true" />
+      </method>
+    </configuration>
+    <configuration name="EvaluateModelServiceTest.predictVote" type="JUnit" factoryName="JUnit" temporary="true" nameIsGenerated="true">
+      <module name="trained-lstm" />
+      <extension name="coverage">
+        <pattern>
+          <option name="PATTERN" value="org.fga.tcc.votes.*" />
+          <option name="ENABLED" value="true" />
+        </pattern>
+      </extension>
+      <option name="PACKAGE_NAME" value="org.fga.tcc.votes" />
+      <option name="MAIN_CLASS_NAME" value="org.fga.tcc.votes.EvaluateModelServiceTest" />
+      <option name="METHOD_NAME" value="predictVote" />
+      <option name="TEST_OBJECT" value="method" />
       <method v="2">
         <option name="Make" enabled="true" />
       </method>
     </configuration>
     <recent_temporary>
       <list>
+        <item itemvalue="JUnit.EvaluateModelServiceTest" />
+        <item itemvalue="JUnit.EvaluateModelServiceTest.predictVote" />
+        <item itemvalue="Application.TestVotes" />
         <item itemvalue="Application.MainContainer" />
         <item itemvalue="Application.App" />
-        <item itemvalue="Application.TestVotes" />
-        <item itemvalue="Application.TrainVotes" />
-        <item itemvalue="Application.PrepareWordVectorVotes" />
       </list>
     </recent_temporary>
   </component>
@@ -203,13 +204,8 @@
         </line-breakpoint>
         <line-breakpoint enabled="true" type="java-line">
           <url>file://$PROJECT_DIR$/trained-lstm/src/main/java/org/fga/tcc/votes/TestVotes.java</url>
-          <line>186</line>
-          <option name="timeStamp" value="27" />
-        </line-breakpoint>
-        <line-breakpoint enabled="true" type="java-line">
-          <url>file://$PROJECT_DIR$/trained-lstm/src/main/java/org/fga/tcc/votes/TestVotes.java</url>
-          <line>192</line>
-          <option name="timeStamp" value="29" />
+          <line>156</line>
+          <option name="timeStamp" value="30" />
         </line-breakpoint>
       </breakpoints>
     </breakpoint-manager>

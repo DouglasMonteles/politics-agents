@@ -1,24 +1,96 @@
 package org.fga.tcc.services;
 
+import org.junit.jupiter.api.AfterEach;
 import org.junit.jupiter.api.Assertions;
+import org.junit.jupiter.api.BeforeAll;
 import org.junit.jupiter.api.Test;
+import org.nd4j.linalg.exception.ND4JIllegalStateException;
+
+import java.io.File;
 
 public class VotingModelServiceTest {
+
+    private static final String MODEL_PATH = System.getProperty("user.dir") + "/src/test/resources/data/keywords";
 
     private final VotingModelService evaluateModelService;
 
     public VotingModelServiceTest() {
-        this.evaluateModelService = new VotingModelService();
+        this.evaluateModelService = new VotingModelService(MODEL_PATH);
+    }
+
+    @BeforeAll
+    public static void beforeAll() {
+        clearData();
+    }
+
+    @AfterEach
+    public void afterEach() {
+        clearData();
+    }
+
+    @Test
+    public void generateWordVector() {
+        this.evaluateModelService.prepareWordVector();
+        String wordVectorName = new File(MODEL_PATH, VotingModelService.WORD_VECTOR_NAME).getName();
+
+        Assertions.assertEquals(wordVectorName, "WordVector.txt");
+    }
+
+    @Test
+    public void generateTrainedModel() {
+        this.evaluateModelService.prepareWordVector();
+        this.evaluateModelService.trainModel();
+        String modelName = new File(MODEL_PATH, VotingModelService.MODEL_NAME).getName();
+
+        Assertions.assertEquals(modelName, "VotesModel.net");
     }
 
     @Test
     public void predictAgainstVote() {
-        String pathModel = "/home/douglas/Documentos/www/politics-agents/trained-data/votes/partyOrientation/proposalKeywords/PSD";
-        String proposal = "Criação, Estratégia Nacional de Formação de Especialistas para a Saúde";
+        String proposalKeywords = "Alteração, Lei dos Registros Públicos, funcionamento, serviços, registro público.";
         String expectedResult = "against";
-        String actualResult = this.evaluateModelService.evaluateVoteModel(pathModel, proposal);
+
+        this.evaluateModelService.prepareWordVector();
+        this.evaluateModelService.trainModel();
+        String actualResult = this.evaluateModelService.evaluateVoteModel(proposalKeywords);
 
         Assertions.assertEquals(expectedResult, actualResult);
+    }
+
+    @Test
+    public void predictFavorVote() {
+        String proposalKeywords = "Definição, biometano, produtor, acesso, gasoduto de transporte.";
+        String expectedResult = "favor";
+
+        this.evaluateModelService.prepareWordVector();
+        this.evaluateModelService.trainModel();
+        String actualResult = this.evaluateModelService.evaluateVoteModel(proposalKeywords);
+
+        Assertions.assertEquals(expectedResult, actualResult);
+    }
+
+    @Test
+    public void throwsExceptionWhenTrainModelIsCalledWithoutWordVector() {
+        String expectedErrorMessage = "File [" + System.getProperty("user.dir") + "/src/test/resources/data/keywords/" + VotingModelService.WORD_VECTOR_NAME + "] doesn't exist";
+        Exception e = Assertions.assertThrows(ND4JIllegalStateException.class, this.evaluateModelService::trainModel);
+
+        Assertions.assertEquals(expectedErrorMessage, e.getMessage());
+    }
+
+    private static void clearData() {
+        String wordVectorPath = MODEL_PATH + File.separator + VotingModelService.WORD_VECTOR_NAME;
+        File wordVectorFile = new File(wordVectorPath);
+
+        String modelPath = MODEL_PATH + File.separator + VotingModelService.MODEL_NAME;
+        File modelFile = new File(modelPath);
+
+        if (wordVectorFile.exists()) {
+            wordVectorFile.delete();
+        }
+
+        if (modelFile.exists()) {
+            modelFile.delete();
+        }
     }
 
 }

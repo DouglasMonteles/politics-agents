@@ -3,40 +3,177 @@ package org.fga.tcc.services;
 import org.deeplearning4j.models.embeddings.loader.WordVectorSerializer;
 import org.deeplearning4j.models.embeddings.wordvectors.WordVectors;
 import org.deeplearning4j.models.word2vec.Word2Vec;
+import org.deeplearning4j.nn.conf.GradientNormalization;
+import org.deeplearning4j.nn.conf.MultiLayerConfiguration;
+import org.deeplearning4j.nn.conf.NeuralNetConfiguration;
+import org.deeplearning4j.nn.conf.layers.LSTM;
+import org.deeplearning4j.nn.conf.layers.RnnOutputLayer;
 import org.deeplearning4j.nn.multilayer.MultiLayerNetwork;
+import org.deeplearning4j.nn.weights.WeightInit;
+import org.deeplearning4j.optimize.api.InvocationType;
+import org.deeplearning4j.optimize.listeners.EvaluativeListener;
+import org.deeplearning4j.optimize.listeners.ScoreIterationListener;
+import org.deeplearning4j.text.sentenceiterator.BasicLineIterator;
+import org.deeplearning4j.text.sentenceiterator.SentenceIterator;
 import org.deeplearning4j.text.tokenization.tokenizer.preprocessor.CommonPreprocessor;
 import org.deeplearning4j.text.tokenization.tokenizerfactory.DefaultTokenizerFactory;
 import org.deeplearning4j.text.tokenization.tokenizerfactory.TokenizerFactory;
+import org.fga.tcc.exceptions.BasicLineInteratorException;
 import org.fga.tcc.exceptions.MultiLayerNetworkException;
+import org.fga.tcc.exceptions.MultiLayerNetworkTrainingException;
+import org.fga.tcc.exceptions.WordVectorSerializerException;
+import org.nd4j.evaluation.classification.Evaluation;
+import org.nd4j.linalg.activations.Activation;
 import org.nd4j.linalg.api.ndarray.INDArray;
 import org.nd4j.linalg.dataset.DataSet;
 import org.nd4j.linalg.factory.Nd4j;
 import org.nd4j.linalg.indexing.INDArrayIndex;
 import org.nd4j.linalg.indexing.NDArrayIndex;
+import org.nd4j.linalg.learning.config.RmsProp;
+import org.nd4j.linalg.lossfunctions.LossFunctions;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 
-import java.io.BufferedReader;
-import java.io.File;
-import java.io.FileReader;
-import java.io.IOException;
+import java.io.*;
 import java.util.ArrayList;
 import java.util.List;
 
 public class VotingModelService {
 
-    private static final String MODEL_NAME = "VotesModel.net";
-    private static final String WORD_VECTOR_NAME = "WordVector.txt";
+    private static final Logger LOG = LoggerFactory.getLogger(VotingModelService.class);
+
+    public static final String MODEL_NAME = "VotesModel.net";
+    public static final String WORD_VECTOR_NAME = "WordVector.txt";
+    public static final String PURE_TXT_NAME = "ProposalWordVector.txt";
 
     private WordVectors wordVectors;
     private final TokenizerFactory tokenizerFactory;
-    private String modelPath;
+    private final String modelPath;
 
-    public VotingModelService() {
+    public VotingModelService(String modelPath) {
+        this.modelPath = modelPath;
+
         tokenizerFactory = new DefaultTokenizerFactory();
         tokenizerFactory.setTokenPreProcessor(new CommonPreprocessor());
     }
 
-    public String evaluateVoteModel(String modelPath, String proposal) {
-        this.modelPath = modelPath;
+    public void prepareWordVector() {
+        // Gets Path to Text file
+        String filePath = new File(this.modelPath, PURE_TXT_NAME).getAbsolutePath();
+
+        try {
+            LOG.info("Load & Vectorize Sentences....");
+            // Strip white space before and after for each line
+            SentenceIterator iter = new BasicLineIterator(filePath);
+            // Split on white spaces in the line to get words
+            TokenizerFactory t = new DefaultTokenizerFactory();
+
+            //CommonPreprocessor will apply the following regex to each token: [\d\.:,"'\(\)\[\]|/?!;]+
+            //So, effectively all numbers, punctuation symbols and some special symbols are stripped off.
+            //Additionally it forces lower case for all tokens.
+            t.setTokenPreProcessor(new CommonPreprocessor());
+
+            LOG.info("Building model....");
+            Word2Vec vec = new Word2Vec.Builder()
+                    .minWordFrequency(2)
+                    .iterations(5)
+                    .layerSize(100)
+                    .seed(42)
+                    .windowSize(20)
+                    .iterate(iter)
+                    .tokenizerFactory(t)
+                    .build();
+
+            LOG.info("Fitting Word2Vec model....");
+            vec.fit();
+
+            LOG.info("Writing word vectors to text file....");
+
+            // Write word vectors to file
+            // noinspection unchecked
+            WordVectorSerializer.writeWordVectors(vec.lookupTable(), new File(this.modelPath, WORD_VECTOR_NAME).getAbsolutePath());
+        } catch (FileNotFoundException e) {
+            throw new BasicLineInteratorException(e.getMessage());
+        } catch (IOException e) {
+            throw new WordVectorSerializerException(e.getMessage());
+        }
+    }
+
+    public void trainModel() {
+        int batchSize = 200;     //Number of examples in each minibatch
+        int nEpochs = 6;        //Number of epochs (full passes of training data) to train on
+        int truncateReviewsToLength = 5000;  //Truncate reviews with length (# words) greater than this
+
+        //DataSetIterators for training and testing respectively
+        //Using AsyncDataSetIterator to do data loading in a separate thread; this may improve performance vs. waiting for data to load
+        wordVectors = WordVectorSerializer.readWord2VecModel(new File(this.modelPath, WORD_VECTOR_NAME));
+
+        TokenizerFactory tokenizerFactory = new DefaultTokenizerFactory();
+        tokenizerFactory.setTokenPreProcessor(new CommonPreprocessor());
+
+        VotesIterator iTrain = new VotesIterator.Builder()
+                .dataDirectory(this.modelPath)
+                .wordVectors(wordVectors)
+                .batchSize(batchSize)
+                .truncateLength(truncateReviewsToLength)
+                .tokenizerFactory(tokenizerFactory)
+                .train(true)
+                .build();
+
+        VotesIterator iTest = new VotesIterator.Builder()
+                .dataDirectory(this.modelPath)
+                .wordVectors(wordVectors)
+                .batchSize(batchSize)
+                .tokenizerFactory(tokenizerFactory)
+                .truncateLength(truncateReviewsToLength)
+                .train(false)
+                .build();
+
+        //DataSetIterator train = new AsyncDataSetIterator(iTrain,1);
+        //DataSetIterator test = new AsyncDataSetIterator(iTest,1);
+
+        int inputNeurons = wordVectors
+                .getWordVector(wordVectors.vocab().wordAtIndex(0))
+                .length; // 100 in our case
+
+        int outputs = iTrain.getLabels().size();
+
+        tokenizerFactory = new DefaultTokenizerFactory();
+        tokenizerFactory.setTokenPreProcessor(new CommonPreprocessor());
+        //Set up network configuration
+        MultiLayerConfiguration conf = new NeuralNetConfiguration.Builder()
+                .updater(new RmsProp(0.0018))
+                .l2(1e-5)
+                .weightInit(WeightInit.XAVIER)
+                .gradientNormalization(GradientNormalization.ClipElementWiseAbsoluteValue).gradientNormalizationThreshold(1.0)
+                .list()
+                .layer( new LSTM.Builder().nIn(inputNeurons).nOut(200)
+                        .activation(Activation.TANH).build())
+                .layer(new RnnOutputLayer.Builder().activation(Activation.SOFTMAX)
+                        .lossFunction(LossFunctions.LossFunction.MCXENT).nIn(200).nOut(outputs).build())
+                .build();
+
+        MultiLayerNetwork net = new MultiLayerNetwork(conf);
+        net.init();
+
+        System.out.println("Starting training...");
+        net.setListeners(new ScoreIterationListener(1), new EvaluativeListener(iTest, 1, InvocationType.EPOCH_END));
+        net.fit(iTrain, nEpochs);
+
+        System.out.println("Evaluating...");
+        Evaluation eval = net.evaluate(iTest);
+        System.out.println(eval.stats());
+
+        try {
+            net.save(new File(this.modelPath, MODEL_NAME), true);
+        } catch (IOException e) {
+            throw new MultiLayerNetworkTrainingException(e.getMessage());
+        }
+
+        System.out.println("----- Example complete -----");
+    }
+
+    public String evaluateVoteModel(String proposal) {
         this.wordVectors = this.loadWordVector();
 
         MultiLayerNetwork net = this.loadModel();

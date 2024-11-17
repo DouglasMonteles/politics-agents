@@ -5,11 +5,22 @@
   </component>
   <component name="ChangeListManager">
     <list default="true" id="b4467710-b66a-4c7b-bf15-5ed7e72708ea" name="Changes" comment="">
-      <change afterPath="$PROJECT_DIR$/trained-lstm/src/main/java/org/fga/tcc/exceptions/MultiLayerNetworkException.java" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/trained-lstm/src/main/java/org/fga/tcc/exceptions/BasicLineInteratorException.java" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/trained-lstm/src/main/java/org/fga/tcc/exceptions/MultiLayerNetworkTrainingException.java" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/trained-lstm/src/main/java/org/fga/tcc/exceptions/WordVectorSerializerException.java" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/trained-lstm/src/main/java/org/fga/tcc/services/VotesIterator.java" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/trained-lstm/src/test/resources/data/keywords/0.txt" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/trained-lstm/src/test/resources/data/keywords/1.txt" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/trained-lstm/src/test/resources/data/keywords/ProposalWordVector.txt" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/trained-lstm/src/test/resources/data/keywords/categories.txt" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/trained-lstm/src/test/resources/data/keywords/test/0.txt" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/trained-lstm/src/test/resources/data/keywords/test/1.txt" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/trained-lstm/src/test/resources/data/keywords/train/0.txt" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/trained-lstm/src/test/resources/data/keywords/train/1.txt" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/trained-lstm/logs/application.log" beforeDir="false" afterPath="$PROJECT_DIR$/trained-lstm/logs/application.log" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/trained-lstm/src/main/java/org/fga/tcc/services/EvaluateModelService.java" beforeDir="false" afterPath="$PROJECT_DIR$/trained-lstm/src/main/java/org/fga/tcc/services/VotingModelService.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/trained-lstm/src/test/java/org/fga/tcc/services/EvaluateModelServiceTest.java" beforeDir="false" afterPath="$PROJECT_DIR$/trained-lstm/src/test/java/org/fga/tcc/services/VotingModelServiceTest.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/trained-lstm/src/main/java/org/fga/tcc/services/VotingModelService.java" beforeDir="false" afterPath="$PROJECT_DIR$/trained-lstm/src/main/java/org/fga/tcc/services/VotingModelService.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/trained-lstm/src/test/java/org/fga/tcc/services/VotingModelServiceTest.java" beforeDir="false" afterPath="$PROJECT_DIR$/trained-lstm/src/test/java/org/fga/tcc/services/VotingModelServiceTest.java" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
@@ -59,6 +70,9 @@
     "JUnit.PredictVoteTest.executor": "Run",
     "JUnit.PredictVoteTest.predictVote.executor": "Debug",
     "JUnit.VotingModelServiceTest.executor": "Run",
+    "JUnit.VotingModelServiceTest.generateTrainedModel.executor": "Run",
+    "JUnit.VotingModelServiceTest.generateVotingModel.executor": "Run",
+    "JUnit.VotingModelServiceTest.throwsExceptionWhenTrainModelIsCalledWithoutWordVector.executor": "Run",
     "Maven. [org.apache.maven.plugins:maven-archetype-plugin:RELEASE:generate].executor": "Run",
     "Maven.politics-agents [clean,install].executor": "Run",
     "RunOnceActivity.OpenProjectViewOnStart": "true",
@@ -67,7 +81,7 @@
     "git-widget-placeholder": "main",
     "jdk.selected.JAVA_MODULE": "21",
     "kotlin-language-version-configured": "true",
-    "last_opened_file_path": "/home/douglas/.m2/repository/net/sf/ingenias/jade/4.3/jade-4.3.jar"
+    "last_opened_file_path": "/home/douglas/Documentos/www/politics-agents/trained-lstm/src/test/resources/data/keywords"
   }
 }]]></component>
   <component name="RecentsManager">
@@ -75,11 +89,11 @@
       <recent name="org.fga.tcc.entities" />
     </key>
     <key name="CopyFile.RECENT_KEYS">
+      <recent name="$PROJECT_DIR$/trained-lstm/src/test/resources/data/keywords" />
       <recent name="$PROJECT_DIR$/trained-data/votes/partyOrientation/proposalKeywords/PSD" />
       <recent name="$PROJECT_DIR$/trained-data/votes" />
       <recent name="$PROJECT_DIR$/external-data-processor/src/main/resources" />
       <recent name="$PROJECT_DIR$/external-data-processor/src/main/resources/deputados/discursos" />
-      <recent name="$PROJECT_DIR$/external-data-processor/src/main/resources/deputados" />
     </key>
     <key name="MoveFile.RECENT_KEYS">
       <recent name="$PROJECT_DIR$/trained-data/votes/partyOrientation/proposalKeywords/PT" />
@@ -88,53 +102,14 @@
       <recent name="org.fga.tcc.services" />
     </key>
     <key name="CopyClassDialog.RECENTS_KEY">
-      <recent name="org.fga.tcc.ontologies.predicate" />
       <recent name="org.fga.tcc.services" />
+      <recent name="org.fga.tcc.exceptions" />
+      <recent name="org.fga.tcc.ontologies.predicate" />
       <recent name="org.fga.tcc.utils.interfaces" />
       <recent name="org.fga.tcc.entities" />
-      <recent name="org.fga.tcc.services.impl" />
     </key>
   </component>
-  <component name="RunManager" selected="JUnit.VotingModelServiceTest">
-    <configuration name="App" type="Application" factoryName="Application" temporary="true" nameIsGenerated="true">
-      <option name="MAIN_CLASS_NAME" value="org.fga.tcc.App" />
-      <module name="external-data-processor" />
-      <extension name="coverage">
-        <pattern>
-          <option name="PATTERN" value="org.fga.tcc.*" />
-          <option name="ENABLED" value="true" />
-        </pattern>
-      </extension>
-      <method v="2">
-        <option name="Make" enabled="true" />
-      </method>
-    </configuration>
-    <configuration name="MainContainer" type="Application" factoryName="Application" temporary="true" nameIsGenerated="true">
-      <option name="MAIN_CLASS_NAME" value="org.fga.tcc.MainContainer" />
-      <module name="agents" />
-      <extension name="coverage">
-        <pattern>
-          <option name="PATTERN" value="org.fga.tcc.*" />
-          <option name="ENABLED" value="true" />
-        </pattern>
-      </extension>
-      <method v="2">
-        <option name="Make" enabled="true" />
-      </method>
-    </configuration>
-    <configuration name="TestVotes" type="Application" factoryName="Application" temporary="true" nameIsGenerated="true">
-      <option name="MAIN_CLASS_NAME" value="org.fga.tcc.votes.TestVotes" />
-      <module name="trained-lstm" />
-      <extension name="coverage">
-        <pattern>
-          <option name="PATTERN" value="org.fga.tcc.services.*" />
-          <option name="ENABLED" value="true" />
-        </pattern>
-      </extension>
-      <method v="2">
-        <option name="Make" enabled="true" />
-      </method>
-    </configuration>
+  <component name="RunManager" selected="JUnit.VotingModelServiceTest.predictFavorVote">
     <configuration name="VotingModelServiceTest" type="JUnit" factoryName="JUnit" temporary="true" nameIsGenerated="true">
       <module name="trained-lstm" />
       <extension name="coverage">
@@ -150,7 +125,7 @@
         <option name="Make" enabled="true" />
       </method>
     </configuration>
-    <configuration name="VotingModelServiceTest.predictVote" type="JUnit" factoryName="JUnit" temporary="true" nameIsGenerated="true">
+    <configuration name="VotingModelServiceTest.generateTrainedModel" type="JUnit" factoryName="JUnit" temporary="true" nameIsGenerated="true">
       <module name="trained-lstm" />
       <extension name="coverage">
         <pattern>
@@ -160,7 +135,55 @@
       </extension>
       <option name="PACKAGE_NAME" value="org.fga.tcc.services" />
       <option name="MAIN_CLASS_NAME" value="org.fga.tcc.services.VotingModelServiceTest" />
-      <option name="METHOD_NAME" value="predictVote" />
+      <option name="METHOD_NAME" value="generateTrainedModel" />
+      <option name="TEST_OBJECT" value="method" />
+      <method v="2">
+        <option name="Make" enabled="true" />
+      </method>
+    </configuration>
+    <configuration name="VotingModelServiceTest.predictAgainstVote" type="JUnit" factoryName="JUnit" temporary="true" nameIsGenerated="true">
+      <module name="trained-lstm" />
+      <extension name="coverage">
+        <pattern>
+          <option name="PATTERN" value="org.fga.tcc.services.*" />
+          <option name="ENABLED" value="true" />
+        </pattern>
+      </extension>
+      <option name="PACKAGE_NAME" value="org.fga.tcc.services" />
+      <option name="MAIN_CLASS_NAME" value="org.fga.tcc.services.VotingModelServiceTest" />
+      <option name="METHOD_NAME" value="predictAgainstVote" />
+      <option name="TEST_OBJECT" value="method" />
+      <method v="2">
+        <option name="Make" enabled="true" />
+      </method>
+    </configuration>
+    <configuration name="VotingModelServiceTest.predictFavorVote" type="JUnit" factoryName="JUnit" temporary="true" nameIsGenerated="true">
+      <module name="trained-lstm" />
+      <extension name="coverage">
+        <pattern>
+          <option name="PATTERN" value="org.fga.tcc.services.*" />
+          <option name="ENABLED" value="true" />
+        </pattern>
+      </extension>
+      <option name="PACKAGE_NAME" value="org.fga.tcc.services" />
+      <option name="MAIN_CLASS_NAME" value="org.fga.tcc.services.VotingModelServiceTest" />
+      <option name="METHOD_NAME" value="predictFavorVote" />
+      <option name="TEST_OBJECT" value="method" />
+      <method v="2">
+        <option name="Make" enabled="true" />
+      </method>
+    </configuration>
+    <configuration name="VotingModelServiceTest.throwsExceptionWhenTrainModelIsCalledWithoutWordVector" type="JUnit" factoryName="JUnit" temporary="true" nameIsGenerated="true">
+      <module name="trained-lstm" />
+      <extension name="coverage">
+        <pattern>
+          <option name="PATTERN" value="org.fga.tcc.services.*" />
+          <option name="ENABLED" value="true" />
+        </pattern>
+      </extension>
+      <option name="PACKAGE_NAME" value="org.fga.tcc.services" />
+      <option name="MAIN_CLASS_NAME" value="org.fga.tcc.services.VotingModelServiceTest" />
+      <option name="METHOD_NAME" value="throwsExceptionWhenTrainModelIsCalledWithoutWordVector" />
       <option name="TEST_OBJECT" value="method" />
       <method v="2">
         <option name="Make" enabled="true" />
@@ -168,11 +191,11 @@
     </configuration>
     <recent_temporary>
       <list>
+        <item itemvalue="JUnit.VotingModelServiceTest.predictFavorVote" />
         <item itemvalue="JUnit.VotingModelServiceTest" />
-        <item itemvalue="JUnit.VotingModelServiceTest.predictVote" />
-        <item itemvalue="Application.TestVotes" />
-        <item itemvalue="Application.MainContainer" />
-        <item itemvalue="Application.App" />
+        <item itemvalue="JUnit.VotingModelServiceTest.predictAgainstVote" />
+        <item itemvalue="JUnit.VotingModelServiceTest.throwsExceptionWhenTrainModelIsCalledWithoutWordVector" />
+        <item itemvalue="JUnit.VotingModelServiceTest.generateTrainedModel" />
       </list>
     </recent_temporary>
   </component>

@@ -1,6 +1,7 @@
 package org.fga.tcc.services;
 
 import org.fga.tcc.exceptions.ValidationException;
+import org.fga.tcc.services.impl.VotingModelServiceImpl;
 import org.junit.jupiter.api.AfterEach;
 import org.junit.jupiter.api.Assertions;
 import org.junit.jupiter.api.BeforeAll;
@@ -18,7 +19,7 @@ public class VotingModelServiceTest {
     private final VotingModelService evaluateModelService;
 
     public VotingModelServiceTest() {
-        this.evaluateModelService = new VotingModelService();
+        this.evaluateModelService = new VotingModelServiceImpl();
         this.evaluateModelService.setModelPath(MODEL_PATH);
     }
 

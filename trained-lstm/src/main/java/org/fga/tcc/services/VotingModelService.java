@@ -1,5 +1,6 @@
 package org.fga.tcc.services;
 
+import lombok.Setter;
 import org.deeplearning4j.models.embeddings.loader.WordVectorSerializer;
 import org.deeplearning4j.models.embeddings.wordvectors.WordVectors;
 import org.deeplearning4j.models.word2vec.Word2Vec;
@@ -18,10 +19,7 @@ import org.deeplearning4j.text.sentenceiterator.SentenceIterator;
 import org.deeplearning4j.text.tokenization.tokenizer.preprocessor.CommonPreprocessor;
 import org.deeplearning4j.text.tokenization.tokenizerfactory.DefaultTokenizerFactory;
 import org.deeplearning4j.text.tokenization.tokenizerfactory.TokenizerFactory;
-import org.fga.tcc.exceptions.BasicLineInteratorException;
-import org.fga.tcc.exceptions.MultiLayerNetworkException;
-import org.fga.tcc.exceptions.MultiLayerNetworkTrainingException;
-import org.fga.tcc.exceptions.WordVectorSerializerException;
+import org.fga.tcc.exceptions.*;
 import org.nd4j.evaluation.classification.Evaluation;
 import org.nd4j.linalg.activations.Activation;
 import org.nd4j.linalg.api.ndarray.INDArray;
@@ -40,6 +38,8 @@ import java.util.List;
 
 public class VotingModelService {
 
+    public static final VotingModelService INSTANCE = new VotingModelService();
+
     private static final Logger LOG = LoggerFactory.getLogger(VotingModelService.class);
 
     public static final String MODEL_NAME = "VotesModel.net";
@@ -48,16 +48,18 @@ public class VotingModelService {
 
     private WordVectors wordVectors;
     private final TokenizerFactory tokenizerFactory;
-    private final String modelPath;
 
-    public VotingModelService(String modelPath) {
-        this.modelPath = modelPath;
+    @Setter
+    private String modelPath;
 
+    public VotingModelService() {
         tokenizerFactory = new DefaultTokenizerFactory();
         tokenizerFactory.setTokenPreProcessor(new CommonPreprocessor());
     }
 
     public void prepareWordVector() {
+        this.validateAttributes();
+
         // Gets Path to Text file
         String filePath = new File(this.modelPath, PURE_TXT_NAME).getAbsolutePath();
 
@@ -100,6 +102,8 @@ public class VotingModelService {
     }
 
     public void trainModel() {
+        this.validateAttributes();
+
         int batchSize = 200;     //Number of examples in each minibatch
         int nEpochs = 6;        //Number of epochs (full passes of training data) to train on
         int truncateReviewsToLength = 5000;  //Truncate reviews with length (# words) greater than this
@@ -174,6 +178,8 @@ public class VotingModelService {
     }
 
     public String evaluateVoteModel(String proposal) {
+        this.validateAttributes();
+
         this.wordVectors = this.loadWordVector();
 
         MultiLayerNetwork net = this.loadModel();
@@ -212,6 +218,10 @@ public class VotingModelService {
         }
 
         return null;
+    }
+
+    public static VotingModelService getInstance() {
+        return INSTANCE;
     }
 
     private MultiLayerNetwork loadModel() {
@@ -273,6 +283,12 @@ public class VotingModelService {
         }
 
         return new DataSet(features, labels, featuresMask, labelsMask);
+    }
+
+    private void validateAttributes() {
+        if (this.modelPath == null || this.modelPath.isEmpty()) {
+            throw new ValidationException("Attribute [modelPath] can't be null or empty.");
+        }
     }
 
 }

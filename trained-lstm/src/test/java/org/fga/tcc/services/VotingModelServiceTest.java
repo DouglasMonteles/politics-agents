@@ -1,5 +1,6 @@
 package org.fga.tcc.services;
 
+import org.fga.tcc.exceptions.ValidationException;
 import org.junit.jupiter.api.AfterEach;
 import org.junit.jupiter.api.Assertions;
 import org.junit.jupiter.api.BeforeAll;
@@ -7,6 +8,8 @@ import org.junit.jupiter.api.Test;
 import org.nd4j.linalg.exception.ND4JIllegalStateException;
 
 import java.io.File;
+import java.util.ArrayList;
+import java.util.List;
 
 public class VotingModelServiceTest {
 
@@ -15,7 +18,8 @@ public class VotingModelServiceTest {
     private final VotingModelService evaluateModelService;
 
     public VotingModelServiceTest() {
-        this.evaluateModelService = new VotingModelService(MODEL_PATH);
+        this.evaluateModelService = new VotingModelService();
+        this.evaluateModelService.setModelPath(MODEL_PATH);
     }
 
     @BeforeAll
@@ -67,6 +71,31 @@ public class VotingModelServiceTest {
         String actualResult = this.evaluateModelService.evaluateVoteModel(proposalKeywords);
 
         Assertions.assertEquals(expectedResult, actualResult);
+    }
+
+    @Test
+    public void throwsExceptionWhenModelPathIsNotInformedAndGenerateWordVectorIsCalled() {
+        String expectedErrorMessage = "Attribute [modelPath] can't be null or empty.";
+
+        String[] invalidValues = {
+            "",
+            null,
+        };
+
+        List<Runnable> processToGenerateModel = new ArrayList<>();
+        processToGenerateModel.add(this.evaluateModelService::prepareWordVector);
+        processToGenerateModel.add(this.evaluateModelService::trainModel);
+        processToGenerateModel.add(() -> this.evaluateModelService.evaluateVoteModel(null));
+
+        for (String invalidValue : invalidValues) {
+            for (Runnable func : processToGenerateModel) {
+                Exception e = Assertions.assertThrows(ValidationException.class, () -> {
+                    this.evaluateModelService.setModelPath(invalidValue);
+                    func.run();
+                });
+                Assertions.assertEquals(expectedErrorMessage, e.getMessage());
+            }
+        }
     }
 
     @Test

@@ -5,12 +5,12 @@
   </component>
   <component name="ChangeListManager">
     <list default="true" id="b4467710-b66a-4c7b-bf15-5ed7e72708ea" name="Changes" comment="">
-      <change afterPath="$PROJECT_DIR$/trained-lstm/src/main/java/org/fga/tcc/services/impl/VotingModelServiceImpl.java" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/trained-lstm/src/main/java/org/fga/tcc/utils/FileUtils.java" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/trained-lstm/src/main/java/org/fga/tcc/utils/PerformIterateDirectoryAction.java" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/external-data-processor/src/main/java/org/fga/tcc/App.java" beforeDir="false" afterPath="$PROJECT_DIR$/external-data-processor/src/main/java/org/fga/tcc/App.java" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/trained-lstm/src/main/java/org/fga/tcc/App.java" beforeDir="false" afterPath="$PROJECT_DIR$/trained-lstm/src/main/java/org/fga/tcc/App.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/trained-lstm/src/main/java/org/fga/tcc/services/VotesIterator.java" beforeDir="false" afterPath="$PROJECT_DIR$/trained-lstm/src/main/java/org/fga/tcc/services/impl/VotesIterator.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/trained-lstm/src/main/java/org/fga/tcc/services/VotingModelService.java" beforeDir="false" afterPath="$PROJECT_DIR$/trained-lstm/src/main/java/org/fga/tcc/services/VotingModelService.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/trained-lstm/src/test/java/org/fga/tcc/services/VotingModelServiceTest.java" beforeDir="false" afterPath="$PROJECT_DIR$/trained-lstm/src/test/java/org/fga/tcc/services/VotingModelServiceTest.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/trained-lstm/src/main/java/org/fga/tcc/services/impl/VotingModelServiceImpl.java" beforeDir="false" afterPath="$PROJECT_DIR$/trained-lstm/src/main/java/org/fga/tcc/services/impl/VotingModelServiceImpl.java" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
@@ -21,8 +21,8 @@
     <option name="RECENT_TEMPLATES">
       <list>
         <option value="Enum" />
-        <option value="Interface" />
         <option value="Class" />
+        <option value="Interface" />
       </list>
     </option>
   </component>
@@ -40,12 +40,14 @@
   </component>
   <component name="PropertiesComponent"><![CDATA[{
   "keyToString": {
+    "Application.App (1).executor": "Run",
     "Application.App.executor": "Run",
     "Application.DeputeServiceImpl.executor": "Run",
     "Application.DeputesCsvToEntityImpl.executor": "Run",
     "Application.DeputyServiceImpl.executor": "Run",
     "Application.FetchCsv.executor": "Run",
     "Application.FetchJson.executor": "Run",
+    "Application.FileUtils.executor": "Debug",
     "Application.GenerateTxtModel.executor": "Run",
     "Application.ImdbReviewClassificationRNN.executor": "Debug",
     "Application.MainContainer.executor": "Run",
@@ -103,7 +105,46 @@
       <recent name="org.fga.tcc.entities" />
     </key>
   </component>
-  <component name="RunManager" selected="JUnit.VotingModelServiceTest">
+  <component name="RunManager" selected="Application.App">
+    <configuration name="App (1)" type="Application" factoryName="Application" temporary="true" nameIsGenerated="true">
+      <option name="MAIN_CLASS_NAME" value="org.fga.tcc.App" />
+      <module name="external-data-processor" />
+      <extension name="coverage">
+        <pattern>
+          <option name="PATTERN" value="org.fga.tcc.*" />
+          <option name="ENABLED" value="true" />
+        </pattern>
+      </extension>
+      <method v="2">
+        <option name="Make" enabled="true" />
+      </method>
+    </configuration>
+    <configuration name="App" type="Application" factoryName="Application" temporary="true" nameIsGenerated="true">
+      <option name="MAIN_CLASS_NAME" value="org.fga.tcc.App" />
+      <module name="trained-lstm" />
+      <extension name="coverage">
+        <pattern>
+          <option name="PATTERN" value="org.fga.tcc.*" />
+          <option name="ENABLED" value="true" />
+        </pattern>
+      </extension>
+      <method v="2">
+        <option name="Make" enabled="true" />
+      </method>
+    </configuration>
+    <configuration name="FileUtils" type="Application" factoryName="Application" temporary="true" nameIsGenerated="true">
+      <option name="MAIN_CLASS_NAME" value="org.fga.tcc.utils.FileUtils" />
+      <module name="trained-lstm" />
+      <extension name="coverage">
+        <pattern>
+          <option name="PATTERN" value="org.fga.tcc.utils.*" />
+          <option name="ENABLED" value="true" />
+        </pattern>
+      </extension>
+      <method v="2">
+        <option name="Make" enabled="true" />
+      </method>
+    </configuration>
     <configuration name="VotingModelServiceTest" type="JUnit" factoryName="JUnit" temporary="true" nameIsGenerated="true">
       <module name="trained-lstm" />
       <extension name="coverage">
@@ -115,54 +156,6 @@
       <option name="PACKAGE_NAME" value="org.fga.tcc.services" />
       <option name="MAIN_CLASS_NAME" value="org.fga.tcc.services.VotingModelServiceTest" />
       <option name="TEST_OBJECT" value="class" />
-      <method v="2">
-        <option name="Make" enabled="true" />
-      </method>
-    </configuration>
-    <configuration name="VotingModelServiceTest.predictAgainstVote" type="JUnit" factoryName="JUnit" temporary="true" nameIsGenerated="true">
-      <module name="trained-lstm" />
-      <extension name="coverage">
-        <pattern>
-          <option name="PATTERN" value="org.fga.tcc.services.impl.*" />
-          <option name="ENABLED" value="true" />
-        </pattern>
-      </extension>
-      <option name="PACKAGE_NAME" value="org.fga.tcc.services" />
-      <option name="MAIN_CLASS_NAME" value="org.fga.tcc.services.VotingModelServiceTest" />
-      <option name="METHOD_NAME" value="predictAgainstVote" />
-      <option name="TEST_OBJECT" value="method" />
-      <method v="2">
-        <option name="Make" enabled="true" />
-      </method>
-    </configuration>
-    <configuration name="VotingModelServiceTest.predictFavorVote" type="JUnit" factoryName="JUnit" temporary="true" nameIsGenerated="true">
-      <module name="trained-lstm" />
-      <extension name="coverage">
-        <pattern>
-          <option name="PATTERN" value="org.fga.tcc.services.impl.*" />
-          <option name="ENABLED" value="true" />
-        </pattern>
-      </extension>
-      <option name="PACKAGE_NAME" value="org.fga.tcc.services" />
-      <option name="MAIN_CLASS_NAME" value="org.fga.tcc.services.VotingModelServiceTest" />
-      <option name="METHOD_NAME" value="predictFavorVote" />
-      <option name="TEST_OBJECT" value="method" />
-      <method v="2">
-        <option name="Make" enabled="true" />
-      </method>
-    </configuration>
-    <configuration name="VotingModelServiceTest.throwsExceptionWhenModelPathIsNotInformed" type="JUnit" factoryName="JUnit" temporary="true" nameIsGenerated="true">
-      <module name="trained-lstm" />
-      <extension name="coverage">
-        <pattern>
-          <option name="PATTERN" value="org.fga.tcc.services.impl.*" />
-          <option name="ENABLED" value="true" />
-        </pattern>
-      </extension>
-      <option name="PACKAGE_NAME" value="org.fga.tcc.services" />
-      <option name="MAIN_CLASS_NAME" value="org.fga.tcc.services.VotingModelServiceTest" />
-      <option name="METHOD_NAME" value="throwsExceptionWhenModelPathIsNotInformed" />
-      <option name="TEST_OBJECT" value="method" />
       <method v="2">
         <option name="Make" enabled="true" />
       </method>
@@ -185,11 +178,11 @@
     </configuration>
     <recent_temporary>
       <list>
+        <item itemvalue="Application.App" />
+        <item itemvalue="Application.App (1)" />
+        <item itemvalue="Application.FileUtils" />
         <item itemvalue="JUnit.VotingModelServiceTest" />
         <item itemvalue="JUnit.VotingModelServiceTest.throwsExceptionWhenModelPathIsNotInformedAndGenerateWordVectorIsCalled" />
-        <item itemvalue="JUnit.VotingModelServiceTest.throwsExceptionWhenModelPathIsNotInformed" />
-        <item itemvalue="JUnit.VotingModelServiceTest.predictFavorVote" />
-        <item itemvalue="JUnit.VotingModelServiceTest.predictAgainstVote" />
       </list>
     </recent_temporary>
   </component>
@@ -228,6 +221,11 @@
           <url>file://$PROJECT_DIR$/trained-lstm/src/main/java/org/fga/tcc/votes/TestVotes.java</url>
           <line>156</line>
           <option name="timeStamp" value="30" />
+        </line-breakpoint>
+        <line-breakpoint enabled="true" type="java-line">
+          <url>file://$PROJECT_DIR$/trained-lstm/src/main/java/org/fga/tcc/utils/FileUtils.java</url>
+          <line>27</line>
+          <option name="timeStamp" value="35" />
         </line-breakpoint>
       </breakpoints>
     </breakpoint-manager>

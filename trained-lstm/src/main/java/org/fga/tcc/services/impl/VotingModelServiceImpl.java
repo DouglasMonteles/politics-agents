@@ -107,7 +107,7 @@ public class VotingModelServiceImpl implements VotingModelService {
         this.validateAttributes();
 
         int batchSize = 200;     //Number of examples in each minibatch
-        int nEpochs = 6;        //Number of epochs (full passes of training data) to train on
+        int nEpochs = 1;        //Number of epochs (full passes of training data) to train on
         int truncateReviewsToLength = 5000;  //Truncate reviews with length (# words) greater than this
 
         //DataSetIterators for training and testing respectively

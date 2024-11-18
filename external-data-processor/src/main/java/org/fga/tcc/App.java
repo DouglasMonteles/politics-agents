@@ -52,7 +52,7 @@ public class App {
         // -- END --
 
         // -- NIVELANDO A QTD DE LINHAS DE CADA TXT PARA O TAMANHO MÁXIMO DE CADA ARQUIVO
-        String directory = System.getProperty("user.dir") + "/trained-data/votes/partyOrientation/proposalKeywords";
+        String directory = System.getProperty("user.dir") + "/trained-data/votes/partyOrientation/proposalDescription";
 
         // Remove linhas repetidas e nivela o numero de linhas dos arquivos .txt
 //        FileUtils.flattenLinesTxtFile(directory);
@@ -61,7 +61,7 @@ public class App {
 //
 //        FileUtils.generateRawVotesToWordVector(directory);
 
-//        FileUtils.generateCategoriesFile(directory);
+        FileUtils.generateCategoriesFile(directory);
         // -- END --
     }
 }

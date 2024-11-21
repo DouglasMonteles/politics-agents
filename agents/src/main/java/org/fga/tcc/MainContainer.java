@@ -1,33 +1,30 @@
 package org.fga.tcc;
 
-import jade.core.Profile;
-import jade.core.ProfileImpl;
-import jade.core.Runtime;
 import jade.wrapper.AgentController;
-import jade.wrapper.ContainerController;
+import jade.wrapper.StaleProxyException;
 import org.fga.tcc.agents.DeputyAgent;
 import org.fga.tcc.agents.DeputyEnvironmentAgent;
+import org.fga.tcc.services.AgentService;
+import org.fga.tcc.services.impl.AgentServiceImpl;
 
 public class MainContainer {
 
     public static void main(String[] args) {
-        Runtime runtime = Runtime.instance();
-        Profile profile = new ProfileImpl();
-        ContainerController containerController = runtime.createMainContainer(profile);
+        AgentService agentService = AgentServiceImpl.getInstance();
+
+        AgentController environmentAgent = agentService
+                .createAgent("DeputyEnvironmentAgent", DeputyEnvironmentAgent.class.getName(), null);
+//        AgentController deputyAgent = agentService
+//                .createAgent("DeputyAgent", DeputyAgent.class.getName(), new Object[] { "Carlos", "PT" });
+
+        AgentController rma = agentService.createRmaAgent(null);
 
         try {
-            AgentController environmentAgent = containerController
-                    .createNewAgent("EnvironmentAgent", DeputyEnvironmentAgent.class.getName(), null);
-            AgentController deputyAgent = containerController
-                    .createNewAgent("DeputyAgent", DeputyAgent.class.getName(), new Object[] { "Carlos", "PT" });
-
-            AgentController rma = containerController.createNewAgent("rma", "jade.tools.rma.rma", null);
-
-            environmentAgent.start();
-            deputyAgent.start();
             rma.start();
-        } catch (Exception e) {
-            e.printStackTrace();
+            environmentAgent.start();
+//            deputyAgent.start();
+        } catch (StaleProxyException e) {
+            throw new RuntimeException(e);
         }
     }
 

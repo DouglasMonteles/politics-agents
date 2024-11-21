@@ -6,9 +6,14 @@ public class App {
 
     public static void main( String[] args ) {
         VotingModelFacade votingModelFacade = VotingModelFacade.getInstance();
-        String parentDirectory = System.getProperty("user.dir") + "/trained-data/votes/partyOrientation/proposalDescription";
 
-        votingModelFacade.generateTrainedModel(parentDirectory);
+        // Generate trained models
+        String proposalDescriptionParentDirectory = System.getProperty("user.dir") + "/trained-data/votes/partyOrientation/proposalDescription";
+        votingModelFacade.generateTrainedModel(proposalDescriptionParentDirectory);
+
+        String proposalKeywordsParentDirectory = System.getProperty("user.dir") + "/trained-data/votes/partyOrientation/proposalKeywords";
+        votingModelFacade.generateTrainedModel(proposalKeywordsParentDirectory);
+        // -- END --
     }
 
 }

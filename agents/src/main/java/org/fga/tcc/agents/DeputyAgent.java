@@ -6,10 +6,14 @@ import jade.core.Agent;
 import jade.core.behaviours.CyclicBehaviour;
 import jade.lang.acl.ACLMessage;
 import lombok.*;
+import org.fga.tcc.exceptions.AgentException;
 import org.fga.tcc.ontologies.DeputyOntology;
 import org.fga.tcc.ontologies.concept.ProposalConcept;
 import org.fga.tcc.ontologies.predicate.AnalysisProposalPredicate;
 import org.fga.tcc.ontologies.predicate.ApprovedProposalPredicate;
+import org.fga.tcc.ontologies.predicate.RejectedProposalPredicate;
+import org.fga.tcc.services.VotingModelService;
+import org.fga.tcc.services.impl.VotingModelServiceImpl;
 
 import java.io.Serial;
 
@@ -38,10 +42,12 @@ public class DeputyAgent extends Agent {
 
         Object[] args = getArguments();
 
-        if (args != null && args.length >= 2) {
-            this.deputyName = (String) args[0];
-            this.partyAcronym = (String) args[1];
+        if (args == null || args.length < 2) {
+            throw new AgentException("Args is null or its length is not enough.");
         }
+
+        this.deputyName = (String) args[0];
+        this.partyAcronym = (String) args[1];
 
         System.out.println("Deputy " + getLocalName() + " is ready");
         System.out.println("Nome: " + deputyName);
@@ -70,19 +76,29 @@ public class DeputyAgent extends Agent {
                     Object content = getContentManager().extractContent(requestMessage);
 
                     if (content instanceof AnalysisProposalPredicate analysisProposal) {
+                        VotingModelService votingModelService = VotingModelServiceImpl.getInstance();
                         ProposalConcept proposal = analysisProposal.getProposal();
 
                         // TODO: Analyze proposal
-
-                        ApprovedProposalPredicate approvedProposal = new ApprovedProposalPredicate();
-                        approvedProposal.setProposal(proposal);
+                        String result = votingModelService
+                            .setModelPath("/home/douglas/Documentos/www/politics-agents/trained-data/votes/partyOrientation/proposalDescription/PT")
+                            .evaluateVoteModel(proposal.getDescription());
 
                         ACLMessage message = requestMessage.createReply();
                         message.setPerformative(ACLMessage.INFORM);
                         message.setLanguage(codec.getName());
                         message.setOntology(ontology.getName());
 
-                        getContentManager().fillContent(message, approvedProposal);
+                        if (result.equalsIgnoreCase("favor")) {
+                            ApprovedProposalPredicate approvedProposal = new ApprovedProposalPredicate();
+                            approvedProposal.setProposal(proposal);
+                            getContentManager().fillContent(message, approvedProposal);
+                        } else {
+                            RejectedProposalPredicate rejectedProposal = new RejectedProposalPredicate();
+                            rejectedProposal.setProposal(proposal);
+                            getContentManager().fillContent(message, rejectedProposal);
+                        }
+
                         send(message);
                     }
                 } catch (Exception e) {

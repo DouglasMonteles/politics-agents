@@ -8,13 +8,19 @@ import jade.core.behaviours.CyclicBehaviour;
 import jade.core.behaviours.TickerBehaviour;
 import jade.lang.acl.ACLMessage;
 import jade.lang.acl.MessageTemplate;
+import jade.wrapper.StaleProxyException;
+import org.fga.tcc.entities.Deputy;
+import org.fga.tcc.exceptions.AgentException;
 import org.fga.tcc.ontologies.DeputyOntology;
 import org.fga.tcc.ontologies.concept.ProposalConcept;
 import org.fga.tcc.ontologies.predicate.AnalysisProposalPredicate;
 import org.fga.tcc.ontologies.predicate.ApprovedProposalPredicate;
 import org.fga.tcc.ontologies.predicate.RejectedProposalPredicate;
+import org.fga.tcc.services.AgentService;
+import org.fga.tcc.services.impl.AgentServiceImpl;
 
 import java.io.Serial;
+import java.util.List;
 
 public class DeputyEnvironmentAgent extends Agent {
 
@@ -28,14 +34,44 @@ public class DeputyEnvironmentAgent extends Agent {
 
     @Override
     protected void setup() {
+        AgentService agentService = AgentServiceImpl.getInstance();
+
         // FIPA-SL
         getContentManager().registerLanguage(codec);
         getContentManager().registerOntology(ontology);
 
-        addBehaviour(new SendProposalToAnalysisBehaviour(this, 5000));
+        // Agents
+        Deputy deputy1 = new Deputy();
+        deputy1.setId(1);
+        deputy1.setName("Jose");
+        deputy1.setPartyAcronym("PT");
+
+        Deputy deputy2 = new Deputy();
+        deputy2.setId(2);
+        deputy2.setName("Marcos");
+        deputy2.setPartyAcronym("PL");
+
+        List<Deputy> deputyList = List.of(deputy1, deputy2);
+        deputyList.forEach(it -> {
+            var ac = agentService.createAgent(
+                    "Agent" + it.getName().replaceAll(" ", ""),
+                    DeputyAgent.class.getName(),
+                    new Object[] { it.getName(), it.getPartyAcronym() }
+            );
+
+            try {
+                ac.start();
+            } catch (StaleProxyException e) {
+                throw new AgentException(e.getMessage());
+            }
+        });
+
+
+        // Behaviours
+        addBehaviour(new SendProposalToAnalysisBehaviour(this, PeriodBehaviour.FIVE_SECONDS.value()));
         addBehaviour(new ReceiveProposalAnalysisBehaviour());
 
-        System.out.println("Environment Agent " + getLocalName() + " is ready.");
+        System.out.println("Deputy Environment Agent " + getLocalName() + " is ready.");
     }
 
     @Override
@@ -64,9 +100,10 @@ public class DeputyEnvironmentAgent extends Agent {
             ACLMessage message = new ACLMessage(ACLMessage.REQUEST);
             conversationId = "request-" + System.currentTimeMillis();
             message.setConversationId(conversationId);
-            message.addReceiver(getAID("DeputyAgent"));
             message.setLanguage(codec.getName());
             message.setOntology(ontology.getName());
+
+            List.of("AgentJose", "AgentMarcos").forEach(it -> message.addReceiver(getAID(it)));
 
             try {
                 getContentManager().fillContent(message, analysisProposalPredicate);

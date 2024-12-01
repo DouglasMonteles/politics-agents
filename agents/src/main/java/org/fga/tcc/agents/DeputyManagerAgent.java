@@ -17,12 +17,15 @@ import org.fga.tcc.ontologies.predicate.AnalysisProposalPredicate;
 import org.fga.tcc.ontologies.predicate.ApprovedProposalPredicate;
 import org.fga.tcc.ontologies.predicate.RejectedProposalPredicate;
 import org.fga.tcc.services.AgentService;
+import org.fga.tcc.services.DeputyService;
 import org.fga.tcc.services.impl.AgentServiceImpl;
+import org.fga.tcc.services.impl.DeputyServiceImpl;
 
 import java.io.Serial;
+import java.util.ArrayList;
 import java.util.List;
 
-public class DeputyEnvironmentAgent extends Agent {
+public class DeputyManagerAgent extends Agent {
 
     @Serial
     private static final long serialVersionUID = -1951592876859134303L;
@@ -32,31 +35,42 @@ public class DeputyEnvironmentAgent extends Agent {
 
     private String conversationId;
 
+    List<String> agentsNickname = new ArrayList<>();
+
     @Override
     protected void setup() {
         AgentService agentService = AgentServiceImpl.getInstance();
+        DeputyService deputyService = DeputyServiceImpl.getInstance();
 
         // FIPA-SL
         getContentManager().registerLanguage(codec);
         getContentManager().registerOntology(ontology);
 
         // Agents
-        Deputy deputy1 = new Deputy();
-        deputy1.setId(1);
-        deputy1.setName("Jose");
-        deputy1.setPartyAcronym("PT");
+        List<Deputy> deputies = deputyService.getDeputes()
+                .stream()
+                .distinct()
+                .toList();
 
-        Deputy deputy2 = new Deputy();
-        deputy2.setId(2);
-        deputy2.setName("Marcos");
-        deputy2.setPartyAcronym("PL");
+        for (Deputy deputy : deputies) {
+            String nickname = "Agent" + deputy
+                    .getName()
+                    .replaceAll(" ", "")
+                    .replaceAll("é", "e")
+                    .replaceAll("É", "E")
+                    .replaceAll("á", "a")
+                    .replaceAll("Á", "A")
+                    .replaceAll("ã", "a")
+                    .replaceAll("ú", "u")
+                    .replaceAll("ô", "o")
+                    .replaceAll("\\.", "");
 
-        List<Deputy> deputyList = List.of(deputy1, deputy2);
-        deputyList.forEach(it -> {
+            agentsNickname.add(nickname);
+
             var ac = agentService.createAgent(
-                    "Agent" + it.getName().replaceAll(" ", ""),
+                    nickname,
                     DeputyAgent.class.getName(),
-                    new Object[] { it.getName(), it.getPartyAcronym() }
+                    new Object[] { deputy.getName(), deputy.getPartyAcronym() }
             );
 
             try {
@@ -64,11 +78,11 @@ public class DeputyEnvironmentAgent extends Agent {
             } catch (StaleProxyException e) {
                 throw new AgentException(e.getMessage());
             }
-        });
+        }
 
 
         // Behaviours
-        addBehaviour(new SendProposalToAnalysisBehaviour(this, PeriodBehaviour.FIVE_SECONDS.value()));
+        addBehaviour(new SendProposalToAnalysisBehaviour(this, agentsNickname, PeriodBehaviour.FIVE_SECONDS.value()));
         addBehaviour(new ReceiveProposalAnalysisBehaviour());
 
         System.out.println("Deputy Environment Agent " + getLocalName() + " is ready.");
@@ -84,8 +98,11 @@ public class DeputyEnvironmentAgent extends Agent {
         @Serial
         private static final long serialVersionUID = 6981101726018053062L;
 
-        public SendProposalToAnalysisBehaviour(Agent a, long period) {
+        private final List<String> agentsNickname;
+
+        public SendProposalToAnalysisBehaviour(Agent a, List<String> agentsNickname, long period) {
             super(a, period);
+            this.agentsNickname = agentsNickname;
         }
 
         @Override
@@ -103,7 +120,7 @@ public class DeputyEnvironmentAgent extends Agent {
             message.setLanguage(codec.getName());
             message.setOntology(ontology.getName());
 
-            List.of("AgentJose", "AgentMarcos").forEach(it -> message.addReceiver(getAID(it)));
+            agentsNickname.forEach(it -> message.addReceiver(getAID(it)));
 
             try {
                 getContentManager().fillContent(message, analysisProposalPredicate);

@@ -2,8 +2,7 @@ package org.fga.tcc;
 
 import jade.wrapper.AgentController;
 import jade.wrapper.StaleProxyException;
-import org.fga.tcc.agents.DeputyAgent;
-import org.fga.tcc.agents.DeputyEnvironmentAgent;
+import org.fga.tcc.agents.DeputyManagerAgent;
 import org.fga.tcc.services.AgentService;
 import org.fga.tcc.services.impl.AgentServiceImpl;
 
@@ -13,7 +12,7 @@ public class MainContainer {
         AgentService agentService = AgentServiceImpl.getInstance();
 
         AgentController environmentAgent = agentService
-                .createAgent("DeputyEnvironmentAgent", DeputyEnvironmentAgent.class.getName(), null);
+                .createAgent("DeputyEnvironmentAgent", DeputyManagerAgent.class.getName(), null);
 //        AgentController deputyAgent = agentService
 //                .createAgent("DeputyAgent", DeputyAgent.class.getName(), new Object[] { "Carlos", "PT" });
 

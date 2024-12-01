@@ -2,6 +2,7 @@ package org.fga.tcc.services.impl;
 
 import com.fasterxml.jackson.core.type.TypeReference;
 import org.fga.tcc.entities.Deputy;
+import org.fga.tcc.entities.DeputyFront;
 import org.fga.tcc.entities.DeputySpeech;
 import org.fga.tcc.entities.OpenDataBaseResponseList;
 import org.fga.tcc.enums.OpenDataEndpoints;
@@ -15,6 +16,8 @@ import java.io.File;
 import java.util.List;
 
 public class DeputyServiceImpl implements DeputyService {
+
+    private static final DeputyService INSTANCE = new DeputyServiceImpl();
 
     @Override
     public List<Deputy> getDeputes() {
@@ -51,6 +54,22 @@ public class DeputyServiceImpl implements DeputyService {
     }
 
     @Override
+    public List<DeputyFront> getDeputyFront(Integer deputeId) {
+        RouterManager routerManager = new RouterManager();
+        FetchJson<DeputyFront> fetchJson = new FetchJson<>();
+        OpenDataBaseResponseList<DeputyFront> deputyFrontOpenDataBaseResponse = fetchJson.get(
+                routerManager
+                        .setUrl(OpenDataEndpoints.API_DEPUTES_URL.getPath())
+                        .setRequestParamId(deputeId)
+                        .setRequestUri("frentes")
+                        .getUrl(),
+                new TypeReference<>() {}
+        );
+
+        return deputyFrontOpenDataBaseResponse.getData();
+    }
+
+    @Override
     public void savePureData() {
         for (Deputy deputy : getDeputes()) {
             int speechCont = 0;
@@ -82,6 +101,10 @@ public class DeputyServiceImpl implements DeputyService {
                 }
             }
         }
+    }
+
+    public static DeputyService getInstance() {
+        return INSTANCE;
     }
 
     private String getNormalizedSpeechType(DeputySpeech deputySpeech) {

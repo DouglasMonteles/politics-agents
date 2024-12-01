@@ -5,17 +5,16 @@
   </component>
   <component name="ChangeListManager">
     <list default="true" id="b4467710-b66a-4c7b-bf15-5ed7e72708ea" name="Changes" comment="">
-      <change afterPath="$PROJECT_DIR$/agents/src/main/java/org/fga/tcc/agents/PeriodBehaviour.java" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/agents/src/main/java/org/fga/tcc/exceptions/AgentException.java" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/agents/src/main/java/org/fga/tcc/services/AgentService.java" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/agents/src/main/java/org/fga/tcc/services/impl/AgentServiceImpl.java" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/external-data-processor/src/main/java/org/fga/tcc/entities/DeputyFront.java" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/agents/dependency-reduced-pom.xml" beforeDir="false" afterPath="$PROJECT_DIR$/agents/dependency-reduced-pom.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/agents/pom.xml" beforeDir="false" afterPath="$PROJECT_DIR$/agents/pom.xml" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/agents/src/main/java/org/fga/tcc/MainContainer.java" beforeDir="false" afterPath="$PROJECT_DIR$/agents/src/main/java/org/fga/tcc/MainContainer.java" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/agents/src/main/java/org/fga/tcc/agents/DeputyAgent.java" beforeDir="false" afterPath="$PROJECT_DIR$/agents/src/main/java/org/fga/tcc/agents/DeputyAgent.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/agents/src/main/java/org/fga/tcc/agents/DeputyEnvironmentAgent.java" beforeDir="false" afterPath="$PROJECT_DIR$/agents/src/main/java/org/fga/tcc/agents/DeputyEnvironmentAgent.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/trained-lstm/src/main/java/org/fga/tcc/App.java" beforeDir="false" afterPath="$PROJECT_DIR$/trained-lstm/src/main/java/org/fga/tcc/App.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/agents/src/main/java/org/fga/tcc/agents/DeputyEnvironmentAgent.java" beforeDir="false" afterPath="$PROJECT_DIR$/agents/src/main/java/org/fga/tcc/agents/DeputyManagerAgent.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/external-data-processor/src/main/java/org/fga/tcc/App.java" beforeDir="false" afterPath="$PROJECT_DIR$/external-data-processor/src/main/java/org/fga/tcc/App.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/external-data-processor/src/main/java/org/fga/tcc/entities/Deputy.java" beforeDir="false" afterPath="$PROJECT_DIR$/external-data-processor/src/main/java/org/fga/tcc/entities/Deputy.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/external-data-processor/src/main/java/org/fga/tcc/json/FetchJson.java" beforeDir="false" afterPath="$PROJECT_DIR$/external-data-processor/src/main/java/org/fga/tcc/json/FetchJson.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/external-data-processor/src/main/java/org/fga/tcc/services/DeputyService.java" beforeDir="false" afterPath="$PROJECT_DIR$/external-data-processor/src/main/java/org/fga/tcc/services/DeputyService.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/external-data-processor/src/main/java/org/fga/tcc/services/impl/DeputyServiceImpl.java" beforeDir="false" afterPath="$PROJECT_DIR$/external-data-processor/src/main/java/org/fga/tcc/services/impl/DeputyServiceImpl.java" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
@@ -43,49 +42,49 @@
     <option name="hideEmptyMiddlePackages" value="true" />
     <option name="showLibraryContents" value="true" />
   </component>
-  <component name="PropertiesComponent"><![CDATA[{
-  "keyToString": {
-    "Application.App (1).executor": "Run",
-    "Application.App.executor": "Run",
-    "Application.DeputeServiceImpl.executor": "Run",
-    "Application.DeputesCsvToEntityImpl.executor": "Run",
-    "Application.DeputyServiceImpl.executor": "Run",
-    "Application.FetchCsv.executor": "Run",
-    "Application.FetchJson.executor": "Run",
-    "Application.FileUtils.executor": "Debug",
-    "Application.GenerateTxtModel.executor": "Run",
-    "Application.ImdbReviewClassificationRNN.executor": "Debug",
-    "Application.MainContainer.executor": "Run",
-    "Application.PrepareWordVector.executor": "Run",
-    "Application.PrepareWordVectorVotes.executor": "Run",
-    "Application.ProposalServiceImpl.executor": "Debug",
-    "Application.TestNews.executor": "Run",
-    "Application.TestVotes.executor": "Debug",
-    "Application.TrainNews.executor": "Run",
-    "Application.TrainVotes.executor": "Run",
-    "Application.VoteServiceImpl.executor": "Run",
-    "JUnit.PredictVoteTest.executor": "Run",
-    "JUnit.PredictVoteTest.predictVote.executor": "Debug",
-    "JUnit.VotingModelServiceTest.executor": "Run",
-    "JUnit.VotingModelServiceTest.generateTrainedModel.executor": "Run",
-    "JUnit.VotingModelServiceTest.generateVotingModel.executor": "Run",
-    "JUnit.VotingModelServiceTest.predictAgainstVote.executor": "Run",
-    "JUnit.VotingModelServiceTest.predictFavorVote.executor": "Run",
-    "JUnit.VotingModelServiceTest.throwsExceptionWhenModelPathIsNotInformed.executor": "Run",
-    "JUnit.VotingModelServiceTest.throwsExceptionWhenModelPathIsNotInformedAndGenerateWordVectorIsCalled.executor": "Run",
-    "JUnit.VotingModelServiceTest.throwsExceptionWhenTrainModelIsCalledWithoutWordVector.executor": "Run",
-    "Makefile Target.run.executor": "Run",
-    "Maven. [org.apache.maven.plugins:maven-archetype-plugin:RELEASE:generate].executor": "Run",
-    "Maven.politics-agents [clean,install].executor": "Run",
-    "RunOnceActivity.OpenProjectViewOnStart": "true",
-    "RunOnceActivity.ShowReadmeOnStart": "true",
-    "SHARE_PROJECT_CONFIGURATION_FILES": "true",
-    "git-widget-placeholder": "main",
-    "jdk.selected.JAVA_MODULE": "21",
-    "kotlin-language-version-configured": "true",
-    "last_opened_file_path": "/home/douglas/Documentos/www/politics-agents/trained-lstm/src/test/resources/data/keywords"
+  <component name="PropertiesComponent">{
+  &quot;keyToString&quot;: {
+    &quot;Application.App (1).executor&quot;: &quot;Run&quot;,
+    &quot;Application.App.executor&quot;: &quot;Run&quot;,
+    &quot;Application.DeputeServiceImpl.executor&quot;: &quot;Run&quot;,
+    &quot;Application.DeputesCsvToEntityImpl.executor&quot;: &quot;Run&quot;,
+    &quot;Application.DeputyServiceImpl.executor&quot;: &quot;Run&quot;,
+    &quot;Application.FetchCsv.executor&quot;: &quot;Run&quot;,
+    &quot;Application.FetchJson.executor&quot;: &quot;Run&quot;,
+    &quot;Application.FileUtils.executor&quot;: &quot;Debug&quot;,
+    &quot;Application.GenerateTxtModel.executor&quot;: &quot;Run&quot;,
+    &quot;Application.ImdbReviewClassificationRNN.executor&quot;: &quot;Debug&quot;,
+    &quot;Application.MainContainer.executor&quot;: &quot;Run&quot;,
+    &quot;Application.PrepareWordVector.executor&quot;: &quot;Run&quot;,
+    &quot;Application.PrepareWordVectorVotes.executor&quot;: &quot;Run&quot;,
+    &quot;Application.ProposalServiceImpl.executor&quot;: &quot;Debug&quot;,
+    &quot;Application.TestNews.executor&quot;: &quot;Run&quot;,
+    &quot;Application.TestVotes.executor&quot;: &quot;Debug&quot;,
+    &quot;Application.TrainNews.executor&quot;: &quot;Run&quot;,
+    &quot;Application.TrainVotes.executor&quot;: &quot;Run&quot;,
+    &quot;Application.VoteServiceImpl.executor&quot;: &quot;Run&quot;,
+    &quot;JUnit.PredictVoteTest.executor&quot;: &quot;Run&quot;,
+    &quot;JUnit.PredictVoteTest.predictVote.executor&quot;: &quot;Debug&quot;,
+    &quot;JUnit.VotingModelServiceTest.executor&quot;: &quot;Run&quot;,
+    &quot;JUnit.VotingModelServiceTest.generateTrainedModel.executor&quot;: &quot;Run&quot;,
+    &quot;JUnit.VotingModelServiceTest.generateVotingModel.executor&quot;: &quot;Run&quot;,
+    &quot;JUnit.VotingModelServiceTest.predictAgainstVote.executor&quot;: &quot;Run&quot;,
+    &quot;JUnit.VotingModelServiceTest.predictFavorVote.executor&quot;: &quot;Run&quot;,
+    &quot;JUnit.VotingModelServiceTest.throwsExceptionWhenModelPathIsNotInformed.executor&quot;: &quot;Run&quot;,
+    &quot;JUnit.VotingModelServiceTest.throwsExceptionWhenModelPathIsNotInformedAndGenerateWordVectorIsCalled.executor&quot;: &quot;Run&quot;,
+    &quot;JUnit.VotingModelServiceTest.throwsExceptionWhenTrainModelIsCalledWithoutWordVector.executor&quot;: &quot;Run&quot;,
+    &quot;Makefile Target.run.executor&quot;: &quot;Run&quot;,
+    &quot;Maven. [org.apache.maven.plugins:maven-archetype-plugin:RELEASE:generate].executor&quot;: &quot;Run&quot;,
+    &quot;Maven.politics-agents [clean,install].executor&quot;: &quot;Run&quot;,
+    &quot;RunOnceActivity.OpenProjectViewOnStart&quot;: &quot;true&quot;,
+    &quot;RunOnceActivity.ShowReadmeOnStart&quot;: &quot;true&quot;,
+    &quot;SHARE_PROJECT_CONFIGURATION_FILES&quot;: &quot;true&quot;,
+    &quot;git-widget-placeholder&quot;: &quot;main&quot;,
+    &quot;jdk.selected.JAVA_MODULE&quot;: &quot;21&quot;,
+    &quot;kotlin-language-version-configured&quot;: &quot;true&quot;,
+    &quot;last_opened_file_path&quot;: &quot;/home/douglas/Documentos/www/sistemas-multiagentes/truck-simulator&quot;
   }
-}]]></component>
+}</component>
   <component name="RecentsManager">
     <key name="CreateClassDialog.RecentsKey">
       <recent name="org.fga.tcc.entities" />
@@ -104,14 +103,14 @@
       <recent name="org.fga.tcc.services" />
     </key>
     <key name="CopyClassDialog.RECENTS_KEY">
+      <recent name="org.fga.tcc.entities" />
       <recent name="org.fga.tcc.services" />
       <recent name="org.fga.tcc.exceptions" />
       <recent name="org.fga.tcc.ontologies.predicate" />
       <recent name="org.fga.tcc.utils.interfaces" />
-      <recent name="org.fga.tcc.entities" />
     </key>
   </component>
-  <component name="RunManager" selected="Application.MainContainer">
+  <component name="RunManager" selected="Application.App (1)">
     <configuration name="App (1)" type="Application" factoryName="Application" temporary="true" nameIsGenerated="true">
       <option name="MAIN_CLASS_NAME" value="org.fga.tcc.App" />
       <module name="external-data-processor" />
@@ -172,10 +171,10 @@
     </configuration>
     <recent_temporary>
       <list>
+        <item itemvalue="Application.App (1)" />
         <item itemvalue="Application.MainContainer" />
         <item itemvalue="Makefile Target.run" />
         <item itemvalue="Application.App" />
-        <item itemvalue="Application.App (1)" />
         <item itemvalue="Application.FileUtils" />
       </list>
     </recent_temporary>
@@ -220,6 +219,16 @@
           <url>file://$PROJECT_DIR$/trained-lstm/src/main/java/org/fga/tcc/utils/FileUtils.java</url>
           <line>27</line>
           <option name="timeStamp" value="35" />
+        </line-breakpoint>
+        <line-breakpoint enabled="true" type="java-line">
+          <url>file://$PROJECT_DIR$/external-data-processor/src/main/java/org/fga/tcc/json/FetchJson.java</url>
+          <line>33</line>
+          <option name="timeStamp" value="36" />
+        </line-breakpoint>
+        <line-breakpoint enabled="true" type="java-line">
+          <url>file://$PROJECT_DIR$/external-data-processor/src/main/java/org/fga/tcc/utils/FileUtils.java</url>
+          <line>92</line>
+          <option name="timeStamp" value="37" />
         </line-breakpoint>
       </breakpoints>
     </breakpoint-manager>

@@ -31,7 +31,7 @@ public class FetchJson<T> {
             UriParams uriParams = extractUri(url);
             String filePath = getFilePath(uriParams);
 
-            if (!FileUtils.isFileAlreadyCreated(filePath)) {
+            if (!new File(filePath).exists()) {
                 LOGGER.info("Sending GET request: " + url);
                 HttpClient client = HttpClient.newHttpClient();
 

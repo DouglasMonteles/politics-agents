@@ -81,7 +81,7 @@ public class DeputyAgent extends Agent {
 
                         // TODO: Analyze proposal
                         String result = votingModelService
-                            .setModelPath("/home/douglas/Documentos/www/politics-agents/trained-data/votes/partyOrientation/proposalDescription/PT")
+                            .setModelPath("/home/douglas/Documentos/www/politics-agents/trained-data/votes/partyOrientation/proposalDescription/" + deputyAgent.partyAcronym)
                             .evaluateVoteModel(proposal.getDescription());
 
                         ACLMessage message = requestMessage.createReply();
@@ -93,10 +93,12 @@ public class DeputyAgent extends Agent {
                             ApprovedProposalPredicate approvedProposal = new ApprovedProposalPredicate();
                             approvedProposal.setProposal(proposal);
                             getContentManager().fillContent(message, approvedProposal);
+                            System.out.println("Deputado " + deputyAgent.deputyName + " aprovou");
                         } else {
                             RejectedProposalPredicate rejectedProposal = new RejectedProposalPredicate();
                             rejectedProposal.setProposal(proposal);
                             getContentManager().fillContent(message, rejectedProposal);
+                            System.out.println("Deputado " + deputyAgent.deputyName + " rejeitou");
                         }
 
                         send(message);

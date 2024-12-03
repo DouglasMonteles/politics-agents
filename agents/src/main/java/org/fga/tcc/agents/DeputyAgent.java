@@ -16,6 +16,9 @@ import org.fga.tcc.services.VotingModelService;
 import org.fga.tcc.services.impl.VotingModelServiceImpl;
 
 import java.io.Serial;
+import java.util.HashMap;
+import java.util.Map;
+import java.util.Vector;
 
 @Getter
 @EqualsAndHashCode(of = {"deputyName", "partyAcronym"}, callSuper = false)
@@ -79,32 +82,65 @@ public class DeputyAgent extends Agent {
                         VotingModelService votingModelService = VotingModelServiceImpl.getInstance();
                         ProposalConcept proposal = analysisProposal.getProposal();
 
+                        Map<String, Integer[]> response = new HashMap<>();
+                        response.put("description", new Integer[]{0, 0});
+                        response.put("keywords", new Integer[]{0, 0});
+
                         // TODO: Analyze proposal
-                        String result = votingModelService
-                            .setModelPath("/home/douglas/Documentos/www/politics-agents/trained-data/votes/partyOrientation/proposalDescription/" + deputyAgent.partyAcronym)
-                            .evaluateVoteModel(proposal.getDescription());
+                        for (int attempts = 1; attempts <= 3; attempts++) {
+                            String resultProposalDescription = votingModelService
+                                    .setModelPath(System.getProperty("user.dir") + "/trained-data/votes/partyOrientation/proposalDescription/" + deputyAgent.partyAcronym)
+                                    .evaluateVoteModel(proposal.getDescription());
+
+                            String resultProposalKeywords = votingModelService
+                                    .setModelPath(System.getProperty("user.dir") + "/trained-data/votes/partyOrientation/proposalKeywords/" + deputyAgent.partyAcronym)
+                                    .evaluateVoteModel(proposal.getKeywords());
+
+                            Integer[] votesDesc = response.get("description");
+                            Integer[] votesKey = response.get("keywords");
+
+                            if (resultProposalDescription.equalsIgnoreCase("favor")) {
+                                response.put("description", new Integer[]{ votesDesc[0]+1, votesDesc[1] });
+                            } else {
+                                response.put("description", new Integer[]{ votesDesc[0], votesDesc[1]+1 });
+                            }
+
+                            if (resultProposalKeywords.equalsIgnoreCase("favor")) {
+                                response.put("keywords", new Integer[]{ votesKey[0]+1, votesKey[1] });
+                            } else {
+                                response.put("keywords", new Integer[]{ votesKey[0], votesKey[1]+1 });
+                            }
+                        }
 
                         ACLMessage message = requestMessage.createReply();
                         message.setPerformative(ACLMessage.INFORM);
                         message.setLanguage(codec.getName());
                         message.setOntology(ontology.getName());
 
+                        float descriptionWeight = 0.4f;
+                        float keywordsWeight = 0.6f;
+
+                        float favor = (response.get("keywords")[0] * keywordsWeight) + (response.get("description")[0] * descriptionWeight);
+                        float against = (response.get("keywords")[1] * keywordsWeight) + (response.get("description")[1] * descriptionWeight);
+
+                        String result = favor > against ? "favor" : "against";
+
                         if (result.equalsIgnoreCase("favor")) {
                             ApprovedProposalPredicate approvedProposal = new ApprovedProposalPredicate();
                             approvedProposal.setProposal(proposal);
                             getContentManager().fillContent(message, approvedProposal);
-                            System.out.println("Deputado " + deputyAgent.deputyName + " aprovou");
+                            //System.out.println("Deputado " + deputyAgent.deputyName + " aprovou");
                         } else {
                             RejectedProposalPredicate rejectedProposal = new RejectedProposalPredicate();
                             rejectedProposal.setProposal(proposal);
                             getContentManager().fillContent(message, rejectedProposal);
-                            System.out.println("Deputado " + deputyAgent.deputyName + " rejeitou");
+                            //System.out.println("Deputado " + deputyAgent.deputyName + " rejeitou");
                         }
 
                         send(message);
                     }
                 } catch (Exception e) {
-                    System.out.println("Error: " + e.getMessage());
+                    System.out.println("[DeputyAgent] Error: " + e.getMessage());
                 }
             } else {
                 block();

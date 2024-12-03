@@ -3,6 +3,7 @@ package org.fga.tcc.agents;
 import jade.content.ContentElement;
 import jade.content.lang.sl.SLCodec;
 import jade.content.onto.Ontology;
+import jade.core.AID;
 import jade.core.Agent;
 import jade.core.behaviours.CyclicBehaviour;
 import jade.core.behaviours.TickerBehaviour;
@@ -22,8 +23,7 @@ import org.fga.tcc.services.impl.AgentServiceImpl;
 import org.fga.tcc.services.impl.DeputyServiceImpl;
 
 import java.io.Serial;
-import java.util.ArrayList;
-import java.util.List;
+import java.util.*;
 
 public class DeputyManagerAgent extends Agent {
 
@@ -47,10 +47,7 @@ public class DeputyManagerAgent extends Agent {
         getContentManager().registerOntology(ontology);
 
         // Agents
-        List<Deputy> deputies = deputyService.getDeputes()
-                .stream()
-                .distinct()
-                .toList();
+        List<Deputy> deputies = getDeputes(deputyService.getDeputes());
 
         for (Deputy deputy : deputies) {
             String nickname = "Agent" + deputy
@@ -83,9 +80,16 @@ public class DeputyManagerAgent extends Agent {
 
         // Behaviours
         addBehaviour(new SendProposalToAnalysisBehaviour(this, agentsNickname, PeriodBehaviour.FIVE_SECONDS.value()));
-        addBehaviour(new ReceiveProposalAnalysisBehaviour());
+        addBehaviour(new ReceiveProposalAnalysisBehaviour(agentsNickname));
 
         System.out.println("Deputy Environment Agent " + getLocalName() + " is ready.");
+    }
+
+    private List<Deputy> getDeputes(List<Deputy> deputes) {
+        List<Deputy> randomDeputes = new ArrayList<>(deputes);
+        Collections.shuffle(randomDeputes);
+
+        return randomDeputes.subList(0, Math.min(10, randomDeputes.size()));
     }
 
     @Override
@@ -110,6 +114,7 @@ public class DeputyManagerAgent extends Agent {
             ProposalConcept proposal = new ProposalConcept();
             proposal.setTitle("Reforma Tributária");
             proposal.setDescription("Proposta para revisar alíquotas.");
+            proposal.setKeywords("alíquotas, economia, revisão, reforma tributária");
 
             AnalysisProposalPredicate analysisProposalPredicate = new AnalysisProposalPredicate();
             analysisProposalPredicate.setProposal(proposal);
@@ -120,12 +125,12 @@ public class DeputyManagerAgent extends Agent {
             message.setLanguage(codec.getName());
             message.setOntology(ontology.getName());
 
-            agentsNickname.forEach(it -> message.addReceiver(getAID(it)));
+            agentsNickname.forEach(nickname -> message.addReceiver(getAID(nickname)));
 
             try {
                 getContentManager().fillContent(message, analysisProposalPredicate);
                 send(message);
-                System.out.println("Requesição: " + message.getContent());
+                // System.out.println("Requesição: " + message.getContent());
             } catch (Exception e) {
                 System.out.println("[Exception in DeputyEnvironmentAgent]: " + e.getMessage());
             }
@@ -138,6 +143,15 @@ public class DeputyManagerAgent extends Agent {
         @Serial
         private static final long serialVersionUID = 6981101726018053062L;
 
+        private final List<String> expectedSenders;
+
+        private final Map<String, Integer> votingResult;
+
+        public ReceiveProposalAnalysisBehaviour(List<String> expectedSenders) {
+            this.expectedSenders = expectedSenders;
+            this.votingResult = new HashMap<>();
+        }
+
         @Override
         public void action() {
             MessageTemplate mt = MessageTemplate.and(
@@ -149,15 +163,27 @@ public class DeputyManagerAgent extends Agent {
                 ACLMessage response = receive(mt); // blockReceive()
 
                 if (response != null) {
+                    AID sender = response.getSender();
                     ContentElement content = getContentManager().extractContent(response);
 
                     if (content != null) {
                         if (content instanceof ApprovedProposalPredicate approvedProposal) {
-                            System.out.println("Resposta: " + approvedProposal.getProposal().getTitle() + " aprovada!");
+                            System.out.println("O agente " + sender.getLocalName() + " respondeu: " + approvedProposal.getProposal().getTitle() + " aprovada!");
+                            votingResult.put(sender.getLocalName(), 1);
                         } else if (content instanceof RejectedProposalPredicate rejectedProposal) {
-                            System.out.println("Resposta: " + rejectedProposal.getProposal().getTitle() + " rejeitada!");
+                            System.out.println("O agente " + sender.getLocalName() + " respondeu: " + rejectedProposal.getProposal().getTitle() + " rejeitada!");
+                            votingResult.put(sender.getLocalName(), 0);
                         } else {
                             System.out.println("Resposta: " + content);
+                        }
+
+                        if (votingResult.size() == expectedSenders.size()) {
+                            long favor = votingResult.values().stream().filter(it -> it == 1).count();
+                            long against = votingResult.values().stream().filter(it -> it == 0).count();
+
+                            System.out.println("Favor: " + favor + " | Contra: " + against + " | Total: " + votingResult.size());
+
+                            votingResult.clear();
                         }
                     }
                 } else {

@@ -19,7 +19,7 @@ public class MainContainer {
         AgentController rma = agentService.createRmaAgent(null);
 
         try {
-            rma.start();
+            //rma.start();
             environmentAgent.start();
 //            deputyAgent.start();
         } catch (StaleProxyException e) {

@@ -18,6 +18,7 @@ public class ProposalConcept implements Concept {
 
     private String title;
     private String description;
+    private String keywords;
 
     @Slot(mandatory = true)
     public String getTitle() {
@@ -27,6 +28,11 @@ public class ProposalConcept implements Concept {
     @Slot(mandatory = true)
     public String getDescription() {
         return description;
+    }
+
+    @Slot(mandatory = true)
+    public String getKeywords() {
+        return keywords;
     }
 
 }

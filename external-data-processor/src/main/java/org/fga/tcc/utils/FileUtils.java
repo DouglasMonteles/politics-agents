@@ -102,7 +102,7 @@ public class FileUtils {
         try (BufferedWriter writer = new BufferedWriter(new FileWriter(path, true))) {
             fileBufferWriter.processData(writer);
         } catch (IOException e) {
-            LOGGER.error("Error: " + e.getMessage());
+            LOGGER.error("[FileUtils] Error: " + e.getMessage());
         } finally {
             LOGGER.info("Arquivo gravado com sucesso!");
         }

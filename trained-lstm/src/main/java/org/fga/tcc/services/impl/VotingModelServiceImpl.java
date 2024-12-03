@@ -281,8 +281,10 @@ public class VotingModelServiceImpl implements VotingModelService {
             int idx = category[i];
             int lastIdx = Math.min(tokens.size(), maxLength);
             // TODO: at this point, if the token wasn't recognized, it's throw IndexOutBoundsException
-            labels.putScalar(new int[]{i, idx, lastIdx - 1}, 1.0);
-            labelsMask.putScalar(new int[]{i, lastIdx - 1}, 1.0);
+            if (lastIdx > 0) {
+                labels.putScalar(new int[]{i, idx, lastIdx - 1}, 1.0);
+                labelsMask.putScalar(new int[]{i, lastIdx - 1}, 1.0);
+            }
         }
 
         return new DataSet(features, labels, featuresMask, labelsMask);

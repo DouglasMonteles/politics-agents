@@ -18,6 +18,7 @@ import org.fga.tcc.ontologies.predicate.ApprovedProposalPredicate;
 import org.fga.tcc.ontologies.predicate.RejectedProposalPredicate;
 import org.fga.tcc.services.VotingModelService;
 import org.fga.tcc.services.impl.VotingModelServiceImpl;
+import org.fga.tcc.utils.StringUtils;
 
 import java.io.Serial;
 import java.util.HashMap;
@@ -63,15 +64,21 @@ public class DeputyAgent extends Agent {
         DFAgentDescription dfd = new DFAgentDescription();
         dfd.setName(getAID());
 
-        ServiceDescription sd = new ServiceDescription();
-        sd.setType("analyse-proposal");
-        sd.setName("Analyse-of-Proposal");
+        ServiceDescription sdAnalyseProposalByPartyAcronym = new ServiceDescription();
+        sdAnalyseProposalByPartyAcronym.setType("analyse-proposal-by-" + partyAcronym.toLowerCase());
+        sdAnalyseProposalByPartyAcronym.setName("Analyse-of-Proposal-By-Party-Acronym");
 
-        dfd.addServices(sd);
+        ServiceDescription sdAnalyseProposalByDeputy = new ServiceDescription();
+        sdAnalyseProposalByDeputy.setType("analyse-proposal-by-" + StringUtils.removeSpecialCharacters(deputyName).toLowerCase());
+        sdAnalyseProposalByDeputy.setName("Analyse-of-Proposal-By-Deputy-Name");
+
+        dfd.addServices(sdAnalyseProposalByPartyAcronym);
+        dfd.addServices(sdAnalyseProposalByDeputy);
 
         try {
             DFService.register(this, dfd);
-            System.out.println(getLocalName() + " has registered the service: " + sd.getType());
+            System.out.println(getLocalName() + " has registered the service: " + sdAnalyseProposalByPartyAcronym.getType());
+            System.out.println(getLocalName() + " has registered the service: " + sdAnalyseProposalByDeputy.getType());
         } catch (FIPAException e) {
             System.out.println("[DeputyAgent] Error: " + e.getMessage());
         }

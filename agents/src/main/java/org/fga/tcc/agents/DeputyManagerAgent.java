@@ -25,9 +25,11 @@ import org.fga.tcc.services.AgentService;
 import org.fga.tcc.services.DeputyService;
 import org.fga.tcc.services.impl.AgentServiceImpl;
 import org.fga.tcc.services.impl.DeputyServiceImpl;
+import org.fga.tcc.utils.StringUtils;
 
 import java.io.Serial;
 import java.util.*;
+import java.util.stream.Stream;
 
 public class DeputyManagerAgent extends Agent {
 
@@ -54,17 +56,7 @@ public class DeputyManagerAgent extends Agent {
         List<Deputy> deputies = getDeputes(deputyService.getDeputes());
 
         for (Deputy deputy : deputies) {
-            String nickname = "Agent" + deputy
-                    .getName()
-                    .replaceAll(" ", "")
-                    .replaceAll("é", "e")
-                    .replaceAll("É", "E")
-                    .replaceAll("á", "a")
-                    .replaceAll("Á", "A")
-                    .replaceAll("ã", "a")
-                    .replaceAll("ú", "u")
-                    .replaceAll("ô", "o")
-                    .replaceAll("\\.", "");
+            String nickname = "Agent" + StringUtils.removeSpecialCharacters(deputy.getName());
 
             agentsNickname.add(nickname);
 
@@ -143,19 +135,22 @@ public class DeputyManagerAgent extends Agent {
             message.setLanguage(codec.getName());
             message.setOntology(ontology.getName());
 
-            try {
-                DFAgentDescription[] dfResult = searchDeputyAgents(getAgent(), "analyse-proposal");
 
-                for (DFAgentDescription dfAgentDescription : dfResult) {
-                    System.out.println("Agente encontrado: " + dfAgentDescription.getName().getLocalName());
-                    message.addReceiver(dfAgentDescription.getName());
+            Stream.of("analyse-proposal-by-pt", "analyse-proposal-by-psol", "analyse-proposal-by-pl").forEach(serviceType -> {
+                try {
+                    DFAgentDescription[] dfResult = searchDeputyAgents(getAgent(), serviceType);
+
+                    for (DFAgentDescription dfAgentDescription : dfResult) {
+                        System.out.println("Agente encontrado: " + dfAgentDescription.getName().getLocalName());
+                        message.addReceiver(dfAgentDescription.getName());
+                    }
+
+                    getContentManager().fillContent(message, analysisProposalPredicate);
+                    send(message);
+                } catch (Exception e) {
+                    System.out.println("[Exception in DeputyEnvironmentAgent]: " + e.getMessage());
                 }
-
-                getContentManager().fillContent(message, analysisProposalPredicate);
-                send(message);
-            } catch (Exception e) {
-                System.out.println("[Exception in DeputyEnvironmentAgent]: " + e.getMessage());
-            }
+            });
         }
 
     }

@@ -7,6 +7,10 @@ import jade.core.AID;
 import jade.core.Agent;
 import jade.core.behaviours.CyclicBehaviour;
 import jade.core.behaviours.TickerBehaviour;
+import jade.domain.DFService;
+import jade.domain.FIPAAgentManagement.DFAgentDescription;
+import jade.domain.FIPAAgentManagement.ServiceDescription;
+import jade.domain.FIPAException;
 import jade.lang.acl.ACLMessage;
 import jade.lang.acl.MessageTemplate;
 import jade.wrapper.StaleProxyException;
@@ -23,10 +27,7 @@ import org.fga.tcc.services.impl.AgentServiceImpl;
 import org.fga.tcc.services.impl.DeputyServiceImpl;
 
 import java.io.Serial;
-import java.util.ArrayList;
-import java.util.HashMap;
-import java.util.List;
-import java.util.Map;
+import java.util.*;
 
 public class DeputyManagerAgent extends Agent {
 
@@ -82,7 +83,7 @@ public class DeputyManagerAgent extends Agent {
 
 
         // Behaviours
-        addBehaviour(new SendProposalToAnalysisBehaviour(this, agentsNickname, PeriodBehaviour.FIVE_SECONDS.value()));
+        addBehaviour(new SendProposalToAnalysisBehaviour(this, PeriodBehaviour.FIVE_SECONDS.value()));
         addBehaviour(new ReceiveProposalAnalysisBehaviour(agentsNickname));
 
         System.out.println("Deputy Environment Agent " + getLocalName() + " is ready.");
@@ -90,16 +91,26 @@ public class DeputyManagerAgent extends Agent {
 
     private List<Deputy> getDeputes(List<Deputy> deputes) {
         List<Deputy> randomDeputes = new ArrayList<>(deputes);
-        // Collections.shuffle(randomDeputes);
-        var d = deputes.stream().filter(it -> it.getId().equals(220536)).toList();
+        Collections.shuffle(randomDeputes);
 
-        var r = randomDeputes.subList(0, Math.min(9, randomDeputes.size()));
+        return randomDeputes.subList(0, Math.min(10, randomDeputes.size()));
+    }
 
-        List<Deputy> x = new ArrayList<>();
-        x.add(d.getFirst());
-        x.addAll(r);
+    private DFAgentDescription[] searchDeputyAgents(Agent agent, String serviceType) {
+        DFAgentDescription[] result = null;
 
-        return x;
+        try {
+            DFAgentDescription dfd = new DFAgentDescription();
+            ServiceDescription sd = new ServiceDescription();
+            sd.setType(serviceType);
+            dfd.addServices(sd);
+
+            result = DFService.search(agent, dfd);
+        } catch (FIPAException e) {
+            System.out.println("[FIPAException in DeputyEnvironmentAgent]: " + e.getMessage());
+        }
+
+        return result;
     }
 
     @Override
@@ -112,11 +123,8 @@ public class DeputyManagerAgent extends Agent {
         @Serial
         private static final long serialVersionUID = 6981101726018053062L;
 
-        private final List<String> agentsNickname;
-
-        public SendProposalToAnalysisBehaviour(Agent a, List<String> agentsNickname, long period) {
+       public SendProposalToAnalysisBehaviour(Agent a, long period) {
             super(a, period);
-            this.agentsNickname = agentsNickname;
         }
 
         @Override
@@ -135,12 +143,16 @@ public class DeputyManagerAgent extends Agent {
             message.setLanguage(codec.getName());
             message.setOntology(ontology.getName());
 
-            agentsNickname.forEach(nickname -> message.addReceiver(getAID(nickname)));
-
             try {
+                DFAgentDescription[] dfResult = searchDeputyAgents(getAgent(), "analyse-proposal");
+
+                for (DFAgentDescription dfAgentDescription : dfResult) {
+                    System.out.println("Agente encontrado: " + dfAgentDescription.getName().getLocalName());
+                    message.addReceiver(dfAgentDescription.getName());
+                }
+
                 getContentManager().fillContent(message, analysisProposalPredicate);
                 send(message);
-                // System.out.println("Requesição: " + message.getContent());
             } catch (Exception e) {
                 System.out.println("[Exception in DeputyEnvironmentAgent]: " + e.getMessage());
             }

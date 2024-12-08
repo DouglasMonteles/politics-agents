@@ -41,6 +41,8 @@ public class DeputyManagerAgent extends Agent {
 
     private String conversationId;
 
+    private Integer deputyAgentsFounded = 0;
+
     List<String> agentsNickname = new ArrayList<>();
 
     @Override
@@ -76,7 +78,7 @@ public class DeputyManagerAgent extends Agent {
 
         // Behaviours
         addBehaviour(new SendProposalToAnalysisBehaviour(this, PeriodBehaviour.FIVE_SECONDS.value()));
-        addBehaviour(new ReceiveProposalAnalysisBehaviour(agentsNickname));
+        addBehaviour(new ReceiveProposalAnalysisBehaviour());
 
         System.out.println("Deputy Environment Agent " + getLocalName() + " is ready.");
     }
@@ -136,9 +138,10 @@ public class DeputyManagerAgent extends Agent {
             message.setOntology(ontology.getName());
 
 
-            Stream.of("analyse-proposal-by-pt", "analyse-proposal-by-psol", "analyse-proposal-by-pl").forEach(serviceType -> {
+            Stream.of("analyse-proposal-by-pt").forEach(serviceType -> {
                 try {
                     DFAgentDescription[] dfResult = searchDeputyAgents(getAgent(), serviceType);
+                    deputyAgentsFounded = dfResult.length;
 
                     for (DFAgentDescription dfAgentDescription : dfResult) {
                         System.out.println("Agente encontrado: " + dfAgentDescription.getName().getLocalName());
@@ -160,12 +163,9 @@ public class DeputyManagerAgent extends Agent {
         @Serial
         private static final long serialVersionUID = 6981101726018053062L;
 
-        private final List<String> expectedSenders;
-
         private final Map<String, Integer> votingResult;
 
-        public ReceiveProposalAnalysisBehaviour(List<String> expectedSenders) {
-            this.expectedSenders = expectedSenders;
+        public ReceiveProposalAnalysisBehaviour() {
             this.votingResult = new HashMap<>();
         }
 
@@ -194,7 +194,9 @@ public class DeputyManagerAgent extends Agent {
                             System.out.println("Resposta: " + content);
                         }
 
-                        if (votingResult.size() == expectedSenders.size()) {
+                        System.out.println("Voting result: " + votingResult.size() + " - agents: " + deputyAgentsFounded);
+
+                        if (votingResult.size() == deputyAgentsFounded) {
                             long favor = votingResult.values().stream().filter(it -> it == 1).count();
                             long against = votingResult.values().stream().filter(it -> it == 0).count();
 

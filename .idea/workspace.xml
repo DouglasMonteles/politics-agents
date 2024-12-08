@@ -5,9 +5,7 @@
   </component>
   <component name="ChangeListManager">
     <list default="true" id="b4467710-b66a-4c7b-bf15-5ed7e72708ea" name="Changes" comment="">
-      <change afterPath="$PROJECT_DIR$/agents/src/main/java/org/fga/tcc/utils/StringUtils.java" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/agents/src/main/java/org/fga/tcc/agents/DeputyAgent.java" beforeDir="false" afterPath="$PROJECT_DIR$/agents/src/main/java/org/fga/tcc/agents/DeputyAgent.java" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/agents/src/main/java/org/fga/tcc/agents/DeputyManagerAgent.java" beforeDir="false" afterPath="$PROJECT_DIR$/agents/src/main/java/org/fga/tcc/agents/DeputyManagerAgent.java" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
@@ -36,49 +34,49 @@
     <option name="hideEmptyMiddlePackages" value="true" />
     <option name="showLibraryContents" value="true" />
   </component>
-  <component name="PropertiesComponent">{
-  &quot;keyToString&quot;: {
-    &quot;Application.App (1).executor&quot;: &quot;Run&quot;,
-    &quot;Application.App.executor&quot;: &quot;Run&quot;,
-    &quot;Application.DeputeServiceImpl.executor&quot;: &quot;Run&quot;,
-    &quot;Application.DeputesCsvToEntityImpl.executor&quot;: &quot;Run&quot;,
-    &quot;Application.DeputyServiceImpl.executor&quot;: &quot;Run&quot;,
-    &quot;Application.FetchCsv.executor&quot;: &quot;Run&quot;,
-    &quot;Application.FetchJson.executor&quot;: &quot;Run&quot;,
-    &quot;Application.FileUtils.executor&quot;: &quot;Debug&quot;,
-    &quot;Application.GenerateTxtModel.executor&quot;: &quot;Run&quot;,
-    &quot;Application.ImdbReviewClassificationRNN.executor&quot;: &quot;Debug&quot;,
-    &quot;Application.MainContainer.executor&quot;: &quot;Run&quot;,
-    &quot;Application.PrepareWordVector.executor&quot;: &quot;Run&quot;,
-    &quot;Application.PrepareWordVectorVotes.executor&quot;: &quot;Run&quot;,
-    &quot;Application.ProposalServiceImpl.executor&quot;: &quot;Debug&quot;,
-    &quot;Application.TestNews.executor&quot;: &quot;Run&quot;,
-    &quot;Application.TestVotes.executor&quot;: &quot;Debug&quot;,
-    &quot;Application.TrainNews.executor&quot;: &quot;Run&quot;,
-    &quot;Application.TrainVotes.executor&quot;: &quot;Run&quot;,
-    &quot;Application.VoteServiceImpl.executor&quot;: &quot;Run&quot;,
-    &quot;JUnit.PredictVoteTest.executor&quot;: &quot;Run&quot;,
-    &quot;JUnit.PredictVoteTest.predictVote.executor&quot;: &quot;Debug&quot;,
-    &quot;JUnit.VotingModelServiceTest.executor&quot;: &quot;Run&quot;,
-    &quot;JUnit.VotingModelServiceTest.generateTrainedModel.executor&quot;: &quot;Run&quot;,
-    &quot;JUnit.VotingModelServiceTest.generateVotingModel.executor&quot;: &quot;Run&quot;,
-    &quot;JUnit.VotingModelServiceTest.predictAgainstVote.executor&quot;: &quot;Run&quot;,
-    &quot;JUnit.VotingModelServiceTest.predictFavorVote.executor&quot;: &quot;Run&quot;,
-    &quot;JUnit.VotingModelServiceTest.throwsExceptionWhenModelPathIsNotInformed.executor&quot;: &quot;Run&quot;,
-    &quot;JUnit.VotingModelServiceTest.throwsExceptionWhenModelPathIsNotInformedAndGenerateWordVectorIsCalled.executor&quot;: &quot;Run&quot;,
-    &quot;JUnit.VotingModelServiceTest.throwsExceptionWhenTrainModelIsCalledWithoutWordVector.executor&quot;: &quot;Run&quot;,
-    &quot;Makefile Target.run.executor&quot;: &quot;Run&quot;,
-    &quot;Maven. [org.apache.maven.plugins:maven-archetype-plugin:RELEASE:generate].executor&quot;: &quot;Run&quot;,
-    &quot;Maven.politics-agents [clean,install].executor&quot;: &quot;Run&quot;,
-    &quot;RunOnceActivity.OpenProjectViewOnStart&quot;: &quot;true&quot;,
-    &quot;RunOnceActivity.ShowReadmeOnStart&quot;: &quot;true&quot;,
-    &quot;SHARE_PROJECT_CONFIGURATION_FILES&quot;: &quot;true&quot;,
-    &quot;git-widget-placeholder&quot;: &quot;main&quot;,
-    &quot;jdk.selected.JAVA_MODULE&quot;: &quot;21&quot;,
-    &quot;kotlin-language-version-configured&quot;: &quot;true&quot;,
-    &quot;last_opened_file_path&quot;: &quot;/home/douglas/Documentos/www/sistemas-multiagentes/truck-simulator&quot;
+  <component name="PropertiesComponent"><![CDATA[{
+  "keyToString": {
+    "Application.App (1).executor": "Run",
+    "Application.App.executor": "Run",
+    "Application.DeputeServiceImpl.executor": "Run",
+    "Application.DeputesCsvToEntityImpl.executor": "Run",
+    "Application.DeputyServiceImpl.executor": "Run",
+    "Application.FetchCsv.executor": "Run",
+    "Application.FetchJson.executor": "Run",
+    "Application.FileUtils.executor": "Debug",
+    "Application.GenerateTxtModel.executor": "Run",
+    "Application.ImdbReviewClassificationRNN.executor": "Debug",
+    "Application.MainContainer.executor": "Debug",
+    "Application.PrepareWordVector.executor": "Run",
+    "Application.PrepareWordVectorVotes.executor": "Run",
+    "Application.ProposalServiceImpl.executor": "Debug",
+    "Application.TestNews.executor": "Run",
+    "Application.TestVotes.executor": "Debug",
+    "Application.TrainNews.executor": "Run",
+    "Application.TrainVotes.executor": "Run",
+    "Application.VoteServiceImpl.executor": "Run",
+    "JUnit.PredictVoteTest.executor": "Run",
+    "JUnit.PredictVoteTest.predictVote.executor": "Debug",
+    "JUnit.VotingModelServiceTest.executor": "Run",
+    "JUnit.VotingModelServiceTest.generateTrainedModel.executor": "Run",
+    "JUnit.VotingModelServiceTest.generateVotingModel.executor": "Run",
+    "JUnit.VotingModelServiceTest.predictAgainstVote.executor": "Run",
+    "JUnit.VotingModelServiceTest.predictFavorVote.executor": "Run",
+    "JUnit.VotingModelServiceTest.throwsExceptionWhenModelPathIsNotInformed.executor": "Run",
+    "JUnit.VotingModelServiceTest.throwsExceptionWhenModelPathIsNotInformedAndGenerateWordVectorIsCalled.executor": "Run",
+    "JUnit.VotingModelServiceTest.throwsExceptionWhenTrainModelIsCalledWithoutWordVector.executor": "Run",
+    "Makefile Target.run.executor": "Run",
+    "Maven. [org.apache.maven.plugins:maven-archetype-plugin:RELEASE:generate].executor": "Run",
+    "Maven.politics-agents [clean,install].executor": "Run",
+    "RunOnceActivity.OpenProjectViewOnStart": "true",
+    "RunOnceActivity.ShowReadmeOnStart": "true",
+    "SHARE_PROJECT_CONFIGURATION_FILES": "true",
+    "git-widget-placeholder": "main",
+    "jdk.selected.JAVA_MODULE": "21",
+    "kotlin-language-version-configured": "true",
+    "last_opened_file_path": "/home/douglas/Documentos/www/sistemas-multiagentes/truck-simulator"
   }
-}</component>
+}]]></component>
   <component name="RecentsManager">
     <key name="CreateClassDialog.RecentsKey">
       <recent name="org.fga.tcc.entities" />
@@ -233,6 +231,11 @@
           <url>file://$PROJECT_DIR$/trained-lstm/src/main/java/org/fga/tcc/services/impl/VotingModelServiceImpl.java</url>
           <line>200</line>
           <option name="timeStamp" value="44" />
+        </line-breakpoint>
+        <line-breakpoint enabled="true" type="java-line">
+          <url>file://$PROJECT_DIR$/agents/src/main/java/org/fga/tcc/agents/DeputyManagerAgent.java</url>
+          <line>145</line>
+          <option name="timeStamp" value="45" />
         </line-breakpoint>
       </breakpoints>
     </breakpoint-manager>

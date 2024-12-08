@@ -23,7 +23,10 @@ import org.fga.tcc.services.impl.AgentServiceImpl;
 import org.fga.tcc.services.impl.DeputyServiceImpl;
 
 import java.io.Serial;
-import java.util.*;
+import java.util.ArrayList;
+import java.util.HashMap;
+import java.util.List;
+import java.util.Map;
 
 public class DeputyManagerAgent extends Agent {
 
@@ -87,9 +90,16 @@ public class DeputyManagerAgent extends Agent {
 
     private List<Deputy> getDeputes(List<Deputy> deputes) {
         List<Deputy> randomDeputes = new ArrayList<>(deputes);
-        Collections.shuffle(randomDeputes);
+        // Collections.shuffle(randomDeputes);
+        var d = deputes.stream().filter(it -> it.getId().equals(220536)).toList();
 
-        return randomDeputes.subList(0, Math.min(10, randomDeputes.size()));
+        var r = randomDeputes.subList(0, Math.min(9, randomDeputes.size()));
+
+        List<Deputy> x = new ArrayList<>();
+        x.add(d.getFirst());
+        x.addAll(r);
+
+        return x;
     }
 
     @Override
@@ -112,9 +122,9 @@ public class DeputyManagerAgent extends Agent {
         @Override
         protected void onTick() {
             ProposalConcept proposal = new ProposalConcept();
-            proposal.setTitle("Reforma Tributária");
-            proposal.setDescription("Proposta para revisar alíquotas.");
-            proposal.setKeywords("alíquotas, economia, revisão, reforma tributária");
+            proposal.setTitle("Cargos Efetivos");
+            proposal.setDescription("Dispõe sobre os cargos efetivos da Carreira Legislativa da Câmara dos Deputados.");
+            proposal.setKeywords("Organização administrativa, Cargo efetivo, Carreira legislativa, servidor público, Câmara dos Deputados. _Renomeação, cargo efetivo, atualização, atribuição (carreira pública). _Requisito, provimento de cargo público, nível superior. _Alteração, Resolução da Câmara dos Deputados, Ato da Mesa, revogação, lotação exclusiva. _Extinção, cargo efetivo, Analista Legislativo, Assistente Técnico, Psicólogo. _Alteração, Resolução da Câmara dos Deputados, Departamento de Polícia Legislativa (DEPOL), denominação, Departamento de Polícia Legislativa Federal, atividade típica, Polícia da Câmara dos Deputados. _Requisito, Cargo público, Técnico Legislativo, Policial legislativo federal, prerrogativa.");
 
             AnalysisProposalPredicate analysisProposalPredicate = new AnalysisProposalPredicate();
             analysisProposalPredicate.setProposal(proposal);

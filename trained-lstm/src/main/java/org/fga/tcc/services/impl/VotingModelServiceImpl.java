@@ -193,6 +193,11 @@ public class VotingModelServiceImpl implements VotingModelService {
 
         DataSet testNews = prepareTestData(proposal);
         INDArray fet = testNews.getFeatures();
+
+        if (fet.isEmpty()) {
+            throw new IllegalArgumentException("Invalid dimension: length 0 int the last dimension");
+        }
+
         INDArray predicted = net.output(fet, false);
         long[] arrsiz = predicted.shape();
 

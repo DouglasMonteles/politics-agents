@@ -4,6 +4,10 @@ import jade.content.lang.sl.SLCodec;
 import jade.content.onto.Ontology;
 import jade.core.Agent;
 import jade.core.behaviours.CyclicBehaviour;
+import jade.domain.DFService;
+import jade.domain.FIPAAgentManagement.DFAgentDescription;
+import jade.domain.FIPAAgentManagement.ServiceDescription;
+import jade.domain.FIPAException;
 import jade.lang.acl.ACLMessage;
 import lombok.*;
 import org.fga.tcc.exceptions.AgentException;
@@ -56,7 +60,33 @@ public class DeputyAgent extends Agent {
         System.out.println("Nome: " + deputyName);
         System.out.println("Partido: " + partyAcronym);
 
+        DFAgentDescription dfd = new DFAgentDescription();
+        dfd.setName(getAID());
+
+        ServiceDescription sd = new ServiceDescription();
+        sd.setType("analyse-proposal");
+        sd.setName("Analyse-of-Proposal");
+
+        dfd.addServices(sd);
+
+        try {
+            DFService.register(this, dfd);
+            System.out.println(getLocalName() + " has registered the service: " + sd.getType());
+        } catch (FIPAException e) {
+            System.out.println("[DeputyAgent] Error: " + e.getMessage());
+        }
+
         addBehaviour(new VotingBehaviour(this));
+    }
+
+    @Override
+    protected void takeDown() {
+        try {
+            DFService.deregister(this);
+            System.out.println(getLocalName() + " has been removed from DF.");
+        } catch (FIPAException e) {
+            System.out.println("[DeputyAgent] Error: " + e.getMessage());
+        }
     }
 
     private class VotingBehaviour extends CyclicBehaviour {
@@ -117,8 +147,8 @@ public class DeputyAgent extends Agent {
                         message.setLanguage(codec.getName());
                         message.setOntology(ontology.getName());
 
-                        float descriptionWeight = 0.4f;
-                        float keywordsWeight = 0.6f;
+                        float descriptionWeight = 0.8f;
+                        float keywordsWeight = 0.2f;
 
                         float favor = (response.get("keywords")[0] * keywordsWeight) + (response.get("description")[0] * descriptionWeight);
                         float against = (response.get("keywords")[1] * keywordsWeight) + (response.get("description")[1] * descriptionWeight);

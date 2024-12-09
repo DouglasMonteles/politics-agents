@@ -12,6 +12,8 @@ import java.util.List;
 
 public class PartyServiceImpl implements PartyService {
 
+    private static final PartyService INSTANCE = new PartyServiceImpl();
+
     @Override
     public List<Party> getParties() {
         RouterManager routerManager = new RouterManager();
@@ -27,6 +29,10 @@ public class PartyServiceImpl implements PartyService {
         );
 
         return deputeOpenDataBaseResponse.getData();
+    }
+
+    public static PartyService getInstance() {
+        return INSTANCE;
     }
 
 }

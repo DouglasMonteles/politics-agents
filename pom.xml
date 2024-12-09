@@ -14,6 +14,7 @@
     <module>agents</module>
     <module>trained-lstm</module>
     <module>external-data-processor</module>
+    <module>frontend</module>
   </modules>
 
   <properties>

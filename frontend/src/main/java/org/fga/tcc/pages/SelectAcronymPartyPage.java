@@ -37,8 +37,8 @@ public class SelectAcronymPartyPage extends JFrame {
             Party party = parties.get(i);
             rowData[i] = new Object[] {
                 party.getId(),
-                party.getName(),
                 party.getAcronym(),
+                party.getName(),
                 false,
             };
         }
@@ -53,7 +53,7 @@ public class SelectAcronymPartyPage extends JFrame {
                 rowData
         );
 
-        Button button = ButtonComponent.createTableButton("Finalizar Seleção", table.getModel(), 1, this.buttonHandleInfo);
+        Button button = ButtonComponent.createTableButton("Finalizar Seleção", table.getModel(), 1, this, this.buttonHandleInfo);
 
         JPanel mainContent = new JPanel();
         mainContent.setLayout(new BoxLayout(mainContent, BoxLayout.Y_AXIS));

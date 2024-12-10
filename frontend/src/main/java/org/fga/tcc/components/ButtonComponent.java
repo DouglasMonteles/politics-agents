@@ -8,7 +8,7 @@ import java.util.ArrayList;
 
 public class ButtonComponent {
 
-    public static Button createTableButton(String label, DefaultTableModel model, int valueColumnIndex, ButtonHandleInfo handleInfo) {
+    public static Button createTableButton(String label, DefaultTableModel model, int valueColumnIndex, JFrame jFrame, ButtonHandleInfo handleInfo) {
         JButton button = new JButton(label);
         java.util.List<Object> selected = new ArrayList<>();
 
@@ -22,6 +22,9 @@ public class ButtonComponent {
 
             if (JOptionPane.showConfirmDialog(null, "Deseja finalizar a seleção?", "Seleção de Deputados", JOptionPane.YES_NO_OPTION) == JOptionPane.OK_OPTION) {
                 handleInfo.process(selected);
+                if (jFrame != null) {
+                    jFrame.dispose();
+                }
             }
 
             selected.clear();

@@ -5,23 +5,12 @@
   </component>
   <component name="ChangeListManager">
     <list default="true" id="b4467710-b66a-4c7b-bf15-5ed7e72708ea" name="Changes" comment="">
-      <change afterPath="$PROJECT_DIR$/agents/src/main/java/org/fga/tcc/agents/FrontendAgent.java" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/frontend/src/main/java/org/fga/tcc/components/ButtonAction.java" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/frontend/src/main/java/org/fga/tcc/components/ButtonComponent.java" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/frontend/src/main/java/org/fga/tcc/components/ButtonHandleInfo.java" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/frontend/src/main/java/org/fga/tcc/components/TableComponent.java" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/frontend/src/main/java/org/fga/tcc/models/Button.java" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/frontend/src/main/java/org/fga/tcc/models/Table.java" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/frontend/src/main/java/org/fga/tcc/pages/App.java" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/frontend/src/main/java/org/fga/tcc/pages/HomePage.java" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/frontend/src/main/java/org/fga/tcc/pages/SelectAcronymPartyPage.java" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/frontend/src/main/java/org/fga/tcc/pages/SelectDeputyPage.java" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/agents/pom.xml" beforeDir="false" afterPath="$PROJECT_DIR$/agents/pom.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/agents/src/main/java/org/fga/tcc/MainContainer.java" beforeDir="false" afterPath="$PROJECT_DIR$/agents/src/main/java/org/fga/tcc/MainContainer.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/external-data-processor/src/main/java/org/fga/tcc/services/impl/PartyServiceImpl.java" beforeDir="false" afterPath="$PROJECT_DIR$/external-data-processor/src/main/java/org/fga/tcc/services/impl/PartyServiceImpl.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/frontend/pom.xml" beforeDir="false" afterPath="$PROJECT_DIR$/frontend/pom.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/pom.xml" beforeDir="false" afterPath="$PROJECT_DIR$/pom.xml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/agents/src/main/java/org/fga/tcc/agents/DeputyManagerAgent.java" beforeDir="false" afterPath="$PROJECT_DIR$/agents/src/main/java/org/fga/tcc/agents/DeputyManagerAgent.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/agents/src/main/java/org/fga/tcc/agents/FrontendAgent.java" beforeDir="false" afterPath="$PROJECT_DIR$/agents/src/main/java/org/fga/tcc/agents/FrontendAgent.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/frontend/src/main/java/org/fga/tcc/components/ButtonComponent.java" beforeDir="false" afterPath="$PROJECT_DIR$/frontend/src/main/java/org/fga/tcc/components/ButtonComponent.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/frontend/src/main/java/org/fga/tcc/pages/SelectAcronymPartyPage.java" beforeDir="false" afterPath="$PROJECT_DIR$/frontend/src/main/java/org/fga/tcc/pages/SelectAcronymPartyPage.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/frontend/src/main/java/org/fga/tcc/pages/SelectDeputyPage.java" beforeDir="false" afterPath="$PROJECT_DIR$/frontend/src/main/java/org/fga/tcc/pages/SelectDeputyPage.java" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
@@ -267,8 +256,13 @@
         </line-breakpoint>
         <line-breakpoint enabled="true" type="java-line">
           <url>file://$PROJECT_DIR$/agents/src/main/java/org/fga/tcc/agents/DeputyManagerAgent.java</url>
-          <line>145</line>
-          <option name="timeStamp" value="47" />
+          <line>172</line>
+          <option name="timeStamp" value="49" />
+        </line-breakpoint>
+        <line-breakpoint enabled="true" type="java-line">
+          <url>file://$PROJECT_DIR$/agents/src/main/java/org/fga/tcc/agents/DeputyManagerAgent.java</url>
+          <line>108</line>
+          <option name="timeStamp" value="51" />
         </line-breakpoint>
       </breakpoints>
     </breakpoint-manager>

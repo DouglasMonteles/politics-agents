@@ -13,6 +13,7 @@ import jade.domain.FIPAAgentManagement.ServiceDescription;
 import jade.domain.FIPAException;
 import jade.lang.acl.ACLMessage;
 import jade.lang.acl.MessageTemplate;
+import jade.lang.acl.UnreadableException;
 import jade.wrapper.StaleProxyException;
 import org.fga.tcc.entities.Deputy;
 import org.fga.tcc.exceptions.AgentException;
@@ -43,40 +44,16 @@ public class DeputyManagerAgent extends Agent {
 
     private Integer deputyAgentsFounded = 0;
 
-    List<String> agentsNickname = new ArrayList<>();
+    List<String> receivedAgentsNames = null;
 
     @Override
     protected void setup() {
-        AgentService agentService = AgentServiceImpl.getInstance();
-        DeputyService deputyService = DeputyServiceImpl.getInstance();
-
         // FIPA-SL
         getContentManager().registerLanguage(codec);
         getContentManager().registerOntology(ontology);
 
-        // Agents
-        List<Deputy> deputies = getDeputes(deputyService.getDeputes());
-
-        for (Deputy deputy : deputies) {
-            String nickname = "Agent" + StringUtils.removeSpecialCharacters(deputy.getName());
-
-            agentsNickname.add(nickname);
-
-            var ac = agentService.createAgent(
-                    nickname,
-                    DeputyAgent.class.getName(),
-                    new Object[] { deputy.getName(), deputy.getPartyAcronym() }
-            );
-
-            try {
-                ac.start();
-            } catch (StaleProxyException e) {
-                throw new AgentException(e.getMessage());
-            }
-        }
-
-
         // Behaviours
+        addBehaviour(new BootstrapDeputiesBehaviour());
         addBehaviour(new SendProposalToAnalysisBehaviour(this, PeriodBehaviour.FIVE_SECONDS.value()));
         addBehaviour(new ReceiveProposalAnalysisBehaviour());
 
@@ -112,17 +89,68 @@ public class DeputyManagerAgent extends Agent {
         System.out.println("Environment Agent " + getLocalName() + " is terminating.");
     }
 
+    private class BootstrapDeputiesBehaviour extends CyclicBehaviour {
+
+        @Serial
+        private static final long serialVersionUID = -4340285925206072498L;
+
+        private final AgentService agentService = AgentServiceImpl.getInstance();
+        private final DeputyService deputyService = DeputyServiceImpl.getInstance();
+
+        @Override
+        public void action() {
+            MessageTemplate mt = MessageTemplate.MatchPerformative(
+                    ACLMessage.REQUEST
+            );
+
+            ACLMessage message = receive(mt);
+            if (message != null) {
+                try {
+                    if (message.getContentObject() == null) {
+                        return;
+                    }
+
+                    receivedAgentsNames = (ArrayList<String>) message.getContentObject();
+                    List<Deputy> deputies = deputyService.getDeputes()
+                            .stream()
+                            .filter(deputy -> receivedAgentsNames.contains(deputy.getName()) || receivedAgentsNames.contains(deputy.getPartyAcronym()))
+                            .toList();
+
+                    for (Deputy deputy : deputies) {
+                        String nickname = "Agent" + StringUtils.removeSpecialCharacters(deputy.getName());
+
+                        var ac = agentService.createAgent(
+                                nickname,
+                                DeputyAgent.class.getName(),
+                                new Object[]{deputy.getName(), deputy.getPartyAcronym()}
+                        );
+
+                        ac.start();
+                    }
+                } catch (UnreadableException | StaleProxyException e) {
+                    throw new RuntimeException(e);
+                }
+            } else {
+                block();
+            }
+        }
+    }
+
     private class SendProposalToAnalysisBehaviour extends TickerBehaviour {
 
         @Serial
         private static final long serialVersionUID = 6981101726018053062L;
 
-       public SendProposalToAnalysisBehaviour(Agent a, long period) {
+        public SendProposalToAnalysisBehaviour(Agent a, long period) {
             super(a, period);
         }
 
         @Override
         protected void onTick() {
+            if (receivedAgentsNames == null || receivedAgentsNames.isEmpty()) {
+                return;
+            }
+
             ProposalConcept proposal = new ProposalConcept();
             proposal.setTitle("Cargos Efetivos");
             proposal.setDescription("Dispõe sobre os cargos efetivos da Carreira Legislativa da Câmara dos Deputados.");
@@ -137,10 +165,14 @@ public class DeputyManagerAgent extends Agent {
             message.setLanguage(codec.getName());
             message.setOntology(ontology.getName());
 
+            List<String> serviceTypes = receivedAgentsNames
+                    .stream()
+                    .map(name -> "analyse-proposal-by-" + StringUtils.removeSpecialCharacters(name).toLowerCase())
+                    .toList();
 
-            Stream.of("analyse-proposal-by-pt").forEach(serviceType -> {
+            serviceTypes.forEach(servType -> {
                 try {
-                    DFAgentDescription[] dfResult = searchDeputyAgents(getAgent(), serviceType);
+                    DFAgentDescription[] dfResult = searchDeputyAgents(getAgent(), servType);
                     deputyAgentsFounded = dfResult.length;
 
                     for (DFAgentDescription dfAgentDescription : dfResult) {

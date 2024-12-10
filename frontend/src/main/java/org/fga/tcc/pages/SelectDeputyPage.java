@@ -49,7 +49,7 @@ public class SelectDeputyPage extends JFrame {
                 rowData
         );
 
-        Button button = ButtonComponent.createTableButton("Finalizar Seleção", table.getModel(), 1, this.buttonHandleInfo);
+        Button button = ButtonComponent.createTableButton("Finalizar Seleção", table.getModel(), 1, this, this.buttonHandleInfo);
 
         JPanel mainContent = new JPanel();
         mainContent.setLayout(new BoxLayout(mainContent, BoxLayout.Y_AXIS));

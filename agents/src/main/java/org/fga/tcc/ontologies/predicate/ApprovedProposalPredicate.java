@@ -17,7 +17,14 @@ public class ApprovedProposalPredicate implements Predicate {
     @Serial
     private static final long serialVersionUID = 7274995000373287349L;
 
+    private Integer deputyId;
+
     private ProposalConcept proposal;
+
+    @Slot(mandatory = true)
+    public Integer getDeputyId() {
+        return deputyId;
+    }
 
     @Slot(mandatory = true)
     public ProposalConcept getProposal() {

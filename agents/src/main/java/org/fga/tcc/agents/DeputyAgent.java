@@ -23,7 +23,6 @@ import org.fga.tcc.utils.StringUtils;
 import java.io.Serial;
 import java.util.HashMap;
 import java.util.Map;
-import java.util.Vector;
 
 @Getter
 @EqualsAndHashCode(of = {"deputyName", "partyAcronym"}, callSuper = false)
@@ -37,6 +36,7 @@ public class DeputyAgent extends Agent {
     @Serial
     private static final long serialVersionUID = -7061619046169059737L;
 
+    private Integer deputyId;
     private String deputyName;
     private String partyAcronym;
     private String proposalToAnalysis;
@@ -50,12 +50,13 @@ public class DeputyAgent extends Agent {
 
         Object[] args = getArguments();
 
-        if (args == null || args.length < 2) {
+        if (args == null || args.length < 3) {
             throw new AgentException("Args is null or its length is not enough.");
         }
 
-        this.deputyName = (String) args[0];
-        this.partyAcronym = (String) args[1];
+        this.deputyId = (Integer) args[0];
+        this.deputyName = (String) args[1];
+        this.partyAcronym = (String) args[2];
 
         System.out.println("Deputy " + getLocalName() + " is ready");
         System.out.println("Nome: " + deputyName);
@@ -164,11 +165,13 @@ public class DeputyAgent extends Agent {
 
                         if (result.equalsIgnoreCase("favor")) {
                             ApprovedProposalPredicate approvedProposal = new ApprovedProposalPredicate();
+                            approvedProposal.setDeputyId(deputyId);
                             approvedProposal.setProposal(proposal);
                             getContentManager().fillContent(message, approvedProposal);
                             //System.out.println("Deputado " + deputyAgent.deputyName + " aprovou");
                         } else {
                             RejectedProposalPredicate rejectedProposal = new RejectedProposalPredicate();
+                            rejectedProposal.setDeputyId(deputyId);
                             rejectedProposal.setProposal(proposal);
                             getContentManager().fillContent(message, rejectedProposal);
                             //System.out.println("Deputado " + deputyAgent.deputyName + " rejeitou");

@@ -3,6 +3,7 @@ package org.fga.tcc.agents;
 import jade.core.Agent;
 import jade.lang.acl.ACLMessage;
 import org.fga.tcc.entities.Deputy;
+import org.fga.tcc.observables.Voting;
 import org.fga.tcc.pages.HomePage;
 import org.fga.tcc.pages.VotingProcessPage;
 import org.fga.tcc.services.DeputyService;
@@ -42,6 +43,7 @@ public class FrontendAgent extends Agent {
                     send(message);
 
                     new VotingProcessPage()
+                            .setDeputies(deputies)
                             .buildVotingProcessPage();
                 } catch (IOException e) {
                     throw new RuntimeException(e);

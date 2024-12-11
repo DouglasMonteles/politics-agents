@@ -5,8 +5,17 @@
   </component>
   <component name="ChangeListManager">
     <list default="true" id="b4467710-b66a-4c7b-bf15-5ed7e72708ea" name="Changes" comment="">
+      <change afterPath="$PROJECT_DIR$/frontend/src/main/java/org/fga/tcc/observables/Subject.java" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/frontend/src/main/java/org/fga/tcc/observables/Voting.java" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/frontend/src/main/java/org/fga/tcc/observables/VotingObserver.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/agents/src/main/java/org/fga/tcc/agents/DeputyAgent.java" beforeDir="false" afterPath="$PROJECT_DIR$/agents/src/main/java/org/fga/tcc/agents/DeputyAgent.java" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/agents/src/main/java/org/fga/tcc/agents/DeputyManagerAgent.java" beforeDir="false" afterPath="$PROJECT_DIR$/agents/src/main/java/org/fga/tcc/agents/DeputyManagerAgent.java" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/agents/src/main/java/org/fga/tcc/agents/FrontendAgent.java" beforeDir="false" afterPath="$PROJECT_DIR$/agents/src/main/java/org/fga/tcc/agents/FrontendAgent.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/agents/src/main/java/org/fga/tcc/ontologies/predicate/ApprovedProposalPredicate.java" beforeDir="false" afterPath="$PROJECT_DIR$/agents/src/main/java/org/fga/tcc/ontologies/predicate/ApprovedProposalPredicate.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/agents/src/main/java/org/fga/tcc/ontologies/predicate/RejectedProposalPredicate.java" beforeDir="false" afterPath="$PROJECT_DIR$/agents/src/main/java/org/fga/tcc/ontologies/predicate/RejectedProposalPredicate.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/frontend/pom.xml" beforeDir="false" afterPath="$PROJECT_DIR$/frontend/pom.xml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/frontend/src/main/java/org/fga/tcc/pages/VotingProcessPage.java" beforeDir="false" afterPath="$PROJECT_DIR$/frontend/src/main/java/org/fga/tcc/pages/VotingProcessPage.java" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
@@ -17,8 +26,8 @@
     <option name="RECENT_TEMPLATES">
       <list>
         <option value="Enum" />
-        <option value="Class" />
         <option value="Interface" />
+        <option value="Class" />
       </list>
     </option>
   </component>
@@ -244,11 +253,6 @@
           <url>file://$PROJECT_DIR$/external-data-processor/src/main/java/org/fga/tcc/services/impl/DeputyServiceImpl.java</url>
           <line>68</line>
           <option name="timeStamp" value="39" />
-        </line-breakpoint>
-        <line-breakpoint enabled="true" type="java-line">
-          <url>file://$PROJECT_DIR$/agents/src/main/java/org/fga/tcc/agents/DeputyAgent.java</url>
-          <line>179</line>
-          <option name="timeStamp" value="43" />
         </line-breakpoint>
       </breakpoints>
     </breakpoint-manager>

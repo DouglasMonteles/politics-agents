@@ -17,6 +17,7 @@ import jade.lang.acl.UnreadableException;
 import jade.wrapper.StaleProxyException;
 import org.fga.tcc.entities.Deputy;
 import org.fga.tcc.exceptions.AgentException;
+import org.fga.tcc.observables.Voting;
 import org.fga.tcc.ontologies.DeputyOntology;
 import org.fga.tcc.ontologies.concept.ProposalConcept;
 import org.fga.tcc.ontologies.predicate.AnalysisProposalPredicate;
@@ -117,7 +118,11 @@ public class DeputyManagerAgent extends Agent {
                         var ac = agentService.createAgent(
                                 nickname,
                                 DeputyAgent.class.getName(),
-                                new Object[]{deputy.getName(), deputy.getPartyAcronym()}
+                                new Object[]{
+                                    deputy.getId(),
+                                    deputy.getName(),
+                                    deputy.getPartyAcronym()
+                                }
                         );
 
                         ac.start();
@@ -190,6 +195,8 @@ public class DeputyManagerAgent extends Agent {
         @Serial
         private static final long serialVersionUID = 6981101726018053062L;
 
+        private final Voting voting = Voting.getInstance();
+
         private final Map<String, Integer> votingResult;
 
         public ReceiveProposalAnalysisBehaviour() {
@@ -214,9 +221,11 @@ public class DeputyManagerAgent extends Agent {
                         if (content instanceof ApprovedProposalPredicate approvedProposal) {
                             System.out.println("O agente " + sender.getLocalName() + " respondeu: " + approvedProposal.getProposal().getTitle() + " aprovada!");
                             votingResult.put(sender.getLocalName(), 1);
+                            voting.setVotes(approvedProposal.getDeputyId(), 1);
                         } else if (content instanceof RejectedProposalPredicate rejectedProposal) {
                             System.out.println("O agente " + sender.getLocalName() + " respondeu: " + rejectedProposal.getProposal().getTitle() + " rejeitada!");
                             votingResult.put(sender.getLocalName(), 0);
+                            voting.setVotes(rejectedProposal.getDeputyId(), 0);
                         } else {
                             System.out.println("Resposta: " + content);
                         }

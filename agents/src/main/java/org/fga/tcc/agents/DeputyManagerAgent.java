@@ -44,7 +44,7 @@ public class DeputyManagerAgent extends Agent {
 
     private Integer deputyAgentsFounded = 0;
 
-    List<String> receivedAgentsNames = null;
+    List<Deputy> deputies = null;
 
     @Override
     protected void setup() {
@@ -95,7 +95,6 @@ public class DeputyManagerAgent extends Agent {
         private static final long serialVersionUID = -4340285925206072498L;
 
         private final AgentService agentService = AgentServiceImpl.getInstance();
-        private final DeputyService deputyService = DeputyServiceImpl.getInstance();
 
         @Override
         public void action() {
@@ -110,11 +109,7 @@ public class DeputyManagerAgent extends Agent {
                         return;
                     }
 
-                    receivedAgentsNames = (ArrayList<String>) message.getContentObject();
-                    List<Deputy> deputies = deputyService.getDeputes()
-                            .stream()
-                            .filter(deputy -> receivedAgentsNames.contains(deputy.getName()) || receivedAgentsNames.contains(deputy.getPartyAcronym()))
-                            .toList();
+                    deputies = (ArrayList<Deputy>) message.getContentObject();
 
                     for (Deputy deputy : deputies) {
                         String nickname = "Agent" + StringUtils.removeSpecialCharacters(deputy.getName());
@@ -147,7 +142,7 @@ public class DeputyManagerAgent extends Agent {
 
         @Override
         protected void onTick() {
-            if (receivedAgentsNames == null || receivedAgentsNames.isEmpty()) {
+            if (deputies == null || deputies.isEmpty()) {
                 return;
             }
 
@@ -165,9 +160,9 @@ public class DeputyManagerAgent extends Agent {
             message.setLanguage(codec.getName());
             message.setOntology(ontology.getName());
 
-            List<String> serviceTypes = receivedAgentsNames
+            List<String> serviceTypes = deputies
                     .stream()
-                    .map(name -> "analyse-proposal-by-" + StringUtils.removeSpecialCharacters(name).toLowerCase())
+                    .map(deputy -> "analyse-proposal-by-" + StringUtils.removeSpecialCharacters(deputy.getName()).toLowerCase())
                     .toList();
 
             serviceTypes.forEach(servType -> {

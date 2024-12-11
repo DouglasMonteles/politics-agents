@@ -5,11 +5,8 @@
   </component>
   <component name="ChangeListManager">
     <list default="true" id="b4467710-b66a-4c7b-bf15-5ed7e72708ea" name="Changes" comment="">
-      <change afterPath="$PROJECT_DIR$/frontend/src/main/java/org/fga/tcc/pages/VotingProcessPage.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/agents/src/main/java/org/fga/tcc/agents/DeputyManagerAgent.java" beforeDir="false" afterPath="$PROJECT_DIR$/agents/src/main/java/org/fga/tcc/agents/DeputyManagerAgent.java" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/agents/src/main/java/org/fga/tcc/agents/FrontendAgent.java" beforeDir="false" afterPath="$PROJECT_DIR$/agents/src/main/java/org/fga/tcc/agents/FrontendAgent.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/frontend/src/main/java/org/fga/tcc/components/TableComponent.java" beforeDir="false" afterPath="$PROJECT_DIR$/frontend/src/main/java/org/fga/tcc/components/TableComponent.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/frontend/src/main/java/org/fga/tcc/pages/App.java" beforeDir="false" afterPath="$PROJECT_DIR$/frontend/src/main/java/org/fga/tcc/pages/App.java" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
@@ -252,11 +249,6 @@
           <url>file://$PROJECT_DIR$/agents/src/main/java/org/fga/tcc/agents/DeputyAgent.java</url>
           <line>179</line>
           <option name="timeStamp" value="43" />
-        </line-breakpoint>
-        <line-breakpoint enabled="true" type="java-line">
-          <url>file://$PROJECT_DIR$/agents/src/main/java/org/fga/tcc/agents/DeputyManagerAgent.java</url>
-          <line>172</line>
-          <option name="timeStamp" value="49" />
         </line-breakpoint>
       </breakpoints>
     </breakpoint-manager>

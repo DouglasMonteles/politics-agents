@@ -204,8 +204,8 @@ public class FileUtils {
                 );
 
                 // test
-                List<String> truncatedTestFile1Lines = file1Lines.stream().toList().subList(trainLinesFile1 + 1, file1Lines.size());
-                List<String> truncatedTestFile2Lines = file2Lines.stream().toList().subList(trainLinesFile2 + 1, file2Lines.size());
+                List<String> truncatedTestFile1Lines = file1Lines.stream().toList().subList(trainLinesFile1, file1Lines.size());
+                List<String> truncatedTestFile2Lines = file2Lines.stream().toList().subList(trainLinesFile2, file2Lines.size());
 
                 generateDirectoryWithSampleData(
                         file1Path,

@@ -21,9 +21,9 @@ public class App {
         VoteService voteService = new VoteServiceImpl();
 
         // -- DOWNLOAD DAS FRENTES DOS DEPUTADOS --
-        for (Deputy deputy : deputeService.getDeputes()) {
-            deputeService.getDeputyFront(deputy.getId());
-        }
+//        for (Deputy deputy : deputeService.getDeputes()) {
+//            deputeService.getDeputyFront(deputy.getId());
+//        }
         // -- END --
 
         // -- DOWNLOAD DAS PROPOSIÇÕES E DAS SUAS RESPECTIVAS VOTAÇÕES --
@@ -64,12 +64,12 @@ public class App {
         // -- END --
 
         // -- NIVELANDO A QTD DE LINHAS DE CADA TXT PARA O TAMANHO MÁXIMO DE CADA ARQUIVO
-        String directory = System.getProperty("user.dir") + "/trained-data/votes/partyOrientation/proposalDescription";
+        String directory = System.getProperty("user.dir") + "/trained-data/votes/partyOrientation/proposalKeywords";
 
         // Remove linhas repetidas e nivela o numero de linhas dos arquivos .txt
 //        FileUtils.flattenLinesTxtFile(directory);
 //
-//        FileUtils.splitFilesInTrainAndTest(directory);
+        FileUtils.splitFilesInTrainAndTest(directory);
 //
 //        FileUtils.generateRawVotesToWordVector(directory);
 

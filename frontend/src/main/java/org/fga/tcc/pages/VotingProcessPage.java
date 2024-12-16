@@ -14,9 +14,9 @@ import java.util.Map;
 
 public class VotingProcessPage extends JFrame implements VotingObserver {
 
-    private List<Deputy> deputies = new ArrayList<>();
+    private final List<Deputy> deputies = new ArrayList<>();
 
-    private Voting voting = Voting.getInstance();
+    private final Voting voting = Voting.getInstance();
 
     private Table table = null;
 

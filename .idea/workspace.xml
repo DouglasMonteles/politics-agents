@@ -5,17 +5,11 @@
   </component>
   <component name="ChangeListManager">
     <list default="true" id="b4467710-b66a-4c7b-bf15-5ed7e72708ea" name="Changes" comment="">
-      <change afterPath="$PROJECT_DIR$/frontend/src/main/java/org/fga/tcc/observables/Subject.java" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/frontend/src/main/java/org/fga/tcc/observables/Voting.java" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/frontend/src/main/java/org/fga/tcc/observables/VotingObserver.java" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/agents/src/main/java/org/fga/tcc/agents/DeputyAgent.java" beforeDir="false" afterPath="$PROJECT_DIR$/agents/src/main/java/org/fga/tcc/agents/DeputyAgent.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/agents/src/main/java/org/fga/tcc/agents/DeputyManagerAgent.java" beforeDir="false" afterPath="$PROJECT_DIR$/agents/src/main/java/org/fga/tcc/agents/DeputyManagerAgent.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/agents/src/main/java/org/fga/tcc/agents/FrontendAgent.java" beforeDir="false" afterPath="$PROJECT_DIR$/agents/src/main/java/org/fga/tcc/agents/FrontendAgent.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/agents/src/main/java/org/fga/tcc/ontologies/predicate/ApprovedProposalPredicate.java" beforeDir="false" afterPath="$PROJECT_DIR$/agents/src/main/java/org/fga/tcc/ontologies/predicate/ApprovedProposalPredicate.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/agents/src/main/java/org/fga/tcc/ontologies/predicate/RejectedProposalPredicate.java" beforeDir="false" afterPath="$PROJECT_DIR$/agents/src/main/java/org/fga/tcc/ontologies/predicate/RejectedProposalPredicate.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/frontend/pom.xml" beforeDir="false" afterPath="$PROJECT_DIR$/frontend/pom.xml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/external-data-processor/src/main/java/org/fga/tcc/App.java" beforeDir="false" afterPath="$PROJECT_DIR$/external-data-processor/src/main/java/org/fga/tcc/App.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/external-data-processor/src/main/java/org/fga/tcc/utils/FileUtils.java" beforeDir="false" afterPath="$PROJECT_DIR$/external-data-processor/src/main/java/org/fga/tcc/utils/FileUtils.java" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/frontend/src/main/java/org/fga/tcc/pages/VotingProcessPage.java" beforeDir="false" afterPath="$PROJECT_DIR$/frontend/src/main/java/org/fga/tcc/pages/VotingProcessPage.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/trained-lstm/src/main/java/org/fga/tcc/facades/VotingModelFacade.java" beforeDir="false" afterPath="$PROJECT_DIR$/trained-lstm/src/main/java/org/fga/tcc/facades/VotingModelFacade.java" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
@@ -67,6 +61,7 @@
     &quot;Application.TrainNews.executor&quot;: &quot;Run&quot;,
     &quot;Application.TrainVotes.executor&quot;: &quot;Run&quot;,
     &quot;Application.VoteServiceImpl.executor&quot;: &quot;Run&quot;,
+    &quot;Application.org.fga.tcc.App.executor&quot;: &quot;Run&quot;,
     &quot;JUnit.PredictVoteTest.executor&quot;: &quot;Run&quot;,
     &quot;JUnit.PredictVoteTest.predictVote.executor&quot;: &quot;Debug&quot;,
     &quot;JUnit.VotingModelServiceTest.executor&quot;: &quot;Run&quot;,
@@ -180,12 +175,12 @@
         <option name="Make" enabled="true" />
       </method>
     </configuration>
-    <configuration name="SelectDeputyPage" type="Application" factoryName="Application" temporary="true" nameIsGenerated="true">
-      <option name="MAIN_CLASS_NAME" value="org.fga.tcc.pages.SelectDeputyPage" />
-      <module name="frontend" />
+    <configuration name="org.fga.tcc.App" type="Application" factoryName="Application" temporary="true" nameIsGenerated="true">
+      <option name="MAIN_CLASS_NAME" value="org.fga.tcc.App" />
+      <module name="external-data-processor" />
       <extension name="coverage">
         <pattern>
-          <option name="PATTERN" value="org.fga.tcc.pages.*" />
+          <option name="PATTERN" value="org.fga.tcc.*" />
           <option name="ENABLED" value="true" />
         </pattern>
       </extension>
@@ -196,10 +191,10 @@
     <recent_temporary>
       <list>
         <item itemvalue="Application.MainContainer" />
+        <item itemvalue="Application.org.fga.tcc.App" />
         <item itemvalue="Application.App" />
         <item itemvalue="Application.HomePage" />
         <item itemvalue="Application.SelectAcronymPartyPage" />
-        <item itemvalue="Application.SelectDeputyPage" />
       </list>
     </recent_temporary>
   </component>

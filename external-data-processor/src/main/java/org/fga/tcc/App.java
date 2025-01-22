@@ -43,20 +43,20 @@ public class App {
         // -- END --
 
         // -- SALVANDO O VOTO (0 ou 1) DE CADA PARTIDO (DESCRICAO DA PROPOSICAO) --
-//        voteService.generateDataAboutPartyOrientation();
+        voteService.generateDataAboutPartyOrientation();
 //        // -- END --
 //
 //        // -- NIVELANDO A QTD DE LINHAS DE CADA TXT PARA O TAMANHO MÁXIMO DE CADA ARQUIVO
-//        String directory = System.getProperty("user.dir") + "/trained-data/votes/partyOrientation/proposalDescription";
+        String directory = System.getProperty("user.dir") + "/trained-data/votes/partyOrientation/proposalDescription";
 //
 //        // Remove linhas repetidas e nivela o numero de linhas dos arquivos .txt
-//        FileUtils.flattenLinesTxtFile(directory);
+        FileUtils.flattenLinesTxtFile(directory);
 ////
-//        FileUtils.splitFilesInTrainAndTest(directory);
+        FileUtils.splitFilesInTrainAndTest(directory);
 //
-//        FileUtils.generateRawVotesToWordVector(directory);
+        FileUtils.generateRawVotesToWordVector(directory);
 
-//        FileUtils.generateCategoriesFile(directory);
+        FileUtils.generateCategoriesFile(directory);
         // -- END --
 
         // -- SALVANDO O VOTO (0 ou 1) DE CADA PARTIDO (DESCRICAO DA PROPOSICAO) --
@@ -64,12 +64,12 @@ public class App {
         // -- END --
 
         // -- NIVELANDO A QTD DE LINHAS DE CADA TXT PARA O TAMANHO MÁXIMO DE CADA ARQUIVO
-        String directory = System.getProperty("user.dir") + "/trained-data/votes/partyOrientation/proposalKeywords";
+        //String directory = System.getProperty("user.dir") + "/trained-data/votes/partyOrientation/proposalKeywords";
 
         // Remove linhas repetidas e nivela o numero de linhas dos arquivos .txt
 //        FileUtils.flattenLinesTxtFile(directory);
 //
-        FileUtils.splitFilesInTrainAndTest(directory);
+        //FileUtils.splitFilesInTrainAndTest(directory);
 //
 //        FileUtils.generateRawVotesToWordVector(directory);
 

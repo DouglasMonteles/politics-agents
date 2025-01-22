@@ -253,7 +253,10 @@ public class FileUtils {
                 allLines.addAll(Files.readAllLines(file1Path));
                 allLines.addAll(Files.readAllLines(file2Path));
 
-                String rawProposalsPath = file1Path.toString().replaceAll(NEGATIVE_FILE, "") + "ProposalWordVector.txt";
+                String rawProposalsPath = file1Path.toString()
+                        .replaceAll(NEGATIVE_FILE, "")
+                        .replace(POSITIVE_FILE, "")
+                        + "ProposalWordVector.txt";
 
                 Files.write(Path.of(rawProposalsPath), allLines);
 
@@ -289,7 +292,10 @@ public class FileUtils {
 
             for (Path[] pair : filePairs) {
                 Path file1Path = pair[0];
-                String rawProposalsPath = file1Path.toString().replaceAll(NEGATIVE_FILE, "") + "categories.txt";
+                String rawProposalsPath = file1Path.toString()
+                        .replaceAll(NEGATIVE_FILE, "")
+                        .replaceAll(POSITIVE_FILE, "")
+                        + "categories.txt";
                 List<String> categories = List.of(
                         "0, against",
                         "1, favor"
@@ -311,8 +317,10 @@ public class FileUtils {
             List<String> truncatedTrainFile2Lines,
             String newDirectory
     ) throws IOException {
-        String file1TrainPath = file1Path.toString().replaceAll(NEGATIVE_FILE, newDirectory + File.separator + NEGATIVE_FILE);
-        String file2TrainPath = file2Path.toString().replaceAll(POSITIVE_FILE, newDirectory + File.separator + POSITIVE_FILE);
+        int txtFileLength = 5;
+
+        String file1TrainPath = file1Path.toString().substring(0, file1Path.toString().length() - txtFileLength) + newDirectory + File.separator + NEGATIVE_FILE;
+        String file2TrainPath = file2Path.toString().substring(0, file1Path.toString().length() - txtFileLength) + newDirectory + File.separator + POSITIVE_FILE;
 
         if (!FileUtils.isFileAlreadyCreated(file1TrainPath)) {
             FileUtils.createFile(file1TrainPath);

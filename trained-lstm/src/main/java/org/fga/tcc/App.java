@@ -11,8 +11,8 @@ public class App {
         String proposalDescriptionParentDirectory = System.getProperty("user.dir") + "/trained-data/votes/partyOrientation/proposalDescription";
         votingModelFacade.generateTrainedModel(proposalDescriptionParentDirectory);
 
-        String proposalKeywordsParentDirectory = System.getProperty("user.dir") + "/trained-data/votes/partyOrientation/proposalKeywords";
-        votingModelFacade.generateTrainedModel(proposalKeywordsParentDirectory);
+//        String proposalKeywordsParentDirectory = System.getProperty("user.dir") + "/trained-data/votes/partyOrientation/proposalKeywords";
+//        votingModelFacade.generateTrainedModel(proposalKeywordsParentDirectory);
         // -- END --
     }
 

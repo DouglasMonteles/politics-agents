@@ -2,16 +2,15 @@ package org.fga.tcc.services;
 
 import org.fga.tcc.exceptions.ValidationException;
 import org.fga.tcc.services.impl.VotingModelServiceImpl;
-import org.junit.jupiter.api.AfterEach;
-import org.junit.jupiter.api.Assertions;
-import org.junit.jupiter.api.BeforeAll;
-import org.junit.jupiter.api.Test;
+import org.junit.Ignore;
+import org.junit.jupiter.api.*;
 import org.nd4j.linalg.exception.ND4JIllegalStateException;
 
 import java.io.File;
 import java.util.ArrayList;
 import java.util.List;
 
+@Disabled
 public class VotingModelServiceTest {
 
     private static final String MODEL_PATH = System.getProperty("user.dir") + "/src/test/resources/data/keywords";

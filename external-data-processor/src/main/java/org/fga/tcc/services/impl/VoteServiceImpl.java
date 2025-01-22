@@ -12,10 +12,7 @@ import org.fga.tcc.services.VoteService;
 import org.fga.tcc.utils.FileUtils;
 import org.fga.tcc.utils.ResourceUtils;
 
-import java.io.BufferedWriter;
-import java.io.File;
-import java.io.FileWriter;
-import java.io.IOException;
+import java.io.*;
 import java.nio.file.*;
 import java.util.ArrayList;
 import java.util.HashSet;
@@ -285,11 +282,37 @@ public class VoteServiceImpl implements VoteService {
                         String partyPath = pureDataPath + File.separator + party + File.separator + vote + ".txt";
 
                         FileUtils.writeFile(partyPath, (writer) -> {
+                            String proposalId = voting.getProposal().getProposalIdByUri();
                             String description = voting.getProposal().getDescription();
 
                             if (description != null && !description.isEmpty()) {
-                                writer.write(normalizeProposalResume(description));
-                                writer.newLine();
+                                if (description.length() <= 1)
+                                    return;
+
+                                description = normalizeProposalResume(description);
+                                String directory = System.getProperty("user.dir") + "/conversor-pdf-to-plain-text/proposals_txt/" + proposalId + ".txt";
+
+                                if (FileUtils.isFileAlreadyCreated(directory)) {
+                                    try (BufferedReader br = new BufferedReader(new FileReader(directory))) {
+                                        String temp;
+                                        while ((temp = br.readLine()) != null) {
+                                            String row = normalizeProposalResume(temp);
+                                            if (row.length() > 1) {
+                                                writer.write(row);
+                                                writer.newLine();
+                                            }
+                                        }
+                                    } catch (Exception e) {
+                                        System.out.println("File Exception : " + e.getMessage());
+                                    }
+                                    if (description.length() > 1)
+                                        writer.write(description);
+                                } else {
+                                    if (description.length() > 1) {
+                                        writer.write(description);
+                                        writer.newLine();
+                                    }
+                                }
                             } else {
                                 System.out.println("Sem descrição. Voting id: " + voting.getId());
                             }
@@ -362,8 +385,41 @@ public class VoteServiceImpl implements VoteService {
 
 
     private String normalizeProposalResume(String description) {
+        if (description.length() < 2) {
+            return "";
+        }
+
         return description
                 .replaceAll("[\\r\\n]", "")
+                .replaceAll("\\n", "")
+                .replaceAll("<missing-text>", "")
+                .replaceAll("GLYPH<\\d+>", "")
+                .replaceAll("/g\\d+", "")
+                .replaceAll("/\\d+", "")
+                .replaceAll("/.notdef", "")
+                .replaceAll("\\\\_", "")
+                .replaceAll("\\.", "\n")
+                .replaceAll("\\(", "")
+                .replaceAll("\\)", "")
+                .replaceAll("\\$", "")
+                .replaceAll("#", "")
+                .replaceAll("\\*", "")
+                .replaceAll("&", "")
+                .replaceAll("%", "")
+                .replaceAll("\"", "")
+                .replaceAll("\\b\\d\\b", "")
+                .replaceAll("\\+", "")
+                .replaceAll("/", "")
+                .replaceAll(":", "")
+                .replaceAll(";", "")
+                .replaceAll("\\?", "")
+                .replaceAll("=", "")
+                .replaceAll("!", "")
+                .replaceAll("@", "")
+                .replaceAll("<", "")
+                .replaceAll(">", "")
+                .replaceAll("\r", "")
+                .replaceAll("\n", "")
                 .trim();
     }
 

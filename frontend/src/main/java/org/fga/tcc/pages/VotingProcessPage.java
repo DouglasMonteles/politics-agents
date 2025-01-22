@@ -73,7 +73,7 @@ public class VotingProcessPage extends JFrame implements VotingObserver {
             table.getModel().addRow(new Object[] {
                     deputy.getId(),
                     deputy.getName(),
-                    vote.getValue().equals(1) ? "✔" : "❌",
+                    vote.getValue().equals(1) ? "✔" : "X",
             });
         }
     }

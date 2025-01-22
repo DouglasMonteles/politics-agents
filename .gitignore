@@ -53,3 +53,7 @@ MTPs-Main-Container.txt
 
 ### Data for training ###
 /trained-data/*
+
+### Python environment ###
+/env
+/conversor-pdf-to-plain-text/proposals_txt/*.txt

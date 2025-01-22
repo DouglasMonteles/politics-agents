@@ -1,5 +1,10 @@
 package org.fga.tcc.services.impl;
 
+import org.deeplearning4j.earlystopping.EarlyStoppingConfiguration;
+import org.deeplearning4j.earlystopping.saver.LocalFileModelSaver;
+import org.deeplearning4j.earlystopping.scorecalc.DataSetLossCalculator;
+import org.deeplearning4j.earlystopping.termination.MaxEpochsTerminationCondition;
+import org.deeplearning4j.earlystopping.termination.MaxTimeIterationTerminationCondition;
 import org.deeplearning4j.models.embeddings.loader.WordVectorSerializer;
 import org.deeplearning4j.models.embeddings.wordvectors.WordVectors;
 import org.deeplearning4j.models.word2vec.Word2Vec;
@@ -35,6 +40,7 @@ import org.slf4j.LoggerFactory;
 import java.io.*;
 import java.util.ArrayList;
 import java.util.List;
+import java.util.concurrent.TimeUnit;
 
 public class VotingModelServiceImpl implements VotingModelService {
 
@@ -78,7 +84,7 @@ public class VotingModelServiceImpl implements VotingModelService {
             LOG.info("Building model....");
             Word2Vec vec = new Word2Vec.Builder()
                     .minWordFrequency(2)
-                    .iterations(5)
+                    .iterations(1)
                     .layerSize(100)
                     .seed(42)
                     .windowSize(20)
@@ -106,7 +112,7 @@ public class VotingModelServiceImpl implements VotingModelService {
     public VotingModelService trainModel() {
         this.validateAttributes();
 
-        int batchSize = 200;     //Number of examples in each minibatch
+        int batchSize = 1000;     //Number of examples in each minibatch
         int nEpochs = 1;        //Number of epochs (full passes of training data) to train on
         int truncateReviewsToLength = 5000;  //Truncate reviews with length (# words) greater than this
 
@@ -148,6 +154,7 @@ public class VotingModelServiceImpl implements VotingModelService {
         tokenizerFactory.setTokenPreProcessor(new CommonPreprocessor());
         //Set up network configuration
         MultiLayerConfiguration conf = new NeuralNetConfiguration.Builder()
+                .maxNumLineSearchIterations(1)
                 .updater(new RmsProp(0.0018))
                 .l2(1e-5)
                 .weightInit(WeightInit.XAVIER)

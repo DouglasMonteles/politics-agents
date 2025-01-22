@@ -122,7 +122,6 @@ public class DeputyAgent extends Agent {
 
                         Map<String, Integer[]> response = new HashMap<>();
                         response.put("description", new Integer[]{0, 0});
-                        response.put("keywords", new Integer[]{0, 0});
 
                         // TODO: Analyze proposal
                         for (int attempts = 1; attempts <= 3; attempts++) {
@@ -130,23 +129,12 @@ public class DeputyAgent extends Agent {
                                     .setModelPath(System.getProperty("user.dir") + "/trained-data/votes/partyOrientation/proposalDescription/" + deputyAgent.partyAcronym)
                                     .evaluateVoteModel(proposal.getDescription());
 
-                            String resultProposalKeywords = votingModelService
-                                    .setModelPath(System.getProperty("user.dir") + "/trained-data/votes/partyOrientation/proposalKeywords/" + deputyAgent.partyAcronym)
-                                    .evaluateVoteModel(proposal.getKeywords());
-
                             Integer[] votesDesc = response.get("description");
-                            Integer[] votesKey = response.get("keywords");
 
                             if (resultProposalDescription.equalsIgnoreCase("favor")) {
                                 response.put("description", new Integer[]{ votesDesc[0]+1, votesDesc[1] });
                             } else {
                                 response.put("description", new Integer[]{ votesDesc[0], votesDesc[1]+1 });
-                            }
-
-                            if (resultProposalKeywords.equalsIgnoreCase("favor")) {
-                                response.put("keywords", new Integer[]{ votesKey[0]+1, votesKey[1] });
-                            } else {
-                                response.put("keywords", new Integer[]{ votesKey[0], votesKey[1]+1 });
                             }
                         }
 
@@ -155,11 +143,8 @@ public class DeputyAgent extends Agent {
                         message.setLanguage(codec.getName());
                         message.setOntology(ontology.getName());
 
-                        float descriptionWeight = 0.8f;
-                        float keywordsWeight = 0.2f;
-
-                        float favor = (response.get("keywords")[0] * keywordsWeight) + (response.get("description")[0] * descriptionWeight);
-                        float against = (response.get("keywords")[1] * keywordsWeight) + (response.get("description")[1] * descriptionWeight);
+                        float favor = response.get("description")[0];
+                        float against = response.get("description")[1];
 
                         String result = favor > against ? "favor" : "against";
 

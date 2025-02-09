@@ -6,7 +6,7 @@ import java.nio.file.attribute.BasicFileAttributes;
 import java.util.ArrayList;
 import java.util.List;
 
-public class FileUtils {
+public class LstmFileUtils {
 
     public static void iterateDirectory(String parentDir, PerformIterateDirectoryAction action) {
         try {

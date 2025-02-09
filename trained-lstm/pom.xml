@@ -10,7 +10,7 @@
     <artifactId>trained-lstm</artifactId>
     <packaging>jar</packaging>
 
-    <name>trained-lstm</name>
+    <name>train-lstm</name>
     <url>http://maven.apache.org</url>
 
     <properties>

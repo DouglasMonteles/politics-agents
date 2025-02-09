@@ -69,7 +69,7 @@ public class DeputyServiceImpl implements DeputyService {
         return deputyFrontOpenDataBaseResponse.getData();
     }
 
-    @Override
+    @Deprecated
     public void savePureData() {
         for (Deputy deputy : getDeputes()) {
             int speechCont = 0;
@@ -85,7 +85,7 @@ public class DeputyServiceImpl implements DeputyService {
         }
     }
 
-    @Override
+    @Deprecated
     public void saveDeputiesSpeechesByType() {
         for (Deputy deputy : getDeputes()) {
             List<DeputySpeech> deputySpeeches = getDeputySpeech(deputy.getId());

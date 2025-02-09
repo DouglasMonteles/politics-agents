@@ -36,9 +36,4 @@ public class Deputy implements Serializable {
     @JsonProperty("uri")
     private String uri;
 
-    public Integer getDeputyIdFromUri() {
-        int lastBarIndex = this.uri.lastIndexOf('/');
-        return Integer.parseInt(this.uri.substring(lastBarIndex + 1));
-    }
-
 }

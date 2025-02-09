@@ -45,7 +45,7 @@
           <createDependencyReducedPom>true</createDependencyReducedPom>
           <transformers>
             <transformer>
-              <mainClass>org.fga.tcc.MainContainer</mainClass>
+              <mainClass>org.fga.tcc.AgentBootApplication</mainClass>
             </transformer>
             <transformer />
             <transformer>

@@ -2,15 +2,12 @@ package org.fga.tcc.pages;
 
 import lombok.Setter;
 import org.fga.tcc.components.ButtonComponent;
-import org.fga.tcc.components.ButtonHandleInfo;
+import org.fga.tcc.components.HandleActionButton;
 import org.fga.tcc.components.TableComponent;
-import org.fga.tcc.entities.Deputy;
 import org.fga.tcc.entities.Party;
 import org.fga.tcc.models.Button;
 import org.fga.tcc.models.Table;
-import org.fga.tcc.services.DeputyService;
 import org.fga.tcc.services.PartyService;
-import org.fga.tcc.services.impl.DeputyServiceImpl;
 import org.fga.tcc.services.impl.PartyServiceImpl;
 
 import javax.swing.*;
@@ -19,14 +16,20 @@ import java.awt.*;
 @Setter
 public class SelectAcronymPartyPage extends JFrame {
 
-    private ButtonHandleInfo buttonHandleInfo;
+    private HandleActionButton buttonHandleInfo;
+    private String proposalText;
 
-    public SelectAcronymPartyPage setButtonHandleInfo(ButtonHandleInfo buttonHandleInfo) {
+    public SelectAcronymPartyPage setButtonHandleInfo(HandleActionButton buttonHandleInfo) {
         this.buttonHandleInfo = buttonHandleInfo;
         return this;
     }
 
-    public void buildPartyPage() {
+    public SelectAcronymPartyPage setProposalText(String proposalText) {
+        this.proposalText = proposalText;
+        return this;
+    }
+
+    public void buildPage() {
         PartyService partyService = PartyServiceImpl.getInstance();
         var parties = partyService.getParties();
 
@@ -53,7 +56,7 @@ public class SelectAcronymPartyPage extends JFrame {
                 rowData
         );
 
-        Button button = ButtonComponent.createTableButton("Finalizar Seleção", table.getModel(), 1, this, this.buttonHandleInfo);
+        Button button = ButtonComponent.createTableButton("Finalizar Seleção", table.getModel(), 1, this, this.buttonHandleInfo, this.proposalText);
 
         JPanel mainContent = new JPanel();
         mainContent.setLayout(new BoxLayout(mainContent, BoxLayout.Y_AXIS));

@@ -17,12 +17,6 @@ public class DeputySpeech {
     @JsonProperty("uriEvento")
     private String uriEvent;
 
-    @JsonProperty("dataInicial")
-    private String initialDate;
-
-    @JsonProperty("dataFinal")
-    private String finalDate;
-
     @JsonProperty("tipoDiscurso")
     private String speechType;
 

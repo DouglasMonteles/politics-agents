@@ -2,6 +2,7 @@ package org.fga.tcc.agents;
 
 import jade.content.lang.sl.SLCodec;
 import jade.content.onto.Ontology;
+import jade.core.AID;
 import jade.core.Agent;
 import jade.core.behaviours.CyclicBehaviour;
 import jade.domain.DFService;
@@ -9,6 +10,7 @@ import jade.domain.FIPAAgentManagement.DFAgentDescription;
 import jade.domain.FIPAAgentManagement.ServiceDescription;
 import jade.domain.FIPAException;
 import jade.lang.acl.ACLMessage;
+import jade.lang.acl.MessageTemplate;
 import lombok.*;
 import org.fga.tcc.exceptions.AgentException;
 import org.fga.tcc.ontologies.DeputyOntology;
@@ -18,7 +20,10 @@ import org.fga.tcc.ontologies.predicate.ApprovedProposalPredicate;
 import org.fga.tcc.ontologies.predicate.RejectedProposalPredicate;
 import org.fga.tcc.services.VotingModelService;
 import org.fga.tcc.services.impl.VotingModelServiceImpl;
+import org.fga.tcc.utils.FileUtils;
 import org.fga.tcc.utils.StringUtils;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 
 import java.io.Serial;
 import java.util.HashMap;
@@ -30,6 +35,8 @@ import java.util.Map;
 @AllArgsConstructor
 public class DeputyAgent extends Agent {
 
+    private static final Logger LOG = LoggerFactory.getLogger(DeputyAgent.class);
+
     private final SLCodec codec = new SLCodec();
     private final Ontology ontology = DeputyOntology.getInstance();
 
@@ -39,7 +46,9 @@ public class DeputyAgent extends Agent {
     private Integer deputyId;
     private String deputyName;
     private String partyAcronym;
-    private String proposalToAnalysis;
+
+    private boolean isVoting = false;
+
     @Setter
     private char vote;
 
@@ -110,9 +119,23 @@ public class DeputyAgent extends Agent {
 
         @Override
         public void action() {
-            ACLMessage requestMessage = receive();
+            if (isVoting) {
+                return;
+            }
+
+            MessageTemplate template = MessageTemplate.and(
+                    MessageTemplate.MatchPerformative(ACLMessage.REQUEST),
+                    MessageTemplate.and(
+                            MessageTemplate.MatchSender(new AID("DeputyEnvironmentAgent", false)),
+                            MessageTemplate.MatchOntology(DeputyOntology.ONTOLOGY_NAME)
+                    )
+            );
+
+            ACLMessage requestMessage = receive(template);
 
             if (requestMessage != null) {
+                isVoting = true;
+
                 try {
                     Object content = getContentManager().extractContent(requestMessage);
 
@@ -124,9 +147,11 @@ public class DeputyAgent extends Agent {
                         response.put("description", new Integer[]{0, 0});
 
                         // TODO: Analyze proposal
-                        for (int attempts = 1; attempts <= 3; attempts++) {
+                        String modelPath = System.getProperty("user.dir") + "/trained-data/votes/partyOrientation/proposalDescription/" + deputyAgent.partyAcronym;
+
+                        if (FileUtils.isFileAlreadyCreated(modelPath)) {
                             String resultProposalDescription = votingModelService
-                                    .setModelPath(System.getProperty("user.dir") + "/trained-data/votes/partyOrientation/proposalDescription/" + deputyAgent.partyAcronym)
+                                    .setModelPath(modelPath)
                                     .evaluateVoteModel(proposal.getDescription());
 
                             Integer[] votesDesc = response.get("description");
@@ -136,6 +161,9 @@ public class DeputyAgent extends Agent {
                             } else {
                                 response.put("description", new Integer[]{ votesDesc[0], votesDesc[1]+1 });
                             }
+                        } else {
+                            LOG.info("Partido {} - Arquivo {} não encotrado.", deputyAgent.partyAcronym, modelPath);
+                            response.put("description", new Integer[]{ 0, 0 });
                         }
 
                         ACLMessage message = requestMessage.createReply();
@@ -163,6 +191,7 @@ public class DeputyAgent extends Agent {
                         }
 
                         send(message);
+                        isVoting = false;
                     }
                 } catch (Exception e) {
                     System.out.println("[DeputyAgent] Error: " + e.getMessage());

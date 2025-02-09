@@ -12,7 +12,7 @@ import java.util.ArrayList;
 import java.util.List;
 import java.util.Map;
 
-public class VotingProcessPage extends JFrame implements VotingObserver {
+public class VotingResultPage extends JFrame implements VotingObserver {
 
     private final List<Deputy> deputies = new ArrayList<>();
 
@@ -20,13 +20,13 @@ public class VotingProcessPage extends JFrame implements VotingObserver {
 
     private Table table = null;
 
-    public VotingProcessPage setDeputies(List<Deputy> deputies) {
+    public VotingResultPage setDeputies(List<Deputy> deputies) {
         this.deputies.clear();
         this.deputies.addAll(deputies);
         return this;
     }
 
-    public void buildVotingProcessPage() {
+    public void buildPage() {
         voting.addObserver(this);
 
         setTitle("Processo de Votação");
@@ -76,10 +76,6 @@ public class VotingProcessPage extends JFrame implements VotingObserver {
                     vote.getValue().equals(1) ? "✔" : "X",
             });
         }
-    }
-
-    private void handleTable(Object[][] rows) {
-
     }
 
 }

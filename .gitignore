@@ -43,7 +43,7 @@ MTPs-Main-Container.txt
 
 ### Log4j ###
 /logs/*
-/trained-lstm/logs/*
+/train-lstm/logs/*
 
 ### external-data-processor ###
 /external-data-processor/src/main/resources/deputados

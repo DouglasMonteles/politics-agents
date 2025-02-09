@@ -20,7 +20,7 @@ public class ProposalConcept implements Concept {
     private String description;
     private String keywords;
 
-    @Slot(mandatory = true)
+    @Slot(mandatory = false)
     public String getTitle() {
         return title;
     }
@@ -30,7 +30,7 @@ public class ProposalConcept implements Concept {
         return description;
     }
 
-    @Slot(mandatory = true)
+    @Slot(mandatory = false)
     public String getKeywords() {
         return keywords;
     }

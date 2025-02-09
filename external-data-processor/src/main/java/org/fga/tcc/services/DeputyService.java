@@ -14,7 +14,4 @@ public interface DeputyService {
 
     List<DeputyFront> getDeputyFront(Integer deputeId);
 
-    void savePureData();
-
-    void saveDeputiesSpeechesByType();
 }

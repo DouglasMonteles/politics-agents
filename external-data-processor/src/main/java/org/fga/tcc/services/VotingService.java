@@ -1,11 +1,14 @@
 package org.fga.tcc.services;
 
-import org.fga.tcc.entities.*;
+import org.fga.tcc.entities.NominalVote;
+import org.fga.tcc.entities.Voting;
+import org.fga.tcc.entities.VotingObject;
+import org.fga.tcc.entities.VotingOrientation;
 
 import java.util.List;
 import java.util.Set;
 
-public interface VoteService {
+public interface VotingService {
 
     List<Voting> getVotingByYear(int year);
 
@@ -13,18 +16,12 @@ public interface VoteService {
 
     List<VotingObject> getVotingObjectByYear(Integer year);
 
-    void savePureData();
-
     Voting getVotingById(String votingId);
-
-    List<String> getAllVotingIdsWithNominalVotes();
 
     List<VotingOrientation> getOrientationAboutTheVoting(String votingId);
 
     Set<String> getAllVotesIds();
 
-    void generateDataAboutPartyOrientation();
-
-    void generateDataAboutPartyProposalKeywords();
+    void generateFavorAndAgainstFilesWithProposalResume();
 
 }

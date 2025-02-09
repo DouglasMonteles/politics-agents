@@ -8,7 +8,7 @@ import org.fga.tcc.json.FetchJson;
 import org.fga.tcc.json.RouterManager;
 import org.fga.tcc.services.PartyService;
 import org.fga.tcc.services.ProposalService;
-import org.fga.tcc.services.VoteService;
+import org.fga.tcc.services.VotingService;
 import org.fga.tcc.utils.FileUtils;
 import org.fga.tcc.utils.ResourceUtils;
 
@@ -18,116 +18,13 @@ import java.util.ArrayList;
 import java.util.HashSet;
 import java.util.List;
 import java.util.Set;
-import java.util.regex.Matcher;
-import java.util.regex.Pattern;
 
-public class VoteServiceImpl implements VoteService {
+public class VotingServiceImpl implements VotingService {
 
-    /*
-    * Save in a .txt file all the keywords of a Proposal that has a nominal vote.
-    * */
-    public static void initializeVoteData() {
-        VoteService voteService = new VoteServiceImpl();
-        ProposalService proposalService = new ProposalServiceImpl();
+    private static final VotingService INSTANCE = new VotingServiceImpl();
 
-        // get all voting
-//        int year = 2015;
-//        List<Voting> votingList = voteService.getVotingByYear(year);
-
-        // get all votes of a voting
-//        for (Voting voting : votingList) {
-//            List<NominalVote> nominalVotes = voteService.getVotesByVotingId(voting.getId());
-//        }
-
-        // get affected proposal
-        String path = ResourceUtils.RESOURCE_TRAINING_PURE_DATA_PATH + File.separator + "deputies" + File.separator + "todos" + File.separator + "todos" + ".txt";
-        if (!FileUtils.isFileAlreadyCreated(path)) {
-            FileUtils.createFile(path);
-        }
-
-        try (BufferedWriter writer = new BufferedWriter(new FileWriter(path))) {
-            for (String votingId : voteService.getAllVotingIdsWithNominalVotes()) {
-                Voting votingComplete = voteService.getVotingById(votingId);
-                for (Proposal prop : votingComplete.getAffectedProposals()) {
-                    Proposal proposal = proposalService.getProposalById(prop.getId());
-                    String keyWords = proposal.getKeyWords();
-
-                    if (keyWords != null && !keyWords.isEmpty()) {
-                        writer.write(keyWords
-                                .replaceAll("_", "")
-                                .replaceAll("_ ", "")
-                                .trim()
-                        );
-                        writer.newLine();
-                    }
-                }
-            }
-        } catch (IOException e) {
-            e.printStackTrace();
-        } finally {
-            System.out.println("Arquivo gravado com sucesso!");
-        }
-    }
-
-    public static void main(String[] args) {
-         initializeVoteData();
-
-//        VoteService voteService = new VoteServiceImpl();
-//        System.out.println(deputeService.getDeputes());
-
-//        int x = 0;
-//
-//        for (Deputy d : deputeService.getDeputes()) {
-//            deputeService.getDeputySpeech(d.getId());
-//            x++;
-//
-//
-//        }
-//        System.out.println("x="+x);
-
-//        for (int year = 2008; year < 2024; year++) {
-//            voteService.getVotingByYear(year);
-//        }
-
-//        for (int year = 2008; year < 2024; year++) {
-//            voteService.getVotingObjectByYear(year);
-//        }
-
-//        voteService.getVotesByVotingId("2236326-12");
-
-//        for (int year = 2022; year < 2024; year++) {
-//            for (Voting voting : voteService.getVotingByYear(year)) {
-//                voteService.getVotesByVotingId(voting.getId());
-//            }
-//        }
-
-//        String path = ResourceUtils.RESOURCE_TRAINING_PURE_DATA_PATH + File.separator + "deputies" + File.separator + "todos" + File.separator + "todos2" + ".txt";
-
-//        try (BufferedWriter writer = new BufferedWriter(new FileWriter(path))) {
-//            for (int i = 2008; i < 2020; i++) {
-//                for (Voting voting : voteService.getVotingByYear(i)) {
-//                    var description = voting.getProposal().getDescription();
-//
-//                    if (description != null && !description.isEmpty()) {
-//                        var votes = voteService.getVotesByVotingId(voting.getId());
-//                        if (votes != null && !votes.isEmpty()) {
-//                            if (!FileUtils.isFileAlreadyCreated(path)) {
-//                                FileUtils.createFile(path);
-//                            }
-//
-//                            writer.write(description.replaceAll("\n", ""));
-//                            writer.newLine();
-//                        }
-//                    }
-//                }
-//            }
-//        } catch (IOException e) {
-//            e.printStackTrace();
-//        } finally {
-//            System.out.println("Arquivo gravado com sucesso!");
-//        }
-
-//        voteService.savePureData();
+    public static VotingService getInstance() {
+        return INSTANCE;
     }
 
     @Override
@@ -252,8 +149,8 @@ public class VoteServiceImpl implements VoteService {
         return ids;
     }
 
-    public void generateDataAboutPartyOrientation() {
-        VoteService voteService = new VoteServiceImpl();
+    public void generateFavorAndAgainstFilesWithProposalResume() {
+        VotingService voteService = new VotingServiceImpl();
         PartyService partyService = new PartyServiceImpl();
 
         String directoryPath = "external-data-processor/src/main/resources/votacoes/orientacoes";
@@ -326,7 +223,7 @@ public class VoteServiceImpl implements VoteService {
     }
 
     public void generateDataAboutPartyProposalKeywords() {
-        VoteService voteService = new VoteServiceImpl();
+        VotingService voteService = new VotingServiceImpl();
         PartyService partyService = new PartyServiceImpl();
         ProposalService proposalService = new ProposalServiceImpl();
 
@@ -423,7 +320,7 @@ public class VoteServiceImpl implements VoteService {
                 .trim();
     }
 
-    @Override
+    @Deprecated
     public void savePureData() {
         String path = ResourceUtils.RESOURCE_TRAINING_PURE_DATA_PATH + File.separator + "deputies" + File.separator + "todos" + File.separator + "todos" + ".txt";
 

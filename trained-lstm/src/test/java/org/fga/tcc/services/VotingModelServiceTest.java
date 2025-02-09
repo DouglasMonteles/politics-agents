@@ -2,7 +2,6 @@ package org.fga.tcc.services;
 
 import org.fga.tcc.exceptions.ValidationException;
 import org.fga.tcc.services.impl.VotingModelServiceImpl;
-import org.junit.Ignore;
 import org.junit.jupiter.api.*;
 import org.nd4j.linalg.exception.ND4JIllegalStateException;
 

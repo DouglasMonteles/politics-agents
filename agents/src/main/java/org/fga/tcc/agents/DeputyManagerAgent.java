@@ -6,7 +6,6 @@ import jade.content.onto.Ontology;
 import jade.core.AID;
 import jade.core.Agent;
 import jade.core.behaviours.CyclicBehaviour;
-import jade.core.behaviours.TickerBehaviour;
 import jade.domain.DFService;
 import jade.domain.FIPAAgentManagement.DFAgentDescription;
 import jade.domain.FIPAAgentManagement.ServiceDescription;
@@ -16,7 +15,6 @@ import jade.lang.acl.MessageTemplate;
 import jade.lang.acl.UnreadableException;
 import jade.wrapper.StaleProxyException;
 import org.fga.tcc.entities.Deputy;
-import org.fga.tcc.exceptions.AgentException;
 import org.fga.tcc.observables.Voting;
 import org.fga.tcc.ontologies.DeputyOntology;
 import org.fga.tcc.ontologies.concept.ProposalConcept;
@@ -24,14 +22,11 @@ import org.fga.tcc.ontologies.predicate.AnalysisProposalPredicate;
 import org.fga.tcc.ontologies.predicate.ApprovedProposalPredicate;
 import org.fga.tcc.ontologies.predicate.RejectedProposalPredicate;
 import org.fga.tcc.services.AgentService;
-import org.fga.tcc.services.DeputyService;
 import org.fga.tcc.services.impl.AgentServiceImpl;
-import org.fga.tcc.services.impl.DeputyServiceImpl;
 import org.fga.tcc.utils.StringUtils;
 
 import java.io.Serial;
 import java.util.*;
-import java.util.stream.Stream;
 
 public class DeputyManagerAgent extends Agent {
 
@@ -55,12 +50,13 @@ public class DeputyManagerAgent extends Agent {
 
         // Behaviours
         addBehaviour(new BootstrapDeputiesBehaviour());
-        addBehaviour(new SendProposalToAnalysisBehaviour(this, PeriodBehaviour.FIVE_SECONDS.value()));
+        addBehaviour(new SendProposalToAnalysisBehaviour());
         addBehaviour(new ReceiveProposalAnalysisBehaviour());
 
         System.out.println("Deputy Environment Agent " + getLocalName() + " is ready.");
     }
 
+    @Deprecated
     private List<Deputy> getDeputes(List<Deputy> deputes) {
         List<Deputy> randomDeputes = new ArrayList<>(deputes);
         Collections.shuffle(randomDeputes);
@@ -99,6 +95,7 @@ public class DeputyManagerAgent extends Agent {
 
         @Override
         public void action() {
+            // TODO: REQUEST -> INFORM
             MessageTemplate mt = MessageTemplate.MatchPerformative(
                     ACLMessage.REQUEST
             );
@@ -136,56 +133,78 @@ public class DeputyManagerAgent extends Agent {
         }
     }
 
-    private class SendProposalToAnalysisBehaviour extends TickerBehaviour {
+    private class SendProposalToAnalysisBehaviour extends CyclicBehaviour {
 
         @Serial
         private static final long serialVersionUID = 6981101726018053062L;
 
-        public SendProposalToAnalysisBehaviour(Agent a, long period) {
-            super(a, period);
-        }
-
         @Override
-        protected void onTick() {
+        public void action() {
             if (deputies == null || deputies.isEmpty()) {
                 return;
             }
 
-            ProposalConcept proposal = new ProposalConcept();
-            proposal.setTitle("Cargos Efetivos");
-            proposal.setDescription("Dispõe sobre os cargos efetivos da Carreira Legislativa da Câmara dos Deputados.");
-            proposal.setKeywords("Organização administrativa, Cargo efetivo, Carreira legislativa, servidor público, Câmara dos Deputados. _Renomeação, cargo efetivo, atualização, atribuição (carreira pública). _Requisito, provimento de cargo público, nível superior. _Alteração, Resolução da Câmara dos Deputados, Ato da Mesa, revogação, lotação exclusiva. _Extinção, cargo efetivo, Analista Legislativo, Assistente Técnico, Psicólogo. _Alteração, Resolução da Câmara dos Deputados, Departamento de Polícia Legislativa (DEPOL), denominação, Departamento de Polícia Legislativa Federal, atividade típica, Polícia da Câmara dos Deputados. _Requisito, Cargo público, Técnico Legislativo, Policial legislativo federal, prerrogativa.");
+            MessageTemplate template = MessageTemplate.and(
+                    MessageTemplate.MatchPerformative(ACLMessage.PROPOSE),
+                    MessageTemplate.MatchSender(new AID("FrontendAgent", false))
+            );
 
-            AnalysisProposalPredicate analysisProposalPredicate = new AnalysisProposalPredicate();
-            analysisProposalPredicate.setProposal(proposal);
+            ACLMessage msgRequest = receive(template);
 
-            ACLMessage message = new ACLMessage(ACLMessage.REQUEST);
-            conversationId = "request-" + System.currentTimeMillis();
-            message.setConversationId(conversationId);
-            message.setLanguage(codec.getName());
-            message.setOntology(ontology.getName());
-
-            List<String> serviceTypes = deputies
-                    .stream()
-                    .map(deputy -> "analyse-proposal-by-" + StringUtils.removeSpecialCharacters(deputy.getName()).toLowerCase())
-                    .toList();
-
-            serviceTypes.forEach(servType -> {
+            if (msgRequest != null) {
+                ProposalConcept proposal = new ProposalConcept();
                 try {
-                    DFAgentDescription[] dfResult = searchDeputyAgents(getAgent(), servType);
-                    deputyAgentsFounded = dfResult.length;
-
-                    for (DFAgentDescription dfAgentDescription : dfResult) {
-                        System.out.println("Agente encontrado: " + dfAgentDescription.getName().getLocalName());
-                        message.addReceiver(dfAgentDescription.getName());
-                    }
-
-                    getContentManager().fillContent(message, analysisProposalPredicate);
-                    send(message);
-                } catch (Exception e) {
-                    System.out.println("[Exception in DeputyEnvironmentAgent]: " + e.getMessage());
+                    proposal.setDescription((String) msgRequest.getContentObject());
+                } catch (UnreadableException e) {
+                    throw new RuntimeException(e);
                 }
-            });
+//                proposal.setTitle("Cargos Efetivos");
+//                proposal.setDescription("Dispõe sobre os cargos efetivos da Carreira Legislativa da Câmara dos Deputados.");
+//                proposal.setKeywords("Organização administrativa, Cargo efetivo, Carreira legislativa, servidor público, Câmara dos Deputados. _Renomeação, cargo efetivo, atualização, atribuição (carreira pública). _Requisito, provimento de cargo público, nível superior. _Alteração, Resolução da Câmara dos Deputados, Ato da Mesa, revogação, lotação exclusiva. _Extinção, cargo efetivo, Analista Legislativo, Assistente Técnico, Psicólogo. _Alteração, Resolução da Câmara dos Deputados, Departamento de Polícia Legislativa (DEPOL), denominação, Departamento de Polícia Legislativa Federal, atividade típica, Polícia da Câmara dos Deputados. _Requisito, Cargo público, Técnico Legislativo, Policial legislativo federal, prerrogativa.");
+
+                AnalysisProposalPredicate analysisProposalPredicate = new AnalysisProposalPredicate();
+                analysisProposalPredicate.setProposal(proposal);
+
+                ACLMessage message = new ACLMessage(ACLMessage.REQUEST);
+                conversationId = "request-" + System.currentTimeMillis();
+                message.setConversationId(conversationId);
+                message.setLanguage(codec.getName());
+                message.setOntology(ontology.getName());
+
+                List<String> serviceTypes = deputies
+                        .stream()
+                        .map(deputy -> "analyse-proposal-by-" + StringUtils.removeSpecialCharacters(deputy.getName()).toLowerCase())
+                        .toList();
+
+                serviceTypes.forEach(servType -> {
+                    try {
+                        DFAgentDescription[] dfResult = searchDeputyAgents(getAgent(), servType);
+                        deputyAgentsFounded = dfResult.length;
+
+                        /*
+                        * Pode acontecer dos agentes aumentarem depois do resultado da pesquisa,
+                        * então para garantir que os novos agentes receberão a proposição e os antigos
+                        * (que já receberam) não receberão novamente, causando mais de uma resposta do
+                        * mesmo agente.
+                        * */
+                        message.clearAllReceiver();
+
+                        for (DFAgentDescription dfAgentDescription : dfResult) {
+                            AID aid = dfAgentDescription.getName();
+
+                            System.out.println("Agente encontrado: " + aid.getLocalName());
+                            message.addReceiver(aid);
+                        }
+
+                        getContentManager().fillContent(message, analysisProposalPredicate);
+                        send(message);
+                    } catch (Exception e) {
+                        System.out.println("[Exception in DeputyEnvironmentAgent]: " + e.getMessage());
+                    }
+                });
+            } else {
+                block();
+            }
         }
 
     }
@@ -197,6 +216,7 @@ public class DeputyManagerAgent extends Agent {
 
         private final Voting voting = Voting.getInstance();
 
+        // TODO: remove
         private final Map<String, Integer> votingResult;
 
         public ReceiveProposalAnalysisBehaviour() {
@@ -211,7 +231,7 @@ public class DeputyManagerAgent extends Agent {
             );
 
             try {
-                ACLMessage response = receive(mt); // blockReceive()
+                ACLMessage response = receive(mt);
 
                 if (response != null) {
                     AID sender = response.getSender();
@@ -219,11 +239,11 @@ public class DeputyManagerAgent extends Agent {
 
                     if (content != null) {
                         if (content instanceof ApprovedProposalPredicate approvedProposal) {
-                            System.out.println("O agente " + sender.getLocalName() + " respondeu: " + approvedProposal.getProposal().getTitle() + " aprovada!");
+                            System.out.println("O agente " + sender.getLocalName() + " respondeu: aprovada!");
                             votingResult.put(sender.getLocalName(), 1);
                             voting.setVotes(approvedProposal.getDeputyId(), 1);
                         } else if (content instanceof RejectedProposalPredicate rejectedProposal) {
-                            System.out.println("O agente " + sender.getLocalName() + " respondeu: " + rejectedProposal.getProposal().getTitle() + " rejeitada!");
+                            System.out.println("O agente " + sender.getLocalName() + " respondeu: rejeitada!");
                             votingResult.put(sender.getLocalName(), 0);
                             voting.setVotes(rejectedProposal.getDeputyId(), 0);
                         } else {

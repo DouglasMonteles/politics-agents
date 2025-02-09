@@ -2,13 +2,12 @@ package org.fga.tcc;
 
 import jade.wrapper.AgentController;
 import jade.wrapper.StaleProxyException;
-import org.fga.tcc.agents.DeputyAgent;
 import org.fga.tcc.agents.DeputyManagerAgent;
 import org.fga.tcc.agents.FrontendAgent;
 import org.fga.tcc.services.AgentService;
 import org.fga.tcc.services.impl.AgentServiceImpl;
 
-public class MainContainer {
+public class AgentBootApplication {
 
     public static void main(String[] args) {
         AgentService agentService = AgentServiceImpl.getInstance();

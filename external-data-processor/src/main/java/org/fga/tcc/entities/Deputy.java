@@ -15,6 +15,8 @@ import java.io.Serializable;
 @ToString
 public class Deputy implements Serializable {
 
+    public static final Integer LIMIT_DEPUTY = 200;
+
     @Serial
     private static final long serialVersionUID = 2462597946368241742L;
 

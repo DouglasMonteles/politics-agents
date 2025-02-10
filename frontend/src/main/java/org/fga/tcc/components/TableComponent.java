@@ -132,11 +132,11 @@ public class TableComponent {
                     return cell;
                 }
 
-                if (column == 2) {
+                if (column == 3) {
                     Color color = (value.equals("✔")) ? Color.GREEN : Color.RED;
                     cell.setBackground(color);
                     cell.setForeground(Color.BLACK);
-                } else if (column == 3) {
+                } else if (column == 4) {
                     Color color = (value.equals("✔")) ? Color.GREEN : Color.RED;
                     cell.setBackground(color);
                     cell.setForeground(Color.BLACK);

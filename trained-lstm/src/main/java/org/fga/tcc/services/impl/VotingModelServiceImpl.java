@@ -221,7 +221,11 @@ public class VotingModelServiceImpl implements VotingModelService {
             }
             brCategories.close();
 
-            return labels.get(pos).split(",")[1].trim();
+            String result = labels.get(pos).split(",")[1].trim();
+
+            System.out.println("Result: " + result);
+
+            return result;
         } catch (Exception e) {
             System.out.println("File Exception : " + e.getMessage());
         }

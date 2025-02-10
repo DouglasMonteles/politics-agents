@@ -12,6 +12,7 @@ import org.fga.tcc.services.DeputyService;
 import org.fga.tcc.services.VotingService;
 import org.fga.tcc.services.impl.DeputyServiceImpl;
 import org.fga.tcc.services.impl.VotingServiceImpl;
+import org.nd4j.autodiff.samediff.internal.InferenceSession;
 
 import java.io.IOException;
 import java.io.Serial;
@@ -77,6 +78,7 @@ public class FrontendAgent extends Agent {
 
                     List<Deputy> deputies = nominalVotes
                             .stream()
+                            .limit(Deputy.LIMIT_DEPUTY)
                             .map(NominalVote::getDeputy)
                             .toList();
 

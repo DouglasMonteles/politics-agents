@@ -119,10 +119,6 @@ public class DeputyAgent extends Agent {
 
         @Override
         public void action() {
-            if (isVoting) {
-                return;
-            }
-
             MessageTemplate template = MessageTemplate.and(
                     MessageTemplate.MatchPerformative(ACLMessage.REQUEST),
                     MessageTemplate.and(
@@ -134,8 +130,6 @@ public class DeputyAgent extends Agent {
             ACLMessage requestMessage = receive(template);
 
             if (requestMessage != null) {
-                isVoting = true;
-
                 try {
                     Object content = getContentManager().extractContent(requestMessage);
 
@@ -191,7 +185,7 @@ public class DeputyAgent extends Agent {
                         }
 
                         send(message);
-                        isVoting = false;
+                        System.out.println("[VotingBehaviour]: " + result);
                     }
                 } catch (Exception e) {
                     System.out.println("[DeputyAgent] Error: " + e.getMessage());

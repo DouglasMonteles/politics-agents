@@ -55,12 +55,12 @@ public class VotingResultComparisonPage extends JFrame implements VotingObserver
         headerContent.add(pageTitle);
 
         tableVotes = TableComponent.createTableWithVotingResult(
-                new Object[] { "Id", "Deputado(a)", "Voto Obtido do Modelo", "Voto real" },
+                new Object[] { "Id", "Deputado(a)", "Id. do Deputado que Votou", "Voto Obtido do Modelo", "Voto real" },
                 new Object[][] {}
         );
 
         tableResume = TableComponent.createTable(
-                new Object[] { "Total Favor (Agentes)", "Total Favor (Esperados)", "Total Contra (Agentes)", "Total Contra (Esperados)" },
+                new Object[] { "Total Favor (Agentes)", "Total Favor (Esperados)", "Acertos Votos Favor", "Total Contra (Agentes)", "Total Contra (Esperados)", "Acertos Voto Contra" },
                 new Object[][] {}
         );
 
@@ -96,66 +96,95 @@ public class VotingResultComparisonPage extends JFrame implements VotingObserver
 
     @Override
     public void update() {
-        System.out.println("Votos: " + voting.getVotes());
-        // Clear table rows
-        tableVotes.getModel().setRowCount(0);
-        tableResume.getModel().setRowCount(0);
-        tableRate.getModel().setRowCount(0);
+        try {
+            System.out.println("Votos: " + voting.getVotes());
+            // Clear table rows
+            tableVotes.getModel().setRowCount(0);
+            tableResume.getModel().setRowCount(0);
+            tableRate.getModel().setRowCount(0);
 
-        for (Map.Entry<Integer, Integer> vote : voting.getVotes().entrySet()) {
-            List<NominalVote> nominalVotesFiltered = nominalVotes
-                    .stream()
-                    .filter(it -> it.getDeputy().getId().equals(vote.getKey()))
-                    .toList();
+            for (Map.Entry<Integer, Integer> vote : voting.getVotes().entrySet()) {
+                List<NominalVote> nominalVotesFiltered = nominalVotes
+                        .stream()
+                        .limit(Deputy.LIMIT_DEPUTY)
+                        .filter(it -> it.getDeputy().getId().equals(vote.getKey()))
+                        .toList();
 
-            if (!nominalVotesFiltered.isEmpty()) {
-                Deputy deputy = nominalVotesFiltered.get(0).getDeputy();
+                if (!nominalVotesFiltered.isEmpty()) {
+                    Deputy deputy = nominalVotesFiltered.get(0).getDeputy();
 
-                if (deputy != null && deputy.getId() != null && deputy.getName() != null && vote.getValue() != null) {
-                    boolean isPredictedVoteFavor = vote.getValue().equals(1);
-                    boolean isExpectedVoteFavor = nominalVotesFiltered.get(0).getVote().equalsIgnoreCase("sim");
+                    if (deputy != null && deputy.getId() != null && deputy.getName() != null && vote.getValue() != null) {
+                        boolean isPredictedVoteFavor = vote.getValue().equals(1);
+                        boolean isExpectedVoteFavor = nominalVotesFiltered.get(0).getVote().equalsIgnoreCase("sim");
 
-                    tableVotes.getModel().addRow(new Object[] {
-                            deputy.getId(),
-                            deputy.getName(),
-                            isPredictedVoteFavor ? "✔" : "X",
-                            isExpectedVoteFavor ? "✔" : "X"
-                    });
+                        tableVotes.getModel().addRow(new Object[]{
+                                deputy.getId(),
+                                deputy.getName(),
+                                vote.getKey(),
+                                isPredictedVoteFavor ? "✔" : "X",
+                                isExpectedVoteFavor ? "✔" : "X"
+                        });
+                    }
                 }
             }
+
+            tableVotes.getModel().addRow(new Object[]{
+                    "Total de Linhas",
+                    tableVotes.getModel().getRowCount(),
+                    "",
+                    ""
+            });
+
+            long totalVotesPredicted = voting.getVotes().size();
+
+            long favorVotesPredictedCorrectly = 0;
+            long againstVotesPredictedCorrectly = 0;
+
+            for (var vt : voting.getVotes().entrySet()) {
+                var nominalVote = nominalVotes.stream()
+                        .filter(nv -> nv.getDeputy().getId().equals(vt.getKey()))
+                        .toList()
+                        .get(0);
+
+                int vote = nominalVote.getVote().equalsIgnoreCase("sim") ? 1 : 0;
+
+                if (vt.getValue().equals(1) && vote == 1) {
+                    favorVotesPredictedCorrectly++;
+                } else if (vt.getValue().equals(0) && vote == 0) {
+                    againstVotesPredictedCorrectly++;
+                }
+            }
+
+            long favorVotesPredicted = voting.getVotes().values().stream().filter(it -> it == 1).count();
+            long againstVotesPredicted = voting.getVotes().values().stream().filter(it -> it == 0).count();
+
+            long favorVotesExpected = nominalVotes.stream().limit(Deputy.LIMIT_DEPUTY).filter(it -> it.getVote().equalsIgnoreCase("sim")).count();
+            long againstVotesExpected = nominalVotes.stream().limit(Deputy.LIMIT_DEPUTY).filter(it -> it.getVote().equalsIgnoreCase("não")).count();
+
+            float favorAssertiveRate = ((float) favorVotesPredictedCorrectly / favorVotesPredicted) * 100;
+            float favorErrorRate = ((float) (favorVotesPredicted - favorVotesPredictedCorrectly) / (favorVotesPredicted)) * 100;
+
+            float againstAssertiveRate = ((float) againstVotesPredictedCorrectly / againstVotesPredicted) * 100;
+            float againstErrorRate = ((float) (againstVotesPredicted - againstVotesPredictedCorrectly) / (againstVotesPredicted)) * 100;
+
+            tableResume.getModel().addRow(new Object[]{
+                    favorVotesPredicted,
+                    favorVotesExpected,
+                    favorVotesPredictedCorrectly,
+                    againstVotesPredicted,
+                    againstVotesExpected,
+                    againstVotesPredictedCorrectly,
+            });
+
+            tableRate.getModel().addRow(new Object[]{
+                    favorAssertiveRate,
+                    favorErrorRate,
+                    againstAssertiveRate,
+                    againstErrorRate,
+            });
+        } catch (Exception e) {
+            System.out.println("Table update exception: " + e.getMessage());
         }
-
-        long favorVotesPredicted = voting.getVotes().values().stream().filter(it -> it == 1).count();
-        long againstVotesPredicted = voting.getVotes().values().stream().filter(it -> it == 0).count();
-
-        long favorVotesExpected = nominalVotes.stream().filter(it -> it.getVote().equalsIgnoreCase("sim")).count();
-        long againstVotesExpected = nominalVotes.stream().filter(it -> it.getVote().equalsIgnoreCase("não")).count();
-
-        long totalFavorAssertivePredictions = Math.min(favorVotesPredicted, favorVotesExpected);
-        long totalFavorErrorPredictions = Math.abs(favorVotesExpected - favorVotesPredicted);
-
-        float favorAssertiveRate = ((float) totalFavorAssertivePredictions / (totalFavorAssertivePredictions + totalFavorErrorPredictions)) * 100;
-        float favorErrorRate = ((float) totalFavorErrorPredictions / (totalFavorAssertivePredictions + totalFavorErrorPredictions)) * 100;
-
-        long totalAgainstAssertivePredictions = Math.min(againstVotesPredicted, againstVotesExpected);
-        long totalAgainstErrorPredictions = Math.abs(againstVotesExpected - againstVotesPredicted);
-
-        float againstAssertiveRate = ((float) totalAgainstAssertivePredictions / (totalAgainstAssertivePredictions + totalAgainstErrorPredictions)) * 100;
-        float againstErrorRate = ((float) totalAgainstErrorPredictions / (totalAgainstAssertivePredictions + totalAgainstErrorPredictions)) * 100;
-
-        tableResume.getModel().addRow(new Object[] {
-                favorVotesPredicted,
-                favorVotesExpected,
-                againstVotesPredicted,
-                againstVotesExpected,
-        });
-
-        tableRate.getModel().addRow(new Object[] {
-                favorAssertiveRate,
-                favorErrorRate,
-                againstAssertiveRate,
-                againstErrorRate,
-        });
     }
 
 }

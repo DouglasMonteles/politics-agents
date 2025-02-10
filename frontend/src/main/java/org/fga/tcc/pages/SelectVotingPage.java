@@ -5,6 +5,7 @@ import lombok.Setter;
 import org.fga.tcc.components.ButtonComponent;
 import org.fga.tcc.components.HandleActionButton;
 import org.fga.tcc.components.TableComponent;
+import org.fga.tcc.entities.Deputy;
 import org.fga.tcc.entities.NominalVote;
 import org.fga.tcc.entities.OpenDataBaseResponseList;
 import org.fga.tcc.entities.Voting;
@@ -29,7 +30,6 @@ public class SelectVotingPage extends JFrame {
         return this;
     }
 
-
     public void buildPage() {
         VotingService voteService = new VotingServiceImpl();
         Object[] columnData = new Object[]{ "Id Votação", "Desc. da Proposição", "Qtd. Deputados(as)", "Seleção"};
@@ -43,13 +43,19 @@ public class SelectVotingPage extends JFrame {
 
             OpenDataBaseResponseList<NominalVote> openDataBaseResponse = mapper.readValue(path.toFile(), new TypeReference<>() {});
 
-            if (voting.getProposal().getDescription() != null && !voting.getProposal().getDescription().isEmpty()) {
-                rowData.add(new Object[] {
-                        votingId,
-                        voting.getProposal().getDescription(),
-                        openDataBaseResponse.getData().size(),
-                        false
-                });
+            var affectedProposals = voting.getAffectedProposals();
+            int totalData = openDataBaseResponse.getData().size();
+
+            if (!affectedProposals.isEmpty()) {
+                String proposalText = affectedProposals.get(0).getSummary();
+                if (proposalText != null && !proposalText.isEmpty()) {
+                    rowData.add(new Object[]{
+                            votingId,
+                            proposalText,
+                            totalData > Deputy.LIMIT_DEPUTY ? Deputy.LIMIT_DEPUTY : totalData,
+                            false
+                    });
+                }
             }
         });
 

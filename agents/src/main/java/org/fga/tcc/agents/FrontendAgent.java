@@ -88,8 +88,10 @@ public class FrontendAgent extends Agent {
 
                     send(message);
 
+                    var prop = voting.getAffectedProposals();
+
                     new VotingResultComparisonPage()
-                            .setProposal(voting.getProposal().getDescription())
+                            .setProposal(prop.get(0).getSummary())
                             .setNominalVotes(nominalVotes)
                             .buildPage();
                 } catch (IOException e) {

@@ -107,15 +107,15 @@ public class PrepareDatabaseFacade {
 
     public static void prepareDatabaseForTraining() {
         // -- DOWNLOAD DAS PROPOSIÇÕES E DAS SUAS RESPECTIVAS VOTAÇÕES --
-        downloadVotingAndProposals();
+        //downloadVotingAndProposals();
         // -- END --
 
         // -- OBTENDO AS ORIENTAÇÕES DOS VOTOS --
-        downloadVoteOrientationByParty();
+        //downloadVoteOrientationByParty();
         // -- END --
 
         // -- Conversão de PDF --
-        processProposalResumePdfInPlainDataTxt();
+        //processProposalResumePdfInPlainDataTxt();
         // -- END --
 
         // -- SALVANDO O VOTO (0 ou 1) DE CADA PARTIDO (DESCRICAO DA PROPOSICAO) --

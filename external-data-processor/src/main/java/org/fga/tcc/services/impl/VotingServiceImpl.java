@@ -187,28 +187,10 @@ public class VotingServiceImpl implements VotingService {
                                     return;
 
                                 description = normalizeProposalResume(description);
-                                String directory = System.getProperty("user.dir") + "/conversor-pdf-to-plain-text/proposals_txt/" + proposalId + ".txt";
 
-                                if (FileUtils.isFileAlreadyCreated(directory)) {
-                                    try (BufferedReader br = new BufferedReader(new FileReader(directory))) {
-                                        String temp;
-                                        while ((temp = br.readLine()) != null) {
-                                            String row = normalizeProposalResume(temp);
-                                            if (row.length() > 1) {
-                                                writer.write(row);
-                                                writer.newLine();
-                                            }
-                                        }
-                                    } catch (Exception e) {
-                                        System.out.println("File Exception : " + e.getMessage());
-                                    }
-                                    if (description.length() > 1)
-                                        writer.write(description);
-                                } else {
-                                    if (description.length() > 1) {
-                                        writer.write(description);
-                                        writer.newLine();
-                                    }
+                                if (description.length() > 1) {
+                                    writer.write(description);
+                                    writer.newLine();
                                 }
                             } else {
                                 System.out.println("Sem descrição. Voting id: " + voting.getId());

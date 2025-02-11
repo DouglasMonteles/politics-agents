@@ -23,8 +23,8 @@ public class VotingModelFacade {
     public void generateTrainedModel(String parentDirectory) {
         // TODO: considerar somente os que tiverem 0.txt e 1.txt ou não gerar diretórios sem os arquivos com as classes
         List<String> excludedDirectories = new ArrayList<>();
-        excludedDirectories.add("/home/douglas/Documentos/www/politics-agents/trained-data/votes/partyOrientation/proposalKeywords/PRD");
-        excludedDirectories.add("/home/douglas/Documentos/www/politics-agents/trained-data/votes/partyOrientation/proposalDescription/PRD");
+        excludedDirectories.add(System.getProperty("user.dir") + "/trained-data/votes/partyOrientation/proposalKeywords/PRD");
+        excludedDirectories.add(System.getProperty("user.dir") + "/trained-data/votes/partyOrientation/proposalDescription/PRD");
 
         LstmFileUtils.iterateDirectory(parentDirectory, (partyAcronymChildDirectory) -> {
             String path = partyAcronymChildDirectory.toAbsolutePath().toString();

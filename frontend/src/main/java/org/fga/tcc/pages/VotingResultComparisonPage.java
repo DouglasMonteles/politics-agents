@@ -43,7 +43,7 @@ public class VotingResultComparisonPage extends JFrame implements VotingObserver
 
         setTitle("Processo de Votação - Comparação entre o obtido e o real");
         setDefaultCloseOperation(JFrame.DISPOSE_ON_CLOSE);
-        setSize(800, 600);
+        setSize(900, 1020);
         setLayout(new BorderLayout());
 
         JPanel headerContent = new JPanel();
@@ -77,11 +77,14 @@ public class VotingResultComparisonPage extends JFrame implements VotingObserver
         proposalText.setEditable(false);
         proposalText.setMargin(new Insets(0, 10, 20, 10));
 
+        var mainTable = new JScrollPane(tableVotes.getTable());
+        mainTable.setMinimumSize(new Dimension(600, 600));
+
         JPanel mainContent = new JPanel();
         mainContent.setLayout(new BoxLayout(mainContent, BoxLayout.Y_AXIS));
         mainContent.add(proposalLabel);
         mainContent.add(proposalText);
-        mainContent.add(new JScrollPane(tableVotes.getTable()));
+        mainContent.add(mainTable);
         mainContent.add(new Label(""));
         mainContent.add(new JScrollPane(tableResume.getTable()));
         mainContent.add(new Label(""));
@@ -161,11 +164,11 @@ public class VotingResultComparisonPage extends JFrame implements VotingObserver
             long favorVotesExpected = nominalVotes.stream().limit(Deputy.LIMIT_DEPUTY).filter(it -> it.getVote().equalsIgnoreCase("sim")).count();
             long againstVotesExpected = nominalVotes.stream().limit(Deputy.LIMIT_DEPUTY).filter(it -> it.getVote().equalsIgnoreCase("não")).count();
 
-            float favorAssertiveRate = ((float) favorVotesPredictedCorrectly / favorVotesPredicted) * 100;
-            float favorErrorRate = ((float) (favorVotesPredicted - favorVotesPredictedCorrectly) / (favorVotesPredicted)) * 100;
+            float favorAssertiveRate = ((float) favorVotesPredictedCorrectly / favorVotesExpected) * 100;
+            float favorErrorRate = ((float) (favorVotesExpected - favorVotesPredictedCorrectly) / (favorVotesExpected)) * 100;
 
-            float againstAssertiveRate = ((float) againstVotesPredictedCorrectly / againstVotesPredicted) * 100;
-            float againstErrorRate = ((float) (againstVotesPredicted - againstVotesPredictedCorrectly) / (againstVotesPredicted)) * 100;
+            float againstAssertiveRate = ((float) againstVotesPredictedCorrectly / againstVotesExpected) * 100;
+            float againstErrorRate = ((float) (againstVotesExpected - againstVotesPredictedCorrectly) / (againstVotesExpected)) * 100;
 
             tableResume.getModel().addRow(new Object[]{
                     favorVotesPredicted,
@@ -177,10 +180,10 @@ public class VotingResultComparisonPage extends JFrame implements VotingObserver
             });
 
             tableRate.getModel().addRow(new Object[]{
-                    favorAssertiveRate,
-                    favorErrorRate,
-                    againstAssertiveRate,
-                    againstErrorRate,
+                    Double.isNaN(favorAssertiveRate) ? 0 : favorAssertiveRate,
+                    Double.isNaN(favorErrorRate) ? 0 : favorErrorRate,
+                    Double.isNaN(againstAssertiveRate) ? 0 : againstAssertiveRate,
+                    Double.isNaN(againstErrorRate) ? 0 : againstErrorRate
             });
         } catch (Exception e) {
             System.out.println("Table update exception: " + e.getMessage());

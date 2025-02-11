@@ -106,7 +106,7 @@ public class VotingModelServiceImpl implements VotingModelService {
     public VotingModelService trainModel() {
         this.validateAttributes();
 
-        int batchSize = 1000;     //Number of examples in each minibatch
+        int batchSize = 1000;   //Number of examples in each minibatch
         int nEpochs = 1;        //Number of epochs (full passes of training data) to train on
         int truncateReviewsToLength = 5000;  //Truncate reviews with length (# words) greater than this
 
@@ -152,7 +152,8 @@ public class VotingModelServiceImpl implements VotingModelService {
                 .updater(new RmsProp(0.0018))
                 .l2(1e-5)
                 .weightInit(WeightInit.XAVIER)
-                .gradientNormalization(GradientNormalization.ClipElementWiseAbsoluteValue).gradientNormalizationThreshold(1.0)
+                .gradientNormalization(GradientNormalization.ClipElementWiseAbsoluteValue)
+                .gradientNormalizationThreshold(1.0)
                 .list()
                 .layer( new LSTM.Builder().nIn(inputNeurons).nOut(200)
                         .activation(Activation.TANH).build())
